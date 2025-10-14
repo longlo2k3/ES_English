@@ -12,13 +12,12 @@ interface IProps {
   title: string;
   desc: string;
   link: string;
-  key: any;
 }
 
 function SkillCard(props: IProps) {
-  const { icon, title, desc, link, key } = props;
+  const { icon, title, desc, link } = props;
   return (
-    <BCard key={key}>
+    <BCard>
       <Flex vertical gap={12} justify="center" align="center">
         {icon}
 

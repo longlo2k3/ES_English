@@ -4,6 +4,9 @@ import viVN from "antd/lib/locale/vi_VN";
 import { ThemeProvider } from "@/fer-framework/fe-global/themes";
 import themeConfig from "./themeConfig";
 import { open_sans } from "@/fer-framework/fe-global/assets";
+import { Provider } from "react-redux";
+import { store } from "./stores/store";
+import { ProviderRedux } from "./stores/providers";
 
 export default function RootLayout({
   children,
@@ -15,7 +18,7 @@ export default function RootLayout({
       <body className={open_sans.className}>
         <AntdRegistry>
           <ThemeProvider theme={themeConfig} locale={viVN}>
-            {children}
+            <ProviderRedux>{children}</ProviderRedux>
           </ThemeProvider>
         </AntdRegistry>
       </body>

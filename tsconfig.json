@@ -28,7 +28,6 @@
       "@/ts-module-chatbot/*": ["./ts-framework/ts-module-chatbot/*"],
       "@/ts-module-home/*": ["./ts-framework/ts-module-home/*"],
       "@/ts-module-flashcard/*": ["./ts-framework/ts-module-flashcard/*"],
-      "@/ts-module-progress/*": ["ts-framework/ts-progress/*"],
       "@/ts-module-skills/*": ["./ts-framework/ts-module-skills/*"],
       "@/ts-module-test/*": ["./ts-framework/ts-module-test/*"]
     }

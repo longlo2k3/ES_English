@@ -16,7 +16,7 @@ interface IProps {
 function LevelCard(props: IProps) {
   const { title, code, desc, isActive } = props;
   return (
-    <BCard style={{background: isActive ? "red" ? "#ffffff"}}>
+    <BCard>
       <Flex align="start" vertical gap={8}>
         <ATitle level={5}>{title}</ATitle>
         <Tag

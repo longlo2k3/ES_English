@@ -7,8 +7,12 @@ import {
 import { Avatar, Dropdown } from "antd";
 import { MenuProps } from "antd/lib";
 import React from "react";
+import { logout } from "../Login/actions";
 
 function Account() {
+  const handleLogout = async () => {
+    await logout(); // Gọi server action
+  };
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -22,8 +26,9 @@ function Account() {
     },
     {
       key: "3",
-      label: <a href="/home">Logout</a>,
+      label: "Logout",
       icon: <LogoutOutlined />,
+      onClick: handleLogout,
     },
   ];
   return (
