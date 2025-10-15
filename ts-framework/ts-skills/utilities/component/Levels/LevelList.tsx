@@ -1,4 +1,4 @@
-import { Tabs, TabsProps } from "antd";
+import { Divider, Tabs, TabsProps } from "antd";
 import React from "react";
 import LevelCard from "./LevelCard";
 
@@ -41,7 +41,11 @@ function Levels() {
       children: `Content of tab 3`,
     },
   ];
-  return <Tabs tabPosition="top" defaultActiveKey="1" items={items} />;
+  return(
+    <div> Chủ đề
+      <Tabs tabPosition="top" defaultActiveKey="1" items={items} />
+    </div>
+  );
 }
 
 export default Levels;
