@@ -1,6 +1,5 @@
+import ACard from "@/fer-framework/fe-component/web/ACard";
 import ATitle from "@/fer-framework/fe-component/web/ATitle";
-import BCard from "@/ts-framework/ts-component/Card/BCard";
-import { StarOutlined } from "@ant-design/icons";
 import { Flex, Tag, Typography } from "antd";
 import React from "react";
 
@@ -10,13 +9,22 @@ interface IProps {
   title: string;
   code: string;
   desc: string;
-  isActive: boolean;
 }
 
 function LevelCard(props: IProps) {
-  const { title, code, desc, isActive } = props;
+  const { title, code, desc } = props;
   return (
-    <BCard width={400} key="">
+    <ACard
+      style={{
+        width: 400,
+        borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+      }}
+      styles={{
+        body: {
+          padding: 24,
+        },
+      }}>
       <Flex align="start" vertical gap={8}>
         <ATitle level={5}>{title}</ATitle>
         <Tag
@@ -35,7 +43,7 @@ function LevelCard(props: IProps) {
           <Text type="secondary">{desc}</Text>
         </Flex>
       </Flex>
-    </BCard>
+    </ACard>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Carousel, Image } from "antd";
+import { useResponsive } from "antd-style";
 
 function Banner() {
   return (

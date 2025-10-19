@@ -1,5 +1,4 @@
 import ACard from "@/fer-framework/fe-component/web/ACard";
-import BCard from "@/ts-framework/ts-component/Card/BCard";
 import { CustomerServiceOutlined } from "@ant-design/icons";
 import { Flex, Progress, Typography } from "antd";
 import { icons } from "antd/es/image/PreviewGroup";
@@ -16,8 +15,19 @@ interface IProps {
 
 function SkillCard(props: IProps) {
   const { icon, title, desc, link } = props;
+
   return (
-    <BCard >
+    <ACard
+      style={{
+        width: 300,
+        borderRadius: 12,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+      }}
+      styles={{
+        body: {
+          padding: 24,
+        },
+      }}>
       <Flex vertical gap={12} justify="center" align="center">
         {icon}
 
@@ -32,7 +42,7 @@ function SkillCard(props: IProps) {
           Học ngay
         </Link>
       </Flex>
-    </BCard>
+    </ACard>
   );
 }
 

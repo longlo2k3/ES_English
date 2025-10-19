@@ -17,8 +17,8 @@ function IntroCard() {
       </Text>
       <Row gutter={[16, 24]} wrap>
         {SKILLS.map((item, index) => (
-          <Col key={index} className="gutter-row" span={6}>
-            <SkillCard key={index} {...item} />
+          <Col key={index} className="gutter-row" xs={24} sm={12} lg={6}>
+            <SkillCard {...item} />
           </Col>
         ))}
       </Row>

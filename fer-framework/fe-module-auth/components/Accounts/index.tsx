@@ -54,7 +54,11 @@ function Account() {
     <>
       <Dropdown trigger={["click"]} menu={{ items }}>
         <a onClick={(e) => e.preventDefault()}>
-          <Avatar size={46} src={userInfor?.user?.avatar_url} />
+          <Avatar
+            size={46}
+            src={userInfor?.user?.avatar_url}
+            icon={<UserOutlined />}
+          />
         </a>
       </Dropdown>
       <ProfileModal open={open === "profile"} onCancel={onCancel} />

@@ -1,4 +1,18 @@
-import { baseApi, deleteBaseApi, getBaseApi, postBaseApi } from "fe-base/apis";
+import {
+  baseApi,
+  deleteBaseApi,
+  getBaseApi,
+  postBaseApi,
+  putBaseApi,
+} from "fe-base/apis";
+
+interface BODY_UPDATE {
+  full_name: string;
+  gender: string;
+  age: number;
+  occupation: string;
+  avatar_url: any;
+}
 
 export const authApis = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +23,10 @@ export const authApis = baseApi.injectEndpoints({
 
     postSendCode: postBaseApi<{ email: string }>("/auth/send-code", builder),
 
-    postConfirmCode: postBaseApi<{ email: string }>("/auth/verify", builder),
+    postConfirmCode: postBaseApi<{ email: string; code: string }>(
+      "/auth/verify",
+      builder
+    ),
 
     postRegister: postBaseApi<{
       username: string;
@@ -20,6 +37,11 @@ export const authApis = baseApi.injectEndpoints({
     getUser: getBaseApi<{ id: number }>("/users/profile", builder, {
       keepUnusedDataFor: 0,
     }),
+
+    editUser: putBaseApi<BODY_UPDATE, { id: number }>(
+      "/users/profile",
+      builder
+    ),
   }),
 });
 
@@ -30,4 +52,5 @@ export const {
   usePostRegisterMutation,
   useLazyGetUserQuery,
   useGetUserQuery,
+  useEditUserMutation,
 } = authApis;
