@@ -43,7 +43,7 @@ export const getBaseApi = <TParams extends Record<string, any>>(
   });
 
 // Hàm `postBaseApi` nhận vào `builder` và định nghĩa một endpoint `mutation`
-export const postBaseApi = <TBody, any>(
+export const postBaseApi = <TBody,>(
   url: string,
   builder: EndpointBuilder<BaseQueryFn, any, any>,
   partial?: Partial<ReturnType<typeof builder.mutation>>
