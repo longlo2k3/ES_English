@@ -54,7 +54,7 @@ export const postBaseApi = <TBody,>(
       method: "POST",
       body,
     }),
-    transformResponse: (response: { data: any }, meta, arg) => response.data,
+    transformResponse: (response: { data: any }, meta, arg) => response,
     ...((partial ?? {}) as any),
     transformErrorResponse: (baseQueryReturnValue: any, meta, arg) =>
       baseQueryReturnValue.data,
