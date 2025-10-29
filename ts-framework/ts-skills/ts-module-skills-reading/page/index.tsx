@@ -1,12 +1,8 @@
 import React from "react";
-import Levels from "../../../ts-component/LevelList";
+import LevelsTabs from "../components/Levels";
 
 function ReadingPage() {
-  return (
-    <div>
-      <Levels />
-    </div>
-  );
+  return <LevelsTabs />;
 }
 
 export default ReadingPage;

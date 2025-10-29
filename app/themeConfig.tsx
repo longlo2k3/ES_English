@@ -6,6 +6,7 @@ const themeConfig = {
   token: {
     fontFamily: `${open_sans.style.fontFamily}`,
     colorPrimary: `#6a11cb`, //linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)
+    secondaryColor: "#2575fc",
   },
   components: {
     Card: {

@@ -1,5 +1,5 @@
 import React from "react";
-import Levels from "../../../ts-component/LevelList";
+import Levels from "../../components/LevelList";
 
 function SpeakingPage() {
   return (

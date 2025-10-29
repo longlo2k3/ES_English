@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/fer-framework/fe-global/themes";
 import themeConfig from "./themeConfig";
 import { open_sans } from "@/fer-framework/fe-global/assets";
 import { ProviderRedux } from "./stores/providers";
+import { MessageProvider } from "@/fer-framework/fe-cores/components/MessageProvider";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body className={open_sans.className}>
         <AntdRegistry>
           <ThemeProvider theme={themeConfig} locale={viVN}>
-            <ProviderRedux>{children}</ProviderRedux>
+            <MessageProvider>
+              <ProviderRedux>{children}</ProviderRedux>
+            </MessageProvider>
           </ThemeProvider>
         </AntdRegistry>
       </body>

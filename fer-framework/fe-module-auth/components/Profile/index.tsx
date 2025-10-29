@@ -45,16 +45,16 @@ function ProfileModal(props: IProps) {
 
   const handleUpdateInfo = async (values: any) => {
     try {
-      await editUser(
-        {
+      await editUser({
+        body: {
           full_name: values.full_name,
           gender: values.gender,
           age: values.age,
           occupation: values.occupation,
           avatar_url: values.avatar_url,
         },
-        { id: userInfor?.user?.id }
-      ).unwrap();
+        params: { id: userInfor?.user?.id },
+      }).unwrap();
 
       refetch();
       setIsEdit(true);
@@ -65,13 +65,23 @@ function ProfileModal(props: IProps) {
     <AModal
       title={"Thông tin tài khoản"}
       open={open}
-      onCancel={onCancel}
+      onCancel={() => {
+        onCancel();
+        form.resetFields();
+        setIsEdit(true);
+      }}
       fullHeight
       destroyOnHidden
       footer={[
         <>
-          <Button key="btn-cancel" onClick={onCancel}>
-            Hủy
+          <Button
+            key="btn-cancel"
+            onClick={() => {
+              onCancel();
+              form.resetFields();
+              setIsEdit(true);
+            }}>
+            Đóng
           </Button>
           ,
           {isEdit ? (
@@ -139,9 +149,9 @@ function ProfileModal(props: IProps) {
 
         <Form.Item label="Giới tính" name="gender">
           <Radio.Group disabled={isEdit}>
-            <Radio value={"male"}>Nam</Radio>
-            <Radio value={"female"}>Nữ</Radio>
-            <Radio value={"other"}>Khác</Radio>
+            <Radio value={"MALE"}>Nam</Radio>
+            <Radio value={"FEMALE"}>Nữ</Radio>
+            <Radio value={"OTHER"}>Khác</Radio>
           </Radio.Group>
         </Form.Item>
 

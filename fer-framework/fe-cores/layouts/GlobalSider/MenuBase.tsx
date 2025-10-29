@@ -16,23 +16,33 @@ function MenuBase() {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   useEffect(() => {
-    // Hàm tìm key tương ứng với pathname
-    const findKeyByLink = (path, items) => {
-      for (const item of items) {
-        if (item.link === path) return item.key;
-        if (item.children) {
-          const childKey = findKeyByLink(path, item.children);
-          if (childKey) return childKey;
+    const findBestMatchingKey = (path, menuItems) => {
+      let bestMatch = { key: null, length: -1 };
+
+      const search = (items) => {
+        for (const item of items) {
+          if (item.link && path.startsWith(item.link)) {
+            if (item.link.length > bestMatch.length) {
+              bestMatch = { key: item.key, length: item.link.length };
+            }
+          }
+
+          if (item.children) {
+            search(item.children);
+          }
         }
-      }
-      return null;
+      };
+
+      search(menuItems);
+      return bestMatch.key;
     };
 
-    const currentKey = findKeyByLink(pathname, items);
+    const currentKey = findBestMatchingKey(pathname, items);
+
     if (currentKey) {
       setSelectedKeys([currentKey]);
     }
-  }, [pathname]);
+  }, [pathname, items]);
 
   const handleClick = (e) => {
     const findLink = (key, items) => {

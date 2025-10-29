@@ -24,8 +24,6 @@ function Account() {
 
   const userInfor = useSelector((state: any) => authSelectors.getUser(state));
 
-  console.log("userInfor>>", userInfor);
-
   const items: MenuProps["items"] = [
     {
       key: "1",

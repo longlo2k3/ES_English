@@ -7,12 +7,13 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { useSelector } from "react-redux";
 import { searchSliceSelectors } from "@/fer-framework/fe-component/reducers/SearchSlice";
+import { skip } from "node:test";
 
 // 2. Định nghĩa tham số và kiểu trả về của hook
 interface UseAntdTableProps<T> {
   // Hàm fetch data, nhận vào pagination và trả về Promise<dữ liệu>
   useHookApi: any;
-  paramsApi?: any;
+  paramsApi: any;
   config?: any;
 }
 
@@ -22,6 +23,7 @@ interface UseAntdTableResult<T> {
   selectedRowKeys: React.Key[];
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>;
   refresh: () => void;
+  isLoading: boolean;
 }
 
 export const useHookTable = <T extends UseAntdTableProps<T>>({
@@ -35,7 +37,7 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
   const [dataSource, setDataSource] = useState<T[]>([]);
   const [total, setTotal] = useState<number>(0);
 
-  const { data, refetch } = useHookApi(paramsApi);
+  const { data, refetch, isLoading } = useHookApi(paramsApi);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -43,7 +45,7 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
-    setDataSource(data?.items);
+    setDataSource(data?.items || data);
     setTotal(data?.total || 0);
   }, [data]);
 
@@ -108,5 +110,6 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
     selectedRowKeys,
     setSelectedRowKeys,
     refresh: refetch,
+    isLoading,
   };
 };

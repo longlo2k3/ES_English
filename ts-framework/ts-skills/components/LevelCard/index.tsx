@@ -1,9 +1,10 @@
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import ATitle from "@/fer-framework/fe-component/web/ATitle";
 import { Flex, Tag, Typography } from "antd";
+import { useResponsive } from "antd-style";
 import React from "react";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface IProps {
   title: string;
@@ -14,10 +15,12 @@ interface IProps {
 
 function LevelCard(props: IProps) {
   const { title, code, desc, isActive } = props;
+  const { xs, sm, md, lg, xl, xxl } = useResponsive();
+
   return (
     <ACard
       style={{
-        width: 400,
+        width: xl ? 400 : lg ? 300 : 250,
         borderRadius: 12,
         boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
         backgroundColor: isActive ? "#6b11cb3e" : "#ffffff",

@@ -10,8 +10,6 @@ import ForgetPassword from "../ForgetPassword";
 
 // Apis
 import { useLazyGetUserQuery, usePostLoginMutation } from "../../apis";
-import { useDispatch } from "react-redux";
-import { userAgentFromString } from "next/server";
 import { toast, ToastContainer } from "react-toastify";
 
 const { Title } = Typography;
@@ -94,7 +92,12 @@ function FormLogin() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block size="large">
+            <Button
+              type="primary"
+              loading={isLoading}
+              htmlType="submit"
+              block
+              size="large">
               Đăng nhập
             </Button>
           </Form.Item>

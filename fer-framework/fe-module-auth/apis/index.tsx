@@ -42,6 +42,11 @@ export const authApis = baseApi.injectEndpoints({
       "/users/profile",
       builder
     ),
+
+    changePWUser: postBaseApi<{ old_password: string; new_password: string }>(
+      "/auth/change-password",
+      builder
+    ),
   }),
 });
 
@@ -53,4 +58,5 @@ export const {
   useLazyGetUserQuery,
   useGetUserQuery,
   useEditUserMutation,
+  useChangePWUserMutation,
 } = authApis;

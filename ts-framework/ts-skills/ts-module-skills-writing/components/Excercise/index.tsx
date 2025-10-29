@@ -2,13 +2,19 @@
 
 import { useParams } from "next/navigation";
 import React from "react";
-import BegginerExcercise from "./Begginer";
+import Intermadiate from "./Intermadiate";
+import BeginnerExcercise from "./beginner";
 
 function Excercise() {
   const params = useParams();
   const { topic, level, id } = params;
 
-  return <>{level === "begginer" && <BegginerExcercise />}</>;
+  return (
+    <>
+      {level === "Beginner" && <BeginnerExcercise />}
+      {level === "Intermediate" && <Intermadiate />}
+    </>
+  );
 }
 
 export default Excercise;

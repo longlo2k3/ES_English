@@ -1,27 +1,45 @@
 import ATable from "@/fer-framework/fe-component/web/ATable";
 import { Tag, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
+import Link from "next/link";
 import React from "react";
+import { useGetTopicBySkillAndLevelQuery } from "../../../apis";
 
 interface IProps {
-  data: any;
+  skill_id: number;
+  level_id: number;
 }
 
 function TopicTable(props: IProps) {
-  const { data } = props;
+  const { skill_id, level_id } = props;
+
+  const { data } = useGetTopicBySkillAndLevelQuery(
+    {
+      skill_id: skill_id,
+      level_id: level_id,
+    },
+    {
+      skip: !skill_id || !level_id,
+    }
+  );
 
   const columns: ColumnProps<any>[] = [
     {
       title: "Chủ đề",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
+      ellipsis: true,
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
       ellipsis: true,
     },
     {
       title: "Loại cấp độ",
-      dataIndex: "level",
-      key: "level",
-
+      dataIndex: "level_id",
+      key: "level_id",
       align: "center",
       ellipsis: true,
       render: (_) => (
@@ -35,7 +53,7 @@ function TopicTable(props: IProps) {
             width: 100,
           }}
           color="#6b11cb53">
-          {_}
+          {_?.name}
         </Tag>
       ),
     },
@@ -53,16 +71,19 @@ function TopicTable(props: IProps) {
       align: "center",
       render: (_, record) => {
         return (
-          <Typography.Link
+          <Link
+            rel="prefetch"
             key={_}
             href={`/skills/writing/${record.name}/${record.level}/${record.id}`}>
             Làm bài
-          </Typography.Link>
+          </Link>
         );
       },
     },
   ];
-  return <ATable dataSource={data} columns={columns} size="small" />;
+  return (
+    <ATable dataSource={data?.items || []} columns={columns} size="small" />
+  );
 }
 
 export default TopicTable;
