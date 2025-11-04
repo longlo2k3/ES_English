@@ -20,11 +20,14 @@ function MenuBase() {
 
   // Map lại menu có label được dịch
   const translatedItems = useMemo(() => {
-    return items.map((item) => ({
+    return items.map((item: any) => ({
       ...item,
       label: t(item.label),
       children: item.children
-        ? item.children.map((child) => ({ ...child, label: t(child.label) }))
+        ? item.children.map((child: any) => ({
+            ...child,
+            label: t(child.label),
+          }))
         : undefined,
     }));
   }, [t]);
