@@ -17,6 +17,7 @@
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@ckeditor/ckeditor5-react": "^11.0.0",
     "@google/generative-ai": "^0.24.0",
+    "@netlify/plugin-nextjs": "^5.14.4",
     "@rcb-plugins/llm-connector": "^0.3.2",
     "@reduxjs/toolkit": "^2.9.0",
     "ahooks": "^3.9.5",
