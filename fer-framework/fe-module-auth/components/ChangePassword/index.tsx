@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useChangePWUserMutation } from "../../apis";
 import { useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   open: boolean;
@@ -17,6 +18,7 @@ interface IProps {
 
 function ChangePassword(props: IProps) {
   const { open, onCancel } = props;
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -32,33 +34,30 @@ function ChangePassword(props: IProps) {
       });
 
       if (data?.error) {
-        toast.error(data?.error?.message || "Đổi mật khẩu thành công!");
+        toast.error((data?.error as any)?.message || t("auth.changePassword.failed"));
       } else {
-        toast.success(
-          data?.data?.message ||
-            "Đổi mật khẩu thành công! Vui lòng đăng nhập lại."
-        );
+        toast.success(data?.data?.message || t("auth.changePassword.success"));
         onCancel();
         form.resetFields();
         localStorage.removeItem("token");
         deleteCookie("token");
         router.refresh();
       }
-    } catch (error) {
-      toast.error(data?.error?.message || "Đã xảy ra lỗi, vui lòng thử lại!");
+    } catch (error: any) {
+      toast.error(error?.error?.message || t("auth.changePassword.error"));
     }
   };
 
   return (
     <AModal
-      title={"Đổi mật khẩu"}
+      title={t("auth.changePassword.title")}
       open={open}
       onCancel={onCancel}
       destroyOnHidden
       footer={() => (
         <>
           <Button key={"btn-cancel"} onClick={onCancel}>
-            Hủy
+            {t("common.cancel")}
           </Button>
           <Button
             key={"btn-ok"}
@@ -66,7 +65,7 @@ function ChangePassword(props: IProps) {
             type="primary"
             loading={isLoading}
             htmlType="submit">
-            Đổi mật khẩu
+            {t("auth.changePassword.submit")}
           </Button>
         </>
       )}>
@@ -77,30 +76,30 @@ function ChangePassword(props: IProps) {
         layout="vertical"
         onFinish={onFinish}
         onFinishFailed={() => {
-          toast.error("Đã xảy ra lỗi, vui lòng kiểm tra lại!");
+          toast.error(t("auth.changePassword.finishFailed"));
         }}>
         <Form.Item
           name={"old_password"}
-          label="Mật khẩu cũ"
+          label={t("auth.changePassword.form.oldPassword.label")}
           rules={[
             {
               required: true,
-              message: "Vui lòng nhập mật khẩu cũ!",
+              message: t("auth.changePassword.form.oldPassword.required"),
             },
           ]}>
-          <Input.Password placeholder="Nhập mật khẩu cũ" />
+          <Input.Password placeholder={t("auth.changePassword.form.oldPassword.placeholder")} />
         </Form.Item>
 
         <Form.Item
           name={"new_password"}
-          label="Mật khẩu mới"
+          label={t("auth.changePassword.form.newPassword.label")}
           rules={[
             {
               required: true,
-              message: "Vui lòng nhập mật khẩu mới!",
+              message: t("auth.changePassword.form.newPassword.required"),
             },
           ]}>
-          <Input.Password placeholder="Nhập mật khẩu mới" />
+          <Input.Password placeholder={t("auth.changePassword.form.newPassword.placeholder")} />
         </Form.Item>
       </Form>
     </AModal>

@@ -1,9 +1,12 @@
 import ATable from "@/fer-framework/fe-component/web/ATable";
-import { Tag, Typography } from "antd";
-import { ColumnProps } from "antd/es/table";
+import { Tag } from "antd";
+import { ColumnsType } from "antd/es/table";
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useGetTopicBySkillAndLevelQuery } from "../../../apis";
+import { useHookTable } from "@/fer-framework/fe-cores/common/table";
+import { ColumnProps } from "antd/lib/table";
 
 interface IProps {
   skill_id: number;
@@ -12,28 +15,13 @@ interface IProps {
 
 function TopicTable(props: IProps) {
   const { skill_id, level_id } = props;
-
-  const { data } = useGetTopicBySkillAndLevelQuery(
-    {
-      skill_id: skill_id,
-      level_id: level_id,
-    },
-    {
-      skip: !skill_id || !level_id,
-    }
-  );
+  const { t } = useTranslation();
 
   const columns: ColumnProps<any>[] = [
     {
       title: "Chủ đề",
       dataIndex: "title",
       key: "title",
-      ellipsis: true,
-    },
-    {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
       ellipsis: true,
     },
     {
@@ -74,15 +62,30 @@ function TopicTable(props: IProps) {
           <Link
             rel="prefetch"
             key={_}
-            href={`/skills/writing/${record.name}/${record.level}/${record.id}`}>
+            href={`/skills/writing/${record.skill_id?._id}/${record.level_id?._id}/${record._id}`}>
             Làm bài
           </Link>
         );
       },
     },
   ];
+
+  const { dataSource, pagination, isLoading } = useHookTable({
+    useHookApi: useGetTopicBySkillAndLevelQuery,
+    paramsApi: {
+      skill_id: skill_id,
+      level_id: level_id,
+    },
+  });
   return (
-    <ATable dataSource={data?.items || []} columns={columns} size="small" />
+    <ATable
+      dataSource={dataSource}
+      columns={columns}
+      bordered
+      pagination={pagination}
+      size="small"
+      loading={isLoading}
+    />
   );
 }
 

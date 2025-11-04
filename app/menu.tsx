@@ -1,4 +1,3 @@
-import { MenuItem } from "@/fer-framework/fe-cores/constants";
 import {
   BookOutlined,
   FileTextOutlined,
@@ -7,41 +6,43 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
+import { MenuItem } from "@/fer-framework/fe-cores/constants";
+
 export const items: MenuItem[] = [
   {
     key: "home",
     icon: <HomeOutlined />,
-    label: "Trang chủ",
+    label: "menu.home",
     link: "/home",
   },
   {
     key: "progress",
     icon: <LineChartOutlined />,
-    label: "Tiến độ",
+    label: "menu.progress",
     link: "/progress",
   },
   {
     key: "skills",
     icon: <UserOutlined />,
-    label: "Kĩ năng",
+    label: "menu.skills",
     link: "/skills",
     children: [
-      { key: "listening", label: "Listening", link: "/skills/listening" },
-      { key: "speaking", label: "Speaking", link: "/skills/speaking" },
-      { key: "reading", label: "Reading", link: "/skills/reading" },
-      { key: "writing", label: "Writing", link: "/skills/writing" },
+      { key: "listening", label: "menu.listening", link: "/skills/listening" },
+      { key: "speaking", label: "menu.speaking", link: "/skills/speaking" },
+      { key: "reading", label: "menu.reading", link: "/skills/reading" },
+      { key: "writing", label: "menu.writing", link: "/skills/writing" },
     ],
   },
   {
     key: "flashcard",
     icon: <BookOutlined />,
-    label: "Flashcard",
+    label: "menu.flashcard",
     link: "/flashcard",
   },
   {
     key: "test",
     icon: <FileTextOutlined />,
-    label: "Thi thử",
-    link: "/flashcard",
+    label: "menu.test",
+    link: "/test",
   },
 ];

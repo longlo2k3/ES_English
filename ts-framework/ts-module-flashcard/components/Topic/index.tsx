@@ -7,11 +7,13 @@ import { SnippetsOutlined } from "@ant-design/icons";
 import { useHookTable } from "@/fer-framework/fe-cores/common/table";
 import SavedList from "./SavedList";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const { Title, Text } = Typography;
 
 function TopicTable() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const { dataSource, pagination, isLoading } = useHookTable({
     useHookApi: useGetTopicFlashCardQuery,
@@ -22,19 +24,19 @@ function TopicTable() {
 
   const columns: ColumnProps<any>[] = [
     {
-      title: "Chủ đề",
+      title: t("flashCard.titleTable"),
       dataIndex: "title",
       key: "title",
       ellipsis: true,
     },
     {
-      title: "Mô tả",
+      title: t("flashCard.description"),
       dataIndex: "description",
       key: "description",
       ellipsis: true,
     },
     {
-      title: "Số lượng bài",
+      title: t("flashCard.exercises"),
       dataIndex: "exercises",
       key: "exercises",
       width: 150,
@@ -42,13 +44,13 @@ function TopicTable() {
       ellipsis: true,
     },
     {
-      title: "Hoạt động",
+      title: t("flashCard.action"),
       key: "operation",
       align: "center",
       render: (_, record) => {
         return (
           <Link rel="prefetch" key={_} href={`/flashcard/${record?._id}`}>
-            Làm bài
+            {t("flashCard.doExercise")}
           </Link>
         );
       },
@@ -58,13 +60,13 @@ function TopicTable() {
     <>
       <Flex vertical gap={18} style={{ padding: 18 }}>
         <Flex justify="space-between">
-          <Text strong>Chủ đề</Text>
+          <Text strong>{t("flashCard.titleTable")}</Text>
           <Tooltip title="Xem danh sách từ vựng đã lưu">
             <Button
               onClick={() => setIsOpen(true)}
               type="primary"
               icon={<SnippetsOutlined />}>
-              Xem danh sách
+              {t("flashCard.savedList")}
             </Button>
           </Tooltip>
         </Flex>

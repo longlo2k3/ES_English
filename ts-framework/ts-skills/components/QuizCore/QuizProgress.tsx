@@ -1,6 +1,7 @@
 import { Progress } from "antd";
 import { QuizProgressProps } from "@/ts-framework/ts-skills/ts-module-skills-writing/const/type";
 import { createStyles } from "antd-style";
+import { useTranslation } from "react-i18next";
 
 export const QuizProgress = ({
   current,
@@ -10,21 +11,21 @@ export const QuizProgress = ({
   progress,
 }: QuizProgressProps) => {
   const { styles } = useStyles();
+  const { t } = useTranslation();
   return (
     <div className={styles.container}>
       <div className={styles.info}>
         <span className={styles.label}>
-          Câu {current} / {total}
+          {t("quiz.progress.question")} {current} / {total}
         </span>
         <span className={styles.score}>
-          Điểm: {score} / {answered}
+          {t("quiz.progress.score")} : {score} / {answered}
         </span>
       </div>
       <Progress
         percent={progress}
         strokeColor={{
-          "0%": "#3b82f6",
-          "100%": "#8b5cf6",
+          "100%": "rgb(88, 204, 2)",
         }}
         showInfo={false}
       />
@@ -50,6 +51,6 @@ const useStyles = createStyles(({ token }) => ({
     fontSize: "14px",
     fontWeight: 600,
     // color: "#2563eb",
-    color: "#8b5cf6",
+    color: "#000000",
   },
 }));

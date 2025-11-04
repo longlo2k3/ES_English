@@ -11,6 +11,7 @@ function Levels() {
           title="Cấp độ cơ bản"
           code="Beginner"
           desc="Dành cho người mới bắt đầu"
+          isActive={false}
         />
       ),
       children: `Content of tab 1`,
@@ -22,6 +23,7 @@ function Levels() {
           title="Cấp độ trung cấp"
           code="Intermediate"
           desc="Dành cho người đã có nền tảng"
+          isActive={false}
         />
       ),
       children: `Content of tab 2`,
@@ -33,6 +35,7 @@ function Levels() {
           title="Cấp độ nâng cao"
           code="Advanced"
           desc="Dành cho người đã thành thạo"
+          isActive={false}
         />
       ),
       children: `Content of tab 3`,

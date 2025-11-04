@@ -31,7 +31,7 @@ function VocabularyCard(props: VocabularyCardProps) {
     },
   });
 
-  const handlePlayAudio = (e) => {
+  const handlePlayAudio = (e: any) => {
     e.stopPropagation();
     try {
       const audio = new Audio(data?.audio_url);
@@ -41,7 +41,7 @@ function VocabularyCard(props: VocabularyCardProps) {
     }
   };
 
-  const handleToggleSave = (e) => {
+  const handleToggleSave = (e: any) => {
     e.stopPropagation();
     callPostApi({ flashcard_id: data?._id });
   };

@@ -1,7 +1,7 @@
 import { getToken } from "@/fer-framework/fe-base/uils/getToken";
 import { useState, useEffect } from "react";
 
-export const useFetchContentDetail = (questionId) => {
+export const useFetchContentDetail = (questionId: string) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -41,7 +41,7 @@ export const useFetchContentDetail = (questionId) => {
 
         const result = await response.json();
         setData(result);
-      } catch (err) {
+      } catch (err: any) {
         if (err.name !== "AbortError") {
           console.error("Lỗi khi gọi API:", err);
           setError(err.message);

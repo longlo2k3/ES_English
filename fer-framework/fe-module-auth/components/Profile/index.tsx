@@ -11,6 +11,7 @@ import {
   Switch,
 } from "antd";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { authSelectors } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useEditUserMutation, useGetUserQuery } from "../../apis";
@@ -25,6 +26,7 @@ interface IProps {
 function ProfileModal(props: IProps) {
   const { open, onCancel } = props;
   const [form] = Form.useForm();
+  const { t } = useTranslation();
   // const user = useSelector((state: any) => authSelectors.getUser(state));
 
   const [isEdit, setIsEdit] = useState(true);
@@ -35,13 +37,15 @@ function ProfileModal(props: IProps) {
 
   const userInfor = useSelector((state: any) => authSelectors.getUser(state));
 
-  const { data, refetch } = useGetUserQuery({ id: userInfor?.user?.id });
+  const { data, refetch } = useGetUserQuery({
+    id: userInfor?.user?.id as string,
+  });
 
   const [editUser, { isLoading }] = useEditUserMutation();
 
   useEffect(() => {
     form.setFieldsValue(data?.user);
-  }, [data]);
+  }, [data, form]);
 
   const handleUpdateInfo = async (values: any) => {
     try {
@@ -53,7 +57,7 @@ function ProfileModal(props: IProps) {
           occupation: values.occupation,
           avatar_url: values.avatar_url,
         },
-        params: { id: userInfor?.user?.id },
+        params: { id: userInfor?.user?.id as string },
       }).unwrap();
 
       refetch();
@@ -63,11 +67,10 @@ function ProfileModal(props: IProps) {
 
   return (
     <AModal
-      title={"Thông tin tài khoản"}
+      title={t("auth.profile.title")}
       open={open}
       onCancel={() => {
         onCancel();
-        form.resetFields();
         setIsEdit(true);
       }}
       fullHeight
@@ -81,22 +84,22 @@ function ProfileModal(props: IProps) {
               form.resetFields();
               setIsEdit(true);
             }}>
-            Đóng
+            {t("common.close")}
           </Button>
           ,
           {isEdit ? (
             <Button key="btn-update" type="primary" onClick={onUpdate}>
-              Cập nhật
+              {t("auth.profile.update")}
             </Button>
           ) : (
             <>
-              <Button
+                <Button
                 key="btn-cancel"
                 type="dashed"
                 onClick={() => {
                   setIsEdit(true);
                 }}>
-                Hủy cập nhật
+                {t("auth.profile.cancelUpdate")}
               </Button>
               <Button
                 key="btn-update-info"
@@ -104,7 +107,7 @@ function ProfileModal(props: IProps) {
                 type="primary"
                 form={"form-update-info"}
                 htmlType="submit">
-                Cập nhật
+                {t("auth.profile.update")}
               </Button>
             </>
           )}
@@ -116,7 +119,7 @@ function ProfileModal(props: IProps) {
         form={form}
         onFinish={handleUpdateInfo}
         layout="vertical">
-        <Form.Item name={"avatar_url"} label="Ảnh đại diện">
+  <Form.Item name={"avatar_url"} label={t("auth.profile.form.avatar.label")}>
           {isEdit ? (
             <Avatar
               size={64}
@@ -135,7 +138,7 @@ function ProfileModal(props: IProps) {
               returnObject={true}>
               <button style={{ border: 0, background: "none" }} type="button">
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                <div style={{ marginTop: 8 }}>{t("auth.profile.upload")}</div>
               </button>
             </UploadFile>
           )}
@@ -143,15 +146,15 @@ function ProfileModal(props: IProps) {
 
         {/* full_name, gender, age, occupation, avatar_url */}
 
-        <Form.Item label="Họ và tên" name="full_name">
-          <Input placeholder="Nhập họ và tên" disabled={isEdit} />
+        <Form.Item label={t("auth.profile.form.fullName.label")} name="full_name">
+          <Input placeholder={t("auth.profile.form.fullName.placeholder")} disabled={isEdit} />
         </Form.Item>
 
-        <Form.Item label="Giới tính" name="gender">
+        <Form.Item label={t("auth.profile.form.gender.label")} name="gender">
           <Radio.Group disabled={isEdit}>
-            <Radio value={"MALE"}>Nam</Radio>
-            <Radio value={"FEMALE"}>Nữ</Radio>
-            <Radio value={"OTHER"}>Khác</Radio>
+            <Radio value={"MALE"}>{t("auth.profile.gender.male")}</Radio>
+            <Radio value={"FEMALE"}>{t("auth.profile.gender.female")}</Radio>
+            <Radio value={"OTHER"}>{t("auth.profile.gender.other")}</Radio>
           </Radio.Group>
         </Form.Item>
 
@@ -159,26 +162,26 @@ function ProfileModal(props: IProps) {
           <InputNumber disabled={isEdit} />
         </Form.Item>
 
-        <Form.Item label="Nghề nghiệp" name="occupation">
-          <Input placeholder="Nhập nghề nghiệp" disabled={isEdit} />
+        <Form.Item label={t("auth.profile.form.occupation.label")} name="occupation">
+          <Input placeholder={t("auth.profile.form.occupation.placeholder")} disabled={isEdit} />
         </Form.Item>
 
-        <Form.Item label="Tên đăng nhập" name="username">
+        <Form.Item label={t("auth.profile.form.username.label")} name="username">
           <Input disabled />
         </Form.Item>
 
-        <Form.Item label="Email" name="email">
+        <Form.Item label={t("auth.profile.form.email.label")} name="email">
           <Input disabled />
         </Form.Item>
 
-        <Form.Item label="Vai trò" name="role">
+        <Form.Item label={t("auth.profile.form.role.label")} name="role">
           <Select
             options={[
-              { label: "Người học", value: "LEARNER" },
-              { label: "Giáo viên", value: "TEACHER" },
-              { label: "Quản trị", value: "ADMIN" },
+              { label: t("auth.profile.role.learner"), value: "LEARNER" },
+              { label: t("auth.profile.role.teacher"), value: "TEACHER" },
+              { label: t("auth.profile.role.admin"), value: "ADMIN" },
             ]}
-            placeholder="Chọn vai trò"
+            placeholder={t("auth.profile.form.role.placeholder")}
             disabled
           />
         </Form.Item>

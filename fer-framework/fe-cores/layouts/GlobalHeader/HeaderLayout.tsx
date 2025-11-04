@@ -3,6 +3,7 @@ import ChangeTheme from "../../components/ChangeTheme";
 import Account from "@/fer-framework/fe-module-auth/components/Accounts";
 import { Flex } from "antd";
 import FullScreen from "../../components/FullScreen";
+import { LanguageSwitcher } from "../../components/LanguageSwitch";
 
 function HeaderLayout() {
   const [full, setFull] = useState(false);
@@ -19,6 +20,7 @@ function HeaderLayout() {
 
   return (
     <Flex gap={16} justify="center" align="center">
+      <LanguageSwitcher />
       <FullScreen toggleFullscreen={toggleFullscreen} full={full} />
       <ChangeTheme />
       <Account />

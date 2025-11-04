@@ -5,6 +5,7 @@ import ACard from "../ACard";
 function ATable(props: TableProps) {
   return (
     <Table
+      key={"id"}
       locale={{ emptyText: <Empty>Không có dữ liệu</Empty> }}
       scroll={{
         x: "max-content",

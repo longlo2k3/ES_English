@@ -8,6 +8,7 @@ import {
 import { useSelector } from "react-redux";
 import { searchSliceSelectors } from "@/fer-framework/fe-component/reducers/SearchSlice";
 import { skip } from "node:test";
+import { useTranslation } from "react-i18next";
 
 // 2. Định nghĩa tham số và kiểu trả về của hook
 interface UseAntdTableProps<T> {
@@ -31,6 +32,8 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
   config,
   paramsApi,
 }: UseAntdTableProps<T>): UseAntdTableResult<T> => {
+  const { t } = useTranslation();
+
   const valueSearch = useSelector((state: any) =>
     searchSliceSelectors.getGlobalSearchValue(state)
   );
@@ -69,12 +72,17 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
       total: total,
       showSizeChanger: true,
       pageSizeOptions: ["10", "20", "50", "100"],
+      locale: { items_per_page: ` / ${t("table.page")}` },
       onChange: (page, size) =>
         handleTableChange({ current: page, pageSize: size }),
       showTotal: (total, range) =>
-        `${range[0]}-${range[1]} of ${total} dữ liệu`,
+        t("table.showTotal", {
+          start: range[0],
+          end: range[1],
+          total: total,
+        }),
     }),
-    [currentPage, pageSize, total, handleTableChange]
+    [currentPage, pageSize, total, handleTableChange, t]
   );
 
   useEffect(() => {
@@ -86,7 +94,7 @@ export const useHookTable = <T extends UseAntdTableProps<T>>({
       const searchValue = valueSearch.toLowerCase();
 
       const filtered = items.filter((item: any) =>
-        (config || ["name"]).some((key) => {
+        (config || ["name"]).some((key: any) => {
           const fieldValue = item?.[key];
           return (
             typeof fieldValue === "string" &&

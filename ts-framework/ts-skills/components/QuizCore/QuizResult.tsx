@@ -2,9 +2,11 @@ import { Card } from "antd";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { QuizResultProps } from "@/ts-framework/ts-skills/ts-module-skills-writing/const/type";
 import { createStyles } from "antd-style";
+import { useTranslation } from "react-i18next";
 
 export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
   const { styles } = useStyles();
+  const { t } = useTranslation();
   return (
     <Card
       className={styles.card}
@@ -21,9 +23,9 @@ export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
             />
             <div>
               <div className={styles.title} style={{ color: "#166534" }}>
-                Chính xác!
+                {t("quiz.result.correct.title")}
               </div>
-              <div className={styles.description}>Bạn đã trả lời đúng.</div>
+              <div className={styles.description}>{t("quiz.result.correct.description")}</div>
             </div>
           </>
         ) : (
@@ -33,10 +35,10 @@ export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
             />
             <div>
               <div className={styles.title} style={{ color: "#991b1b" }}>
-                Chưa chính xác
+                {t("quiz.result.incorrect.title")}
               </div>
               <div className={styles.description} style={{ color: "#b91c1c" }}>
-                Đáp án đúng: <strong>{correctAnswer}</strong>
+                {t("quiz.result.incorrect.description")} <strong>{correctAnswer}</strong>
               </div>
             </div>
           </>

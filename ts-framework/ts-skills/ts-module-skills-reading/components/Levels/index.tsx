@@ -1,9 +1,14 @@
-import LevelCard from "@/ts-framework/ts-skills/components/LevelCard";
-import { Tabs } from "antd";
-import { TabsProps } from "antd/lib";
 import React, { useMemo, useState } from "react";
+import { Tabs } from "antd";
+// Components
+import LevelCard from "@/ts-framework/ts-skills/components/LevelCard";
+import { TabsProps } from "antd/lib";
 import TopicTable from "../Topics";
+
+// Apis
 import { useSelectLevelQuery, useSelectSkillQuery } from "../../../apis";
+
+// Constants
 
 function LevelsTabs() {
   const [active, setActive] = useState("Beginner");

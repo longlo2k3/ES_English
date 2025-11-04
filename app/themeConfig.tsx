@@ -1,10 +1,10 @@
 "use client";
 
-import { open_sans } from "@/fer-framework/fe-global/assets";
+import { saira } from "@/fer-framework/fe-global/assets";
 
 const themeConfig = {
   token: {
-    fontFamily: `${open_sans.style.fontFamily}`,
+    fontFamily: `${saira.style.fontFamily}`,
     colorPrimary: `#6a11cb`, //linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)
     secondaryColor: "#2575fc",
   },

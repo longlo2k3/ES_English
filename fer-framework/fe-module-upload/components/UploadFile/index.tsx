@@ -33,7 +33,7 @@ const UploadFileBase = (props: Props) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const token = getToken(null);
+  const token = getToken();
 
   useEffect(() => {
     setFileList(
@@ -101,14 +101,17 @@ const UploadFileBase = (props: Props) => {
     fileList: newFileList,
   }) => {
     setFileList(newFileList);
+    if (!onChangeProps) return;
     if (file && (file?.status === "done" || file?.status === "removed")) {
-      returnObject
-        ? onChangeProps(file?.status === "removed" ? "" : file?.response)
-        : onChangeProps(
-            newFileList
-              .filter((item: any) => item.status === "done")
-              .map((item: any) => item.response)
-          );
+      if (returnObject) {
+        (onChangeProps as any)(file?.status === "removed" ? "" : file?.response);
+      } else {
+        (onChangeProps as any)(
+          newFileList
+            .filter((item: any) => item.status === "done")
+            .map((item: any) => item.response)
+        );
+      }
     }
   };
 
@@ -131,6 +134,7 @@ const UploadFileBase = (props: Props) => {
             afterOpenChange: (visible) => !visible && setPreviewImage(""),
           }}
           src={previewImage}
+          alt=""
         />
       )}
     </>

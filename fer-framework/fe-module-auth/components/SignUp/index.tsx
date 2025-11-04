@@ -7,8 +7,10 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { usePostSendCodeMutation } from "../../apis";
 import { toast, ToastContainer } from "react-toastify";
 import { VerifyCode } from "./VerifyCode";
+import { useTranslation } from "react-i18next";
 
 function SignUp() {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [openVerify, setOpenVerify] = useState(false);
@@ -20,9 +22,9 @@ function SignUp() {
     try {
       const data = await postSendCode({ email: values.email }).unwrap();
       setOpenVerify(true);
-      toast.success(data?.message || "Đã gửi code về email của bạn!");
-    } catch (error) {
-      toast.success(error?.message || "Lỗi xác thực");
+      toast.success(data?.message || t("auth.signUp.toastSent"));
+    } catch (error: any) {
+      toast.error(error?.message || t("auth.signUp.toastError"));
     }
   };
 
@@ -34,20 +36,20 @@ function SignUp() {
   return (
     <>
       <Button color="cyan" variant="solid" onClick={() => setOpen(true)}>
-        Tạo tài khoản mới
+        {t("auth.signUp.createAccount")}
       </Button>
 
       <AModal
-        title="Tạo tài khoản mới"
+        title={t("auth.signUp.modalTitle")}
         open={open}
         onCancel={onCancel}
         onOk={handleSubmit}
-        okText="Tạo"
+        okText={t("auth.signUp.ok")}
         destroyOnHidden
         width={500}
         footer={[
           <Button key="btn-cancel" onClick={onCancel}>
-            Hủy
+            {t("common.cancel")}
           </Button>,
           <Button
             key="btn-create"
@@ -55,7 +57,7 @@ function SignUp() {
             type="primary"
             form={"form-create"}
             htmlType="submit">
-            Tạo mới
+            {t("auth.signUp.create")}
           </Button>,
         ]}
         centered>
@@ -68,37 +70,37 @@ function SignUp() {
           style={{ width: "100%" }}>
           <Form.Item
             name="email"
-            label="Email"
-            rules={[{ required: true, message: "Vui lòng nhập email!" }]}>
-            <Input
-              prefix={<UserOutlined />}
-              size="large"
-              placeholder="Nhập email"
-              autoComplete="nope"
-            />
+              label={t("auth.form.email.label")}
+              rules={[{ required: true, message: t("auth.form.email.required") }]}>
+              <Input
+                prefix={<UserOutlined />}
+                size="large"
+                placeholder={t("auth.form.email.placeholder")}
+                autoComplete="nope"
+              />
           </Form.Item>
 
           <Form.Item
             name="username"
-            label="Tài khoản"
-            rules={[{ required: true, message: "Vui lòng nhập tài khoản!" }]}>
-            <Input
-              prefix={<UserOutlined />}
-              size="large"
-              placeholder="Nhập tài khoản"
-            />
+              label={t("auth.form.username.label")}
+              rules={[{ required: true, message: t("auth.form.username.required") }]}> 
+              <Input
+                prefix={<UserOutlined />}
+                size="large"
+                placeholder={t("auth.form.username.placeholder")}
+              />
           </Form.Item>
 
           <Form.Item
             name="password"
-            label="Mật khẩu"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}>
-            <Input.Password
-              prefix={<LockOutlined />}
-              size="large"
-              placeholder="Nhập mật khẩu"
-              autoComplete="new-password"
-            />
+              label={t("auth.form.password.label")}
+              rules={[{ required: true, message: t("auth.form.password.required") }]}> 
+              <Input.Password
+                prefix={<LockOutlined />}
+                size="large"
+                placeholder={t("auth.form.password.placeholder")}
+                autoComplete="new-password"
+              />
           </Form.Item>
         </Form>
       </AModal>

@@ -7,6 +7,7 @@ import {
   usePostRegisterMutation,
 } from "../../apis";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   open: boolean;
@@ -15,6 +16,7 @@ interface IProps {
 }
 
 export const VerifyCode = (props: IProps) => {
+  const { t } = useTranslation();
   const { open, onCancel, item } = props;
   const [form] = Form.useForm();
 
@@ -35,9 +37,9 @@ export const VerifyCode = (props: IProps) => {
       }).unwrap();
 
       onCancelModal();
-      toast.success(register?.data?.message || "Tạo tài khoản mới thanh cong");
-    } catch (error) {
-      toast.error(err.error?.message || "Lỗi xác thực");
+      toast.success(register?.data?.message || t("auth.verify.toastSuccess"));
+    } catch (error: any) {
+      toast.error(error.error?.message || t("auth.verify.toastError"));
     }
   };
 
@@ -48,16 +50,16 @@ export const VerifyCode = (props: IProps) => {
 
   return (
     <AModal
-      title="Xác thực email"
+      title={t("auth.verify.title")}
       open={open}
       onCancel={onCancelModal}
       onOk={handleSubmit}
-      okText="Tạo"
+      okText={t("auth.verify.ok")}
       destroyOnHidden
       width={500}
       footer={[
         <Button key="btn-cancel" onClick={onCancelModal}>
-          Hủy
+          {t("common.cancel")}
         </Button>,
         <Button
           key="btn-verify"
@@ -65,7 +67,7 @@ export const VerifyCode = (props: IProps) => {
           type="primary"
           form={"form-verify"}
           htmlType="submit">
-          Tạo mới
+          {t("auth.verify.create")}
         </Button>,
       ]}
       centered>
@@ -78,12 +80,12 @@ export const VerifyCode = (props: IProps) => {
         style={{ width: "100%" }}>
         <Form.Item
           name="code"
-          label="Code xác thực"
-          rules={[{ required: true, message: "Vui lòng nhập Code xác thực!" }]}>
+          label={t("auth.verify.form.code.label")}
+          rules={[{ required: true, message: t("auth.verify.form.code.required") }]}>
           <Input
             prefix={<BarcodeOutlined />}
             size="large"
-            placeholder="Nhập Code xác thực"
+            placeholder={t("auth.verify.form.code.placeholder")}
           />
         </Form.Item>
       </Form>

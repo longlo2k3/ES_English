@@ -4,9 +4,33 @@ import { TabsProps } from "antd/lib";
 import React, { useMemo, useState } from "react";
 import TopicTable from "../Topics";
 import { useSelectLevelQuery, useSelectSkillQuery } from "../../../apis";
+import { useTranslation } from "react-i18next";
+
+const getTitle = (name: string, t: any) => {
+  switch (name) {
+    case "Beginner":
+      return t("table.level.beginnerTitle");
+    case "Intermediate":
+      return t("table.level.intermediateTitle");
+    default:
+      return t("table.level.advancedTitle");
+  }
+};
+
+const getDesc = (code: string, t: any) => {
+  switch (code) {
+    case "BEGINNER":
+      return t("table.level.beginnerDesc");
+    case "INTERMEDIATE":
+      return t("table.level.intermediateDesc");
+    default:
+      return t("table.level.advancedDesc");
+  }
+};
 
 function LevelsTabs() {
-  const [active, setActive] = useState("Beginner");
+  const { t } = useTranslation();
+  const [active, setActive] = useState("BEGINNER");
 
   const { data: SkillData } = useSelectSkillQuery(null);
 
@@ -21,31 +45,21 @@ function LevelsTabs() {
       key: item.code,
       label: (
         <LevelCard
-          title={
-            item.name === "Beginner"
-              ? "Cấp độ cơ bản"
-              : item.name === "Intermediate"
-              ? "Cấp độ trung cấp"
-              : "Cấp độ nâng cao"
-          }
+          key={item.code}
+          title={getTitle(item.name, t)}
           code={item.code}
-          desc={
-            item.code === "BEGINNER"
-              ? "Dành cho người mới bắt đầu"
-              : item.code === "INTERMEDIATE"
-              ? "Dành cho người đã có nền tảng"
-              : "Dành cho người đã thành thạo"
-          }
+          desc={getDesc(item.code, t)}
           isActive={active === item.code}
         />
       ),
       children: <TopicTable skill_id={skillWriting?._id} level_id={item._id} />,
     };
   });
+
   return (
     <Tabs
       tabPosition="top"
-      defaultActiveKey="Beginner"
+      defaultActiveKey="BEGINNER"
       items={items}
       onChange={(activeKey) => {
         setActive(activeKey);

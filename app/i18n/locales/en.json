@@ -1,0 +1,283 @@
+{
+  "header": {
+    "language": "Select language",
+    "fullScreen": "Full screen",
+    "closeFull": "Exit full screen",
+    "themeDark": "Dark",
+    "themeLight": "Light"
+  },
+  "flashCard": {
+    "titleTable": "Topic",
+    "description": "Description",
+    "exercises": "Exercises",
+    "action": "Action",
+    "doExercise": "Start",
+    "savedList": "View list"
+  },
+  "savedList": {
+    "title": "Saved Vocabulary List",
+    "searchPlaceholder": "Search content",
+    "word": "Word",
+    "phonetic": "Phonetic",
+    "partOfSpeech": "Part of Speech",
+    "meaningVi": "Meaning (VI)",
+    "exampleEn": "Example (EN)",
+    "exampleVi": "Example (VI)",
+    "action": "Action",
+    "unsave": "Unsave",
+    "close": "Close"
+  },
+  "table": {
+    "showTotal": "{{start}}-{{end}} of {{total}} items",
+    "page": "Pages",
+    "multiDelete": {
+      "confirm": "Do you want to delete selected {{title}}?"
+    },
+    "column": {
+      "topic": "Topic",
+      "description": "Description",
+      "level": "Level Type",
+      "exerciseCount": "Exercises",
+      "action": "Action",
+      "doExercise": "Start"
+    },
+    "level": {
+      "beginnerTitle": "Beginner Level",
+      "intermediateTitle": "Intermediate Level",
+      "advancedTitle": "Advanced Level",
+      "beginnerDesc": "For those who are just starting out",
+      "intermediateDesc": "For those who already have a foundation",
+      "advancedDesc": "For those who have mastered the skills"
+    }
+  },
+  "account": {
+    "profile": "Profile",
+    "changePassword": "Change password",
+    "logout": "Logout"
+  },
+  "quiz": {
+    "completion": {
+      "title": "Completed! 🎉",
+      "success": "Completed Successfully!",
+      "tryAgain": "Completed Failed!",
+      "score": "Your score:",
+      "accuracy": "Accuracy:",
+      "retry": "Try Again"
+    },
+    "result": {
+      "correct": {
+        "title": "Correct!",
+        "description": "Your answer is correct."
+      },
+      "incorrect": {
+        "title": "Incorrect",
+        "description": "Correct answer:"
+      }
+    },
+    "errors": {
+      "noQuestionData": "Question data not found.",
+      "cannotStartAttempt": "Cannot start attempt.",
+      "noCorrectAnswerFound": "Correct answer not found",
+      "submitFailed": "An error occurred while submitting. Please try again."
+    },
+    "info": {
+      "completedAllQuestions": "You have completed all questions!"
+    },
+    "progress": {
+      "question": "Question",
+      "score": "Score"
+    },
+    "actions": {
+      "skip": "Skip",
+      "check": "Check",
+      "continue": "Continue",
+      "result": "View Result"
+    }
+  },
+  "auth": {
+    "signUp": {
+      "createAccount": "Create account",
+      "modalTitle": "Create account",
+      "ok": "Create",
+      "create": "Create new",
+      "toastSent": "Verification code sent to your email",
+      "toastError": "Verification error"
+    },
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email",
+        "required": "Please enter email!"
+      },
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter username",
+        "required": "Please enter username!"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password",
+        "required": "Please enter password!"
+      },
+      "emailOrUsername": {
+        "label": "Email or username",
+        "placeholder": "Enter email or username",
+        "required": "Please enter email or username!"
+      }
+    },
+    "verify": {
+      "title": "Verify email",
+      "ok": "Create",
+      "create": "Create new",
+      "toastSuccess": "Account created successfully",
+      "toastError": "Verification error",
+      "form": {
+        "code": {
+          "label": "Verification code",
+          "placeholder": "Enter verification code",
+          "required": "Please enter verification code!"
+        }
+      }
+    },
+    "login": {
+      "title": "Sign in",
+      "success": "Login successful",
+      "error": "Authentication error",
+      "submit": "Sign in"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "success": "Password changed successfully. Please sign in again.",
+      "failed": "Change password failed",
+      "error": "An error occurred, please try again.",
+      "submit": "Change password",
+      "finishFailed": "An error occurred, please check and try again.",
+      "form": {
+        "oldPassword": {
+          "label": "Old password",
+          "placeholder": "Enter old password",
+          "required": "Please enter old password!"
+        },
+        "newPassword": {
+          "label": "New password",
+          "placeholder": "Enter new password",
+          "required": "Please enter new password!"
+        }
+      }
+    },
+    "profile": {
+      "title": "Account information",
+      "update": "Update",
+      "cancelUpdate": "Cancel update",
+      "close": "Close",
+      "upload": "Upload",
+      "form": {
+        "avatar": { "label": "Avatar" },
+        "fullName": { "label": "Full name", "placeholder": "Enter full name" },
+        "gender": { "label": "Gender" },
+        "occupation": {
+          "label": "Occupation",
+          "placeholder": "Enter occupation"
+        },
+        "username": { "label": "Username" },
+        "email": { "label": "Email" },
+        "role": { "label": "Role", "placeholder": "Select role" }
+      },
+      "gender": { "male": "Male", "female": "Female", "other": "Other" },
+      "role": { "learner": "Learner", "teacher": "Teacher", "admin": "Admin" }
+    },
+    "forgetPassword": {
+      "link": "Forgot password?"
+    }
+  },
+  "common": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "progress": {
+    "table": {
+      "word": "Word",
+      "phonetic": "Phonetic",
+      "partOfSpeech": "Part of Speech",
+      "meaningVi": "Meaning (VI)",
+      "exampleEn": "Example (EN)",
+      "exampleVi": "Example (VI)",
+      "audio": "Audio",
+      "image": "Image",
+      "createdAt": "Created At",
+      "action": "Action"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add"
+    },
+    "multiDelete": {
+      "title": "Delete vocabulary"
+    }
+  },
+  "topics": {
+    "title": "Topic",
+    "description": "Description",
+    "levelType": "Level",
+    "exercises": "Exercises",
+    "action": "Action",
+    "doExercise": "Start",
+    "active": "Active",
+    "hidden": "Hidden"
+  },
+
+  "menu": {
+    "home": "Home",
+    "progress": "Progress",
+    "skills": "Skills",
+    "listening": "Listening",
+    "speaking": "Speaking",
+    "reading": "Reading",
+    "writing": "Writing",
+    "flashcard": "Flashcard",
+    "test": "Test"
+  },
+
+  "home": {
+    "intro": {
+      "title": "Learn English with ES English",
+      "description": "Our online English course is the perfect choice for anyone who wants to improve their English skills. With the support of ES English, you'll be able to advance your career, travel, pass exams and competitions, and much more! Learning English online will help you gain more confidence and make communication with English speakers easier and more convenient.",
+      "button": "Learn more"
+    },
+    "introCard": {
+      "title": "English skills",
+      "description": "Choose the skill you want to improve and start learning today"
+    },
+    "skills": {
+      "listening": {
+        "title": "Listening",
+        "desc": "Practice English listening through dialogues, news, and podcasts on various topics."
+      },
+      "speaking": {
+        "title": "Speaking",
+        "desc": "Improve your speaking skills with conversations and pronunciation exercises."
+      },
+      "reading": {
+        "title": "Reading",
+        "desc": "Enhance your reading comprehension with articles, stories, and academic texts."
+      },
+      "writing": {
+        "title": "Writing",
+        "desc": "Develop accurate and natural English writing for academic or professional use."
+      },
+      "vocabulary": {
+        "title": "Vocabulary",
+        "desc": "Learn English vocabulary by topic using engaging flashcards."
+      },
+      "exam": {
+        "title": "Mock Exam",
+        "desc": "Practice with mock IELTS, TOEIC, and TOEFL tests to boost your confidence."
+      },
+      "button": "Learn more"
+    }
+  },
+  "chatBot": {
+    "startMessage": "Hello! Ask me anything?"
+  }
+}

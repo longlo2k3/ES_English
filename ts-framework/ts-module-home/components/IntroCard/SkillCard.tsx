@@ -1,8 +1,8 @@
 import ACard from "@/fer-framework/fe-component/web/ACard";
-import { CustomerServiceOutlined } from "@ant-design/icons";
-import { Flex, Progress, Typography } from "antd";
-import { icons } from "antd/es/image/PreviewGroup";
+import { Flex, Typography } from "antd";
+
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const { Text, Title, Link } = Typography;
 
@@ -15,6 +15,8 @@ interface IProps {
 
 function SkillCard(props: IProps) {
   const { icon, title, desc, link } = props;
+
+  const { t } = useTranslation();
 
   return (
     <ACard
@@ -39,7 +41,7 @@ function SkillCard(props: IProps) {
         </Text>
 
         <Link underline href={link}>
-          Học ngay
+          {t("home.skills.button")}
         </Link>
       </Flex>
     </ACard>

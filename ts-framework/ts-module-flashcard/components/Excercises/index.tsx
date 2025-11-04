@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import VocabularyCard from "./VocabularyCard";
 import { Spin } from "antd";
 
-function FlashcardDeck({ deck }) {
+function FlashcardDeck({ deck }: any) {
   const flipArrayHook = useFlashcardArray({
     deckLength: deck.length,
     showProgressBar: true,
@@ -27,6 +27,7 @@ function FlashcardDeck({ deck }) {
         flipArrayHook={flipArrayHook}
         style={{
           textAlign: "center",
+          height: "100vh",
         }}
       />
     </div>
@@ -89,10 +90,7 @@ function Excercise() {
   };
 
   return (
-    <GlobalBackground
-      rollbackUrl="/flashcard"
-      title={`English FlashCard Practice with Topic `}
-      description="Flip the card to see the answer.">
+    <GlobalBackground rollbackUrl="/flashcard">
       {renderContent()}
     </GlobalBackground>
   );

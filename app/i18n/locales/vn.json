@@ -1,0 +1,286 @@
+{
+  "header": {
+    "language": "Chọn ngôn ngữ",
+    "fullScreen": "Toàn màn hình",
+    "closeFull": "Thoát toàn màn hình",
+    "themeDark": "Tối",
+    "themeLight": "Sáng"
+  },
+  "flashCard": {
+    "titleTable": "Chủ đề",
+    "description": "Mô tả",
+    "exercises": "Số lượng bài",
+    "action": "Hoạt động",
+    "doExercise": "Làm bài",
+    "savedList": "Xem danh sách"
+  },
+  "savedList": {
+    "title": "Danh sách từ vựng đã lưu",
+    "searchPlaceholder": "Nội dung tìm kiếm",
+    "word": "Từ vựng",
+    "phonetic": "Phiên âm",
+    "partOfSpeech": "Loại từ",
+    "meaningVi": "Nghĩa (VI)",
+    "exampleEn": "Ví dụ (EN)",
+    "exampleVi": "Ví dụ (VI)",
+    "action": "Hoạt động",
+    "unsave": "Hủy lưu",
+    "close": "Đóng"
+  },
+  "table": {
+    "showTotal": "{{start}}-{{end}} trên {{total}} dữ liệu",
+    "page": "Trang",
+    "multiDelete": {
+      "confirm": "Bạn có muốn xóa {{title}} đã chọn?"
+    },
+    "column": {
+      "topic": "Chủ đề",
+      "description": "Mô tả",
+      "level": "Loại cấp độ",
+      "exerciseCount": "Số lượng bài",
+      "action": "Hoạt động",
+      "doExercise": "Làm bài"
+    },
+    "level": {
+      "beginnerTitle": "Cấp độ cơ bản",
+      "intermediateTitle": "Cấp độ trung cấp",
+      "advancedTitle": "Cấp độ nâng cao",
+      "beginnerDesc": "Dành cho người mới bắt đầu",
+      "intermediateDesc": "Dành cho người đã có nền tảng",
+      "advancedDesc": "Dành cho người đã thành thạo"
+    }
+  },
+  "account": {
+    "profile": "Thông tin",
+    "changePassword": "Đổi mật khẩu",
+    "logout": "Đăng xuất"
+  },
+  "quiz": {
+    "completion": {
+      "title": "Hoàn thành! 🎉",
+      "success": "Xuất sắc!",
+      "tryAgain": "Cần cố gắng!",
+      "score": "Điểm của bạn:",
+      "accuracy": "Tỷ lệ chính xác:",
+      "retry": "Làm lại"
+    },
+    "result": {
+      "correct": {
+        "title": "Chính xác!",
+        "description": "Bạn đã trả lời đúng."
+      },
+      "incorrect": {
+        "title": "Chưa chính xác",
+        "description": "Đáp án đúng:"
+      }
+    },
+    "errors": {
+      "noQuestionData": "Không tìm thấy dữ liệu câu hỏi.",
+      "cannotStartAttempt": "Không thể bắt đầu lượt làm bài.",
+      "noCorrectAnswerFound": "Không tìm thấy đáp án đúng",
+      "submitFailed": "Đã xảy ra lỗi khi nộp bài. Vui lòng thử lại."
+    },
+    "info": {
+      "completedAllQuestions": "Bạn đã hoàn thành tất cả câu hỏi!"
+    },
+    "progress": {
+      "question": "Câu hỏi",
+      "score": "Điểm"
+    },
+    "actions": {
+      "skip": "Bỏ qua",
+      "check": "Kiểm tra",
+      "continue": "Tiếp tục",
+      "result": "Xem kết quả"
+    }
+  },
+  "auth": {
+    "signUp": {
+      "createAccount": "Tạo tài khoản",
+      "modalTitle": "Tạo tài khoản mới",
+      "ok": "Tạo",
+      "create": "Tạo mới",
+      "toastSent": "Đã gửi mã xác thực về email của bạn",
+      "toastError": "Lỗi xác thực"
+    },
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập email",
+        "required": "Vui lòng nhập email!"
+      },
+      "username": {
+        "label": "Tài khoản",
+        "placeholder": "Nhập tài khoản",
+        "required": "Vui lòng nhập tài khoản!"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu",
+        "required": "Vui lòng nhập mật khẩu!"
+      },
+      "emailOrUsername": {
+        "label": "Email hoặc tài khoản",
+        "placeholder": "Nhập email hoặc tài khoản",
+        "required": "Vui lòng nhập email hoặc tài khoản!"
+      }
+    },
+    "verify": {
+      "title": "Xác thực email",
+      "ok": "Tạo",
+      "create": "Tạo mới",
+      "toastSuccess": "Tạo tài khoản thành công",
+      "toastError": "Lỗi xác thực",
+      "form": {
+        "code": {
+          "label": "Code xác thực",
+          "placeholder": "Nhập Code xác thực",
+          "required": "Vui lòng nhập Code xác thực!"
+        }
+      }
+    },
+    "login": {
+      "title": "Đăng nhập",
+      "success": "Đăng nhập thành công",
+      "error": "Lỗi xác thực",
+      "submit": "Đăng nhập"
+    },
+    "changePassword": {
+      "title": "Đổi mật khẩu",
+      "success": "Đổi mật khẩu thành công. Vui lòng đăng nhập lại.",
+      "failed": "Đổi mật khẩu thất bại",
+      "error": "Đã xảy ra lỗi, vui lòng thử lại.",
+      "submit": "Đổi mật khẩu",
+      "finishFailed": "Đã xảy ra lỗi, vui lòng kiểm tra lại!",
+      "form": {
+        "oldPassword": {
+          "label": "Mật khẩu cũ",
+          "placeholder": "Nhập mật khẩu cũ",
+          "required": "Vui lòng nhập mật khẩu cũ!"
+        },
+        "newPassword": {
+          "label": "Mật khẩu mới",
+          "placeholder": "Nhập mật khẩu mới",
+          "required": "Vui lòng nhập mật khẩu mới!"
+        }
+      }
+    },
+    "profile": {
+      "title": "Thông tin tài khoản",
+      "update": "Cập nhật",
+      "cancelUpdate": "Hủy cập nhật",
+      "close": "Đóng",
+      "upload": "Tải lên",
+      "form": {
+        "avatar": { "label": "Ảnh đại diện" },
+        "fullName": { "label": "Họ và tên", "placeholder": "Nhập họ và tên" },
+        "gender": { "label": "Giới tính" },
+        "occupation": {
+          "label": "Nghề nghiệp",
+          "placeholder": "Nhập nghề nghiệp"
+        },
+        "username": { "label": "Tên đăng nhập" },
+        "email": { "label": "Email" },
+        "role": { "label": "Vai trò", "placeholder": "Chọn vai trò" }
+      },
+      "gender": { "male": "Nam", "female": "Nữ", "other": "Khác" },
+      "role": {
+        "learner": "Người học",
+        "teacher": "Giáo viên",
+        "admin": "Quản trị"
+      }
+    },
+    "forgetPassword": {
+      "link": "Quên mật khẩu?"
+    }
+  },
+  "common": {
+    "delete": "Xóa",
+    "cancel": "Hủy"
+  },
+  "progress": {
+    "table": {
+      "word": "Từ vựng",
+      "phonetic": "Phiên âm",
+      "partOfSpeech": "Từ loại",
+      "meaningVi": "Nghĩa tiếng Việt",
+      "exampleEn": "Ví dụ (EN)",
+      "exampleVi": "Ví dụ (VI)",
+      "audio": "Âm thanh",
+      "image": "Hình ảnh",
+      "createdAt": "Ngày tạo",
+      "action": "Hành động"
+    },
+    "actions": {
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "add": "Thêm"
+    },
+    "multiDelete": {
+      "title": "Xóa từ vựng"
+    }
+  },
+  "topics": {
+    "title": "Chủ đề",
+    "description": "Mô tả",
+    "levelType": "Loại cấp độ",
+    "exercises": "Số lượng bài",
+    "action": "Hoạt động",
+    "doExercise": "Làm bài",
+    "active": "Hoạt động",
+    "hidden": "Ẩn"
+  },
+  "menu": {
+    "home": "Trang chủ",
+    "progress": "Tiến độ",
+    "skills": "Kĩ năng",
+    "listening": "Nghe",
+    "speaking": "Nói",
+    "reading": "Đọc",
+    "writing": "Viết",
+    "flashcard": "Thẻ học",
+    "test": "Thi thử"
+  },
+
+  "home": {
+    "intro": {
+      "title": "Học tiếng anh cùng ES English",
+      "description": "Khóa học tiếng Anh trực tuyến của chúng tôi là sự lựa chọn hoàn hảo cho bất kỳ ai muốn cải thiện kỹ năng tiếng Anh của mình. Với sự hỗ trợ của ES English, bạn sẽ có thể giúp bản thân thăng tiến trong sự nghiệp, đi du lịch, vượt qua các kỳ thi và cuộc thi và nhiều hơn nữa! Học tiếng Anh trực tuyến sẽ giúp bạn tự tin hơn và thuận tiện hơn trong giao tiếp với người nói tiếng Anh.",
+      "button": "Tìm hiểu thêm"
+    },
+    "introCard": {
+      "title": "Các kỹ năng tiếng anh",
+      "description": "Chọn kỹ năng bạn muốn cải thiện để bắt đầu học ngay hôm nay"
+    },
+    "skills": {
+      "listening": {
+        "title": "Kỹ năng Nghe",
+        "desc": "Luyện nghe tiếng Anh với các bài hội thoại, tin tức và podcast đa dạng chủ đề."
+      },
+      "speaking": {
+        "title": "Kỹ năng Nói",
+        "desc": "Luyện nói tiếng Anh qua hội thoại và bài tập phát âm thực tế."
+      },
+      "reading": {
+        "title": "Kỹ năng Đọc",
+        "desc": "Rèn luyện khả năng đọc hiểu với bài báo, truyện và văn bản học thuật."
+      },
+      "writing": {
+        "title": "Kỹ năng Viết",
+        "desc": "Phát triển kỹ năng viết tiếng Anh chuẩn xác, tự nhiên và chuyên nghiệp."
+      },
+      "vocabulary": {
+        "title": "Kỹ năng học từ vựng",
+        "desc": "Học từ vựng tiếng Anh theo chủ đề kèm flashcard sinh động."
+      },
+      "exam": {
+        "title": "Thi thử",
+        "desc": "Luyện tập với các bài thi thử IELTS, TOEIC, TOEFL và hơn thế nữa."
+      }
+    },
+    "button": "Học ngay"
+  },
+  "chatBot": {
+    "startMessage": "Chào bạn 🥳! Hãy hỏi tôi bất cứ điều gì?."
+  }
+}

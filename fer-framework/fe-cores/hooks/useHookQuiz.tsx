@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { FormInstance, message } from "antd";
+import { useTranslation } from "react-i18next";
 import { useFetchContentDetail } from "@/fer-framework/fe-cores/utils";
 import {
   useAnswerQuestionMutation,
@@ -18,15 +19,21 @@ interface IProps {
 }
 
 export const useHookQuiz = (props: IProps) => {
+  const { t } = useTranslation();
   const { useHookApi, paramsApi, form, type, skill_id, level_id, topic_id } =
     props;
+
+  const [isViewResult, setIsViewResult] = useState(false);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [answeredQuestionIds, setAnsweredQuestionIds] = useState(
     new Set<string>()
   );
+
+  const [isSkip, setIsSkip] = useState(false);
   const [lastAnswer, setLastAnswer] = useState<{
     isCorrect: boolean;
     correctAnswer: string;
@@ -52,18 +59,25 @@ export const useHookQuiz = (props: IProps) => {
     currentPassage?._id
   );
 
-  const [postStartQuestion] = useStartQuestionMutation();
-  const [postAnswerQuestion] = useAnswerQuestionMutation();
-  const [postSubmitQuestion] = useSubmitQuestionMutation();
+  const [postStartQuestion, { isLoading: startLoading }] =
+    useStartQuestionMutation();
+  const [postAnswerQuestion, { isLoading: answerLoading }] =
+    useAnswerQuestionMutation();
+  const [postSubmitQuestion, { isLoading: submitLoading }] =
+    useSubmitQuestionMutation();
 
   const isLastQuestion = useMemo(
     () => currentQuestionIndex === totalQuestions - 1,
     [currentQuestionIndex, totalQuestions]
   );
-  const progress = useMemo(
-    () => (answeredQuestionIds.size / totalQuestions) * 100,
-    [answeredQuestionIds, totalQuestions]
-  );
+
+  useEffect(() => {
+    setProgress((answeredQuestionIds.size / totalQuestions) * 100);
+  }, [answeredQuestionIds, totalQuestions]);
+  // const progress = useMemo(
+  //   () => (answeredQuestionIds.size / totalQuestions) * 100,
+  //   [answeredQuestionIds, totalQuestions]
+  // );
   const isQuizCompleted = useMemo(
     () => answeredQuestionIds.size === totalQuestions,
     [answeredQuestionIds, totalQuestions]
@@ -73,9 +87,9 @@ export const useHookQuiz = (props: IProps) => {
     async (values: { chosen_option_id: string }) => {
       const { chosen_option_id } = values;
 
-      const currentQuestion = detailData?.questions?.[0];
+      const currentQuestion = (detailData as any)?.questions?.[0];
       if (!currentQuestion || !currentQuestion._id) {
-        message.error("Không tìm thấy dữ liệu câu hỏi.");
+        message.error(t("quiz.errors.noQuestionData"));
         return;
       }
       const question_id = currentQuestion._id;
@@ -85,13 +99,13 @@ export const useHookQuiz = (props: IProps) => {
           skill_id: skill_id,
           level_id: level_id,
           topic_id: topic_id,
-          content_item_id: detailData?.item?._id,
+          content_item_id: (detailData as any)?.item?._id,
           attempt_scope: "CONTENT",
         }).unwrap();
 
         const attempt_id = startData?._id;
         if (!attempt_id) {
-          message.error("Không thể bắt đầu lượt làm bài.");
+          message.error(t("quiz.errors.cannotStartAttempt"));
           return;
         }
         const answerRes = await postAnswerQuestion({
@@ -109,7 +123,7 @@ export const useHookQuiz = (props: IProps) => {
           (option: any) => option.is_correct === true
         );
         const correctAnswerText =
-          correctAnswerOption?.text || "Không tìm thấy đáp án đúng";
+          correctAnswerOption?.text || t("quiz.errors.noCorrectAnswerFound");
 
         setLastAnswer({
           isCorrect: answerRes.is_correct,
@@ -127,7 +141,7 @@ export const useHookQuiz = (props: IProps) => {
         setShowResult(true);
       } catch (error) {
         console.error("Lỗi khi nộp bài:", error);
-        message.error("Đã xảy ra lỗi khi nộp bài. Vui lòng thử lại.");
+        message.error(t("quiz.errors.submitFailed"));
       }
     },
     [
@@ -142,16 +156,18 @@ export const useHookQuiz = (props: IProps) => {
       setScore,
       setAnsweredQuestionIds,
       setShowResult,
+      t,
     ]
   );
 
   const nextQuestion = useCallback(() => {
     if (!isLastQuestion) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setIsSkip(false);
     } else {
-      message.info("Bạn đã hoàn thành tất cả câu hỏi!");
+      message.info(t("quiz.info.completedAllQuestions"));
     }
-  }, [isLastQuestion]);
+  }, [isLastQuestion, t]);
 
   const resetQuiz = useCallback(() => {
     setCurrentQuestionIndex(0);
@@ -160,6 +176,8 @@ export const useHookQuiz = (props: IProps) => {
     setAnsweredQuestionIds(new Set());
     setLastAnswer(null);
     form.resetFields();
+    setIsSkip(false);
+    setIsViewResult(false);
   }, [form]);
 
   useEffect(() => {
@@ -170,11 +188,21 @@ export const useHookQuiz = (props: IProps) => {
 
   // const onRefresh = useCallback(() => refetch(), [refetch]);
 
-  const [isViewResult, setIsViewResult] = useState(false);
-
   const onViewResult = () => {
     setIsViewResult(true);
   };
+
+  const onSkip = useCallback(() => {
+    setIsSkip(true);
+    setProgress((prevProgress) => prevProgress + 100 / totalQuestions);
+    setAnsweredQuestionIds((prevSet) => {
+      const newSet = new Set(prevSet);
+      newSet.add((detailData as any)?.questions?.[0]?._id);
+      return newSet;
+    });
+    form.resetFields();
+  }, [isSkip, detailData, form, answeredQuestionIds]);
+
   return {
     data: detailData,
     currentPassage,
@@ -187,9 +215,13 @@ export const useHookQuiz = (props: IProps) => {
     isQuizCompleted,
     answeredQuestionIds,
     lastAnswer,
-    isLoading: passagesLoading || detailLoading,
+    isSkip,
+    isLoading: passagesLoading,
+    isLoadingQuestion: detailLoading,
+    isLoadingButton: startLoading || answerLoading || submitLoading,
     isViewResult,
     // onRefresh,
+    onSkip,
     onViewResult,
     onFinish,
     nextQuestion,

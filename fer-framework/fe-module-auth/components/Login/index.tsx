@@ -11,10 +11,12 @@ import ForgetPassword from "../ForgetPassword";
 // Apis
 import { useLazyGetUserQuery, usePostLoginMutation } from "../../apis";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 
 function FormLogin() {
+  const { t } = useTranslation();
   const [postLogin, { isLoading }] = usePostLoginMutation();
   const [
     triggerGetUser,
@@ -34,11 +36,11 @@ function FormLogin() {
       const user = await triggerGetUser(data.user.id).unwrap();
 
       localStorage.setItem("userId", JSON.stringify(data.user.id));
-      toast.success("Đăng nhập thành công");
+      toast.success(t("auth.login.success"));
       router.push("/home");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error(error?.message || "Lỗi xác thực");
+      toast.error(error?.message || t("auth.login.error"));
     }
   };
 
@@ -55,7 +57,7 @@ function FormLogin() {
       }}>
       <Card style={{ width: 400, borderRadius: 12 }}>
         <Title level={3} style={{ textAlign: "center" }}>
-          Đăng nhập
+          {t("auth.login.title")}
         </Title>
         <ToastContainer position="top-right" autoClose={3000} />
 
@@ -66,28 +68,30 @@ function FormLogin() {
           onFinish={onFinish}>
           <Form.Item
             name="email"
-            label="Email / Tài khoản"
+            label={t("auth.form.emailOrUsername.label")}
             rules={[
               {
                 required: true,
-                message: "Vui lòng nhập email hoặc tài khoản!",
+                message: t("auth.form.emailOrUsername.required"),
               },
             ]}>
             <Input
               prefix={<UserOutlined />}
               size="large"
-              placeholder="Nhập email"
+              placeholder={t("auth.form.emailOrUsername.placeholder")}
             />
           </Form.Item>
 
           <Form.Item
             name="password"
-            label="Mật khẩu"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}>
+            label={t("auth.form.password.label")}
+            rules={[
+              { required: true, message: t("auth.form.password.required") },
+            ]}>
             <Input.Password
               prefix={<LockOutlined />}
               size="large"
-              placeholder="Nhập mật khẩu"
+              placeholder={t("auth.form.password.placeholder")}
             />
           </Form.Item>
 
@@ -98,7 +102,7 @@ function FormLogin() {
               htmlType="submit"
               block
               size="large">
-              Đăng nhập
+              {t("auth.login.submit")}
             </Button>
           </Form.Item>
 

@@ -2,6 +2,7 @@ import ACard from "@/fer-framework/fe-component/web/ACard";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { createStyles } from "antd-style";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   question: {
@@ -13,6 +14,7 @@ interface IProps {
 function ResultCard(props: IProps) {
   const { question, isCorrect } = props;
   const { styles } = useStyles();
+  const { t } = useTranslation();
   return (
     <ACard
       className={styles.resultCard}
@@ -29,10 +31,10 @@ function ResultCard(props: IProps) {
             />
             <div>
               <div style={{ fontWeight: 600, color: "#166534" }}>
-                Chính xác!
+                {t("quiz.result.correct.title")}
               </div>
               <div style={{ fontSize: "14px", color: "#15803d" }}>
-                Bạn đã trả lời đúng.
+                {t("quiz.result.correct.description")}
               </div>
             </div>
           </>
@@ -43,10 +45,10 @@ function ResultCard(props: IProps) {
             />
             <div>
               <div style={{ fontWeight: 600, color: "#991b1b" }}>
-                Chưa chính xác
+                {t("quiz.result.incorrect.title")}
               </div>
               <div style={{ fontSize: "14px", color: "#b91c1c" }}>
-                Đáp án đúng: <strong>{question.answer}</strong>
+                {t("quiz.result.incorrect.description")} <strong>{question.answer}</strong>
               </div>
             </div>
           </>

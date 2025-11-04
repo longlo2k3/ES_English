@@ -1,50 +1,65 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CloseCircleFilled } from "@ant-design/icons";
 import { QuizHeader } from "@/ts-framework/ts-skills/components/QuizCore";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import { createStyles } from "antd-style";
+import CancelModal from "../CancelModa.tsx";
+import { Flex } from "antd";
 
 interface IProps {
-  title: string;
-  description: string;
   children?: React.ReactNode;
   rollbackUrl: string;
   isBodyCard?: boolean;
 }
 
 function GlobalBackground(props: IProps) {
-  const { title, description, children, rollbackUrl, isBodyCard } = props;
+  const { children, rollbackUrl, isBodyCard } = props;
   const { styles } = useStyles();
+
+  const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
+
+  const handleCancel = () => {
+    setIsOpenCancelModal(false);
+  };
 
   return (
     <div className={styles.container}>
-      <Link href={rollbackUrl} className={styles.rollback}>
-        <ArrowLeftOutlined /> Quay lại
-      </Link>
-      <div className={styles.maxWidth}>
-        <QuizHeader title={title} description={description} />
+      <CloseCircleFilled
+        className={styles.rollback}
+        onClick={() => setIsOpenCancelModal(true)}
+      />
+      {isBodyCard ? (
+        <ACard
+          style={{
+            height: "100%",
+          }}
+          className={styles.card}>
+          {children}
+        </ACard>
+      ) : (
+        children
+      )}
 
-        {isBodyCard ? (
-          <ACard className={styles.card}>{children}</ACard>
-        ) : (
-          children
-        )}
-      </div>
+      {isOpenCancelModal && (
+        <CancelModal
+          open={isOpenCancelModal}
+          onCancel={handleCancel}
+          rollbackUrl={rollbackUrl}
+        />
+      )}
     </div>
   );
 }
 
 export default GlobalBackground;
 
-// useStyles giữ nguyên
 const useStyles = createStyles(({ token, css }) => ({
   container: {
     minHeight: "100vh",
     background: "#f0f8ffb3",
-    padding: "32px 16px",
     borderRadius: "8px",
   },
   maxWidth: {
@@ -53,10 +68,16 @@ const useStyles = createStyles(({ token, css }) => ({
   },
   card: {
     boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-    marginBottom: "24px",
+    margin: "0 calc(50% - 384px)",
+    height: "100vh",
   },
   rollback: css`
     margin-bottom: 16px;
-    color: ${token.colorPrimary} !important;
+    color: #808080ff !important;
+    font-size: 40px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
   `,
 }));

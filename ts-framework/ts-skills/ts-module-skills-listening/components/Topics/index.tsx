@@ -1,34 +1,54 @@
 import ATable from "@/fer-framework/fe-component/web/ATable";
-import { Tag, Typography } from "antd";
-import { ColumnProps } from "antd/es/table";
+import { Tag } from "antd";
+import { ColumnType } from "antd/es/table";
 import Link from "next/link";
 import React from "react";
 import { useGetTopicBySkillAndLevelQuery } from "../../../apis";
 import { useHookTable } from "@/fer-framework/fe-cores/common/table";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   skill_id: number;
   level_id: number;
 }
 
+interface IColumn {
+  _id: string;
+  title: string;
+  description: string;
+  level_id: {
+    _id: string;
+    name: string;
+    code: string;
+  };
+  skill_id: {
+    _id: string;
+    name: string;
+    code: string;
+  };
+  exercises: number;
+}
+
 function TopicTable(props: IProps) {
   const { skill_id, level_id } = props;
 
-  const columns: ColumnProps<any>[] = [
+  const { t } = useTranslation();
+
+  const columns: ColumnType<IColumn>[] = [
     {
-      title: "Chủ đề",
+      title: t("table.column.topic"),
       dataIndex: "title",
       key: "title",
       ellipsis: true,
     },
     {
-      title: "Mô tả",
+      title: t("table.column.description"),
       dataIndex: "description",
       key: "description",
       ellipsis: true,
     },
     {
-      title: "Loại cấp độ",
+      title: t("table.column.level"),
       dataIndex: "level_id",
       key: "level_id",
       align: "center",
@@ -49,7 +69,7 @@ function TopicTable(props: IProps) {
       ),
     },
     {
-      title: "Số lượng bài",
+      title: t("table.column.exerciseCount"),
       dataIndex: "exercises",
       key: "exercises",
       width: 150,
@@ -57,19 +77,16 @@ function TopicTable(props: IProps) {
       ellipsis: true,
     },
     {
-      title: "Hoạt động",
+      title: t("table.column.action"),
       key: "operation",
       align: "center",
-      render: (_, record) => {
-        return (
-          <Link
-            rel="prefetch"
-            key={_}
-            href={`/skills/listening/${record.skill_id?._id}/${record.level_id?._id}/${record._id}`}>
-            Làm bài
-          </Link>
-        );
-      },
+      render: (_, record) => (
+        <Link
+          rel="prefetch"
+          href={`/skills/listening/${record.skill_id?._id}/${record.level_id?._id}/${record._id}`}>
+          {t("table.column.doExercise")}
+        </Link>
+      ),
     },
   ];
 
