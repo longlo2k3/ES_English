@@ -5,7 +5,6 @@ import ACard from "@/fer-framework/fe-component/web/ACard";
 import SkeletonLoading from "@/ts-framework/ts-component/Skeleton";
 import {
   successQues,
-  successSoundUrl,
   tryAgainSoundUrl,
 } from "@/ts-framework/ts-skills/components/SoundEffect";
 

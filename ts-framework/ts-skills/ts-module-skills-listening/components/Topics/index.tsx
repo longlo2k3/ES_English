@@ -100,7 +100,7 @@ function TopicTable(props: IProps) {
   return (
     <ATable
       dataSource={dataSource}
-      columns={columns}
+      columns={columns as IColumn[]}
       bordered
       pagination={pagination}
       size="small"
