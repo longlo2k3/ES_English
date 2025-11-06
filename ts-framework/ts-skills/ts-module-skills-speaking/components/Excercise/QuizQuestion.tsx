@@ -156,17 +156,13 @@ export const QuizQuestion = ({
               </audio>
             )}
             <Text italic>{`"${itemData?.body_text}"`}</Text>
+            <Text strong style={{ fontSize: 20 }}>
+              {questionData?.question_text}
+            </Text>
           </Flex>
         </Flex>
       </Form.Item>
-      <Form.Item
-        label={
-          <Text style={{ fontSize: 16 }} strong>
-            {questionData?.question_text}
-          </Text>
-        }
-        name={`chosen_option_id`}
-        style={{ textAlign: "center" }}>
+      <Form.Item name={`chosen_option_id`} style={{ textAlign: "center" }}>
         <Tooltip title={listening ? "Dừng ghi âm" : "Nhấn để nói"}>
           <Button
             type="primary"

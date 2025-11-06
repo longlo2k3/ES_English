@@ -102,13 +102,13 @@ export const useHookQuiz = (props: IProps) => {
   const onFinish = useCallback(
     async (values: { chosen_option_id: string; content: string }) => {
       const currentQuestion = (detailData as any)?.questions?.[0];
-      if (!currentQuestion || !currentQuestion._id) {
-        message.error(t("quiz.errors.noQuestionData"));
-        return;
-      }
-      const question_id = currentQuestion._id;
 
       if (type === "choice") {
+        if (!currentQuestion || !currentQuestion._id) {
+          message.error(t("quiz.errors.noQuestionData"));
+          return;
+        }
+        const question_id = currentQuestion._id;
         const { chosen_option_id } = values;
         if (!chosen_option_id) {
           message.error(t("quiz.errors.noChoice"));
@@ -180,11 +180,11 @@ export const useHookQuiz = (props: IProps) => {
 
           setScore((p) => p + score);
 
-          setAnsweredQuestionIds((prevSet) => {
-            const newSet = new Set(prevSet);
-            newSet.add(question_id);
-            return newSet;
-          });
+          // setAnsweredQuestionIds((prevSet) => {
+          //   const newSet = new Set(prevSet);
+          //   newSet.add(question_id);
+          //   return newSet;
+          // });
         } catch (error) {
           console.error("Lỗi khi gọi Gemini:", error);
           message.error(
@@ -207,11 +207,11 @@ export const useHookQuiz = (props: IProps) => {
 
           setScore((p) => p + score);
 
-          setAnsweredQuestionIds((prevSet) => {
-            const newSet = new Set(prevSet);
-            newSet.add(question_id);
-            return newSet;
-          });
+          // setAnsweredQuestionIds((prevSet) => {
+          //   const newSet = new Set(prevSet);
+          //   newSet.add(question_id);
+          //   return newSet;
+          // });
         } catch (error) {
           console.error("Lỗi khi gọi Gemini:", error);
           message.error(
