@@ -1,9 +1,9 @@
 import { baseApi, deleteBaseApi, getBaseApi, postBaseApi } from "fe-base/apis";
 
-export const authApis = baseApi.injectEndpoints({
+export const progressApis = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getFlashCard: getBaseApi("/vocab/flashcards", builder),
+    getProgress: getBaseApi("/attempts/me/progress", builder),
   }),
 });
 
-export const { useGetFlashCardQuery } = authApis;
+export const { useGetProgressQuery } = progressApis;

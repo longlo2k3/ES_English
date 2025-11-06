@@ -1,12 +1,8 @@
 import React from "react";
-import Levels from "../../components/LevelList";
+import LevelsTabs from "../components/Levels";
 
 function SpeakingPage() {
-  return (
-    <div>
-      <Levels />
-    </div>
-  );
+  return <LevelsTabs />;
 }
 
 export default SpeakingPage;

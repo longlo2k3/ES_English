@@ -58,12 +58,12 @@ function TopicTable(props: IProps) {
           style={{
             textAlign: "center",
             lineHeight: "25px",
-            color: "#6a11cb",
+            color: "#2575fc",
             fontWeight: 500,
-            border: `1px solid #6a11cb`,
+            border: `1px solid #2575fc`,
             width: 100,
           }}
-          color="#6b11cb53">
+          color="#2574fc1d">
           {_?.name}
         </Tag>
       ),

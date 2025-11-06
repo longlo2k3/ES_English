@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import React from "react";
 import { useGetContentByTopicQuery } from "@/ts-framework/ts-skills/apis";
-import { Form, Spin } from "antd";
+import { Form } from "antd";
 
 import {
   QuizActions,

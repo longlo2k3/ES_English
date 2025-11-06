@@ -110,8 +110,6 @@ function CKEditorWrapper(props: IProps) {
     };
   }, [cloud, isLayoutReady]);
 
-  console.log("mode>>", mode);
-
   return (
     <div
       style={

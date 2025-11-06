@@ -7,8 +7,8 @@ import { GlobalOutlined } from "@ant-design/icons"; // Thay thế icon Languages
 import type { MenuInfo } from "rc-menu/lib/interface";
 
 const languages = [
-  { code: "en", name: "English" },
   { code: "vi", name: "Tiếng Việt" },
+  { code: "en", name: "English" },
 ];
 
 export function LanguageSwitcher() {

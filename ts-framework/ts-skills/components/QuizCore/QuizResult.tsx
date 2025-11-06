@@ -1,12 +1,15 @@
-import { Card } from "antd";
+import { Card, Flex, Typography } from "antd";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { QuizResultProps } from "@/ts-framework/ts-skills/ts-module-skills-writing/const/type";
 import { createStyles } from "antd-style";
 import { useTranslation } from "react-i18next";
 
+const { Title, Text } = Typography;
+
 export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
   const { styles } = useStyles();
   const { t } = useTranslation();
+
   return (
     <Card
       className={styles.card}
@@ -18,27 +21,35 @@ export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
       <div className={styles.content}>
         {isCorrect ? (
           <>
-            <CheckCircleOutlined
-              style={{ fontSize: "24px", color: "#16a34a" }}
-            />
             <div>
-              <div className={styles.title} style={{ color: "#166534" }}>
-                {t("quiz.result.correct.title")}
+              <Flex align="center" gap={8}>
+                <CheckCircleOutlined
+                  style={{ fontSize: "24px", color: "#16a34a" }}
+                />
+                <Title level={4} style={{ marginBottom: 0, color: "#16a34a" }}>
+                  {t("quiz.result.correct.title")}
+                </Title>
+              </Flex>
+              <div className={styles.description}>
+                <strong>{correctAnswer}</strong>
               </div>
-              <div className={styles.description}>{t("quiz.result.correct.description")}</div>
             </div>
           </>
         ) : (
           <>
-            <CloseCircleOutlined
-              style={{ fontSize: "24px", color: "#dc2626" }}
-            />
             <div>
-              <div className={styles.title} style={{ color: "#991b1b" }}>
-                {t("quiz.result.incorrect.title")}
-              </div>
+              <Flex align="center" gap={8}>
+                <CloseCircleOutlined
+                  style={{ fontSize: "24px", color: "#dc2626" }}
+                />
+                <Title level={4} style={{ marginBottom: 0, color: "#b91c1c" }}>
+                  {" "}
+                  {t("quiz.result.incorrect.title")}
+                </Title>
+              </Flex>
               <div className={styles.description} style={{ color: "#b91c1c" }}>
-                {t("quiz.result.incorrect.description")} <strong>{correctAnswer}</strong>
+                {/* {t("quiz.result.incorrect.description")}{" "} */}
+                <strong>{correctAnswer}</strong>
               </div>
             </div>
           </>
@@ -57,11 +68,8 @@ const useStyles = createStyles(({ token }) => ({
     alignItems: "center",
     gap: "12px",
   },
-  title: {
-    fontWeight: 600,
-    marginBottom: "4px",
-  },
   description: {
+    marginTop: "8px",
     fontSize: "14px",
     color: "#15803d",
   },

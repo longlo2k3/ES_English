@@ -17,6 +17,14 @@ export const selectedApis = baseApi.injectEndpoints({
       keepUnusedDataFor: 0,
     }),
 
+    getTopicBySkill: getBaseApi<{ skill_id: string }>(
+      "/admin/catalog/topics",
+      builder,
+      {
+        keepUnusedDataFor: 0,
+      }
+    ),
+
     getContentByTopic: getBaseApi<{
       topic_id: string;
       type: string;
@@ -46,6 +54,13 @@ export const selectedApis = baseApi.injectEndpoints({
     submitQuestion: postBaseApi<{
       attempt_id: string;
     }>("/attempts/submit", builder),
+
+    resultsQuestion: postBaseApi<{
+      topic_id: string;
+      score: number;
+      band_score: number;
+      feedback: string;
+    }>("/results", builder),
   }),
 });
 
@@ -60,4 +75,8 @@ export const {
   useStartQuestionMutation,
   useAnswerQuestionMutation,
   useSubmitQuestionMutation,
+
+  // luong result
+  useResultsQuestionMutation,
+  useGetTopicBySkillQuery,
 } = selectedApis;

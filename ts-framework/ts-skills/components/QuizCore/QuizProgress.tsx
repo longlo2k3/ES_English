@@ -1,7 +1,17 @@
-import { Progress } from "antd";
-import { QuizProgressProps } from "@/ts-framework/ts-skills/ts-module-skills-writing/const/type";
-import { createStyles } from "antd-style";
-import { useTranslation } from "react-i18next";
+import { Progress, Row, Col, Typography } from "antd";
+import { useTranslation } from "react-i18next"; // <-- Giữ lại
+// import { QuizProgressProps } from "@/ts-framework/ts-skills/ts-module-skills-writing/const/type";
+
+const { Text } = Typography;
+
+// Giả định kiểu dữ liệu props (bạn có thể import từ file gốc)
+type QuizProgressProps = {
+  current: number;
+  total: number;
+  score: number;
+  answered: number;
+  progress: number;
+};
 
 export const QuizProgress = ({
   current,
@@ -10,47 +20,32 @@ export const QuizProgress = ({
   answered,
   progress,
 }: QuizProgressProps) => {
-  const { styles } = useStyles();
   const { t } = useTranslation();
+
   return (
-    <div className={styles.container}>
-      <div className={styles.info}>
-        <span className={styles.label}>
-          {t("quiz.progress.question")} {current} / {total}
-        </span>
-        <span className={styles.score}>
-          {t("quiz.progress.score")} : {score} / {answered}
-        </span>
-      </div>
+    <div style={{ marginBottom: 24 }}>
+      <Row justify="space-between" align="middle" style={{ marginBottom: 8 }}>
+        <Col>
+          <Text type="secondary">
+            {t("quiz.progress.question")} {current} / {total}
+          </Text>
+        </Col>
+
+        <Col>
+          <Text strong>
+            {t("quiz.progress.score")} : {score} / {answered * 10}
+          </Text>
+        </Col>
+      </Row>
+
       <Progress
         percent={progress}
         strokeColor={{
           "100%": "rgb(88, 204, 2)",
         }}
+        status="active"
         showInfo={false}
       />
     </div>
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  container: {
-    marginBottom: "24px",
-  },
-  info: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "8px",
-  },
-  label: {
-    fontSize: "14px",
-    color: "#4b5563",
-  },
-  score: {
-    fontSize: "14px",
-    fontWeight: 600,
-    // color: "#2563eb",
-    color: "#000000",
-  },
-}));

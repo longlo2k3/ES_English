@@ -181,7 +181,8 @@
         },
         "username": { "label": "Username" },
         "email": { "label": "Email" },
-        "role": { "label": "Role", "placeholder": "Select role" }
+        "role": { "label": "Role", "placeholder": "Select role" },
+        "age": "Age"
       },
       "gender": { "male": "Male", "female": "Female", "other": "Other" },
       "role": { "learner": "Learner", "teacher": "Teacher", "admin": "Admin" }
@@ -279,5 +280,8 @@
   },
   "chatBot": {
     "startMessage": "Hello! Ask me anything?"
+  },
+  "button": {
+    "close": "Close"
   }
 }

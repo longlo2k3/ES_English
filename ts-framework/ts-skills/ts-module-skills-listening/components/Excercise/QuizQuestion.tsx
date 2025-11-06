@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react"; // Thêm useEffect
+import { useState, useEffect, useRef } from "react";
 import { Typography, Form, Row, Col, Image, Flex, Spin, Button } from "antd";
-import { createStyles } from "antd-style";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import SkeletonLoading from "@/ts-framework/ts-component/Skeleton";
 import {
@@ -41,7 +40,6 @@ export const QuizQuestion = ({
 }: IProps) => {
   const form = Form.useFormInstance();
   const [selected, setSelected] = useState(null);
-  const { styles } = useStyles();
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -96,16 +94,18 @@ export const QuizQuestion = ({
 
   return (
     <>
-      <Form.Item className={styles.section}>
+      <Form.Item>
         <Flex align="center" vertical gap={16}>
           <Image
             src={itemData?.media_image_url}
             preview={false}
             alt="ảnh tượng trương"
-            width={"60%"}
+            width={"100%"}
             height={300}
             style={{
               borderRadius: 4,
+              objectFit: "fill",
+              objectPosition: "center",
             }}
           />
           <Flex vertical align="center" gap={16}>
@@ -198,30 +198,3 @@ export const QuizQuestion = ({
     </>
   );
 };
-
-const useStyles = createStyles(({ token, css }) => ({
-  section: {
-    // marginBottom: "24px",
-  },
-  questionCard: {
-    background: "#f9fafb",
-    border: "2px dashed #d1d5db",
-  },
-  questionText: {
-    fontSize: "18px",
-    textAlign: "center",
-    marginBottom: 0,
-    fontWeight: 500,
-  },
-  hintTag: {
-    fontSize: "15px",
-    borderRadius: "8px",
-    padding: "8px 16px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-  },
-  answerInput: {
-    fontSize: "18px",
-    borderRadius: "8px",
-  },
-}));

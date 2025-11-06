@@ -1,179 +1,265 @@
-import { Button, Image } from "antd";
-import { useTranslation } from "react-i18next";
 import React from "react";
-import { ColumnProps } from "antd/es/table";
-import { DeleteFilled, EditOutlined } from "@ant-design/icons";
+import {
+  Layout,
+  Row,
+  Col,
+  Card,
+  Statistic,
+  Progress,
+  List,
+  Tag,
+  Typography,
+  Avatar,
+  Space,
+  Tabs,
+  Calendar,
+  Collapse,
+  Table,
+  Tooltip,
+} from "antd";
+import {
+  TrophyOutlined,
+  CheckCircleOutlined,
+  HistoryOutlined,
+  CustomerServiceOutlined,
+  ReadOutlined,
+  EditOutlined,
+  MessageOutlined,
+  BookOutlined,
+  RiseOutlined,
+} from "@ant-design/icons";
+// Import biểu đồ Radar
+import { Radar } from "@ant-design/charts";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import OverViewTab from "./OverViewTab";
+import RoadmapTab from "./RoadmapTab";
+import HistoryTab from "./HistoryTab";
+import { useGetProgressQuery } from "../apis";
+import { useSelector } from "react-redux";
+import { authSelectors } from "@/fer-framework/fe-module-auth/reducers";
 
-// Components
-import TableActions from "@/fer-framework/fe-component/web/ATable/TableActions";
-import MultiDeleteAction from "@/fer-framework/fe-component/web/ATable/MultiDeleteAction";
-import ATable from "@/fer-framework/fe-component/web/ATable";
-import HeaderOperation from "@/fer-framework/fe-component/web/ATable/HeaderOperation";
-import ACard from "@/fer-framework/fe-component/web/ACard";
-import { useHookTable } from "@/fer-framework/fe-cores/common/table";
+dayjs.extend(relativeTime);
 
-// Apis
-import { useGetFlashCardQuery } from "../apis";
+const { Title, Text } = Typography;
+const { Content } = Layout;
+const { TabPane } = Tabs;
+const { Panel } = Collapse;
 
-//Constants
+// --- DỮ LIỆU GIẢ LẬP CHI TIẾT ---
 
-function Progress() {
-  const { t } = useTranslation();
-  const columns: ColumnProps<any>[] = [
+// 1. Bảng tra cứu (Lookup tables) cho các ObjectId
+const skillLookup = {
+  "68ed254ce5c75afc72ea3c2a": {
+    name: "Kỹ năng Nghe",
+    icon: <CustomerServiceOutlined />,
+  },
+  skill_reading: { name: "Kỹ năng Đọc", icon: <ReadOutlined /> },
+  skill_writing: { name: "Kỹ năng Viết", icon: <EditOutlined /> },
+  skill_speaking: { name: "Kỹ năng Nói", icon: <MessageOutlined /> },
+};
+
+const levelLookup = {
+  "68ed254ce5c75afc72ea3c31": {
+    name: "Cấp độ Cơ bản",
+    description: "Các bài học cho người mới bắt đầu.",
+  },
+  level_intermediate: {
+    name: "Cấp độ Trung cấp",
+    description: "Nâng cao vốn từ và ngữ pháp.",
+  },
+};
+
+const topicLookup = {
+  "6908dc758211721f01c8b8ff": { name: "Bài 1: Từ vựng Gia đình" },
+  topic_2: { name: "Bài 2: Ngữ pháp Thì hiện tại đơn" },
+  topic_3: { name: "Bài 3: Hội thoại nhà hàng" },
+  topic_4: { name: "Bài 4: Viết Email cơ bản" },
+};
+
+// 2. Dữ liệu thô (Raw Data) - Một mảng các bản ghi như bạn cung cấp
+const allActivityData = [
+  // Đây là bản ghi của bạn
+  {
+    _id: "690a1771a9073f3af287d6a1",
+    topic_id: "6908dc758211721f01c8b8ff",
+    skill_id: "68ed254ce5c75afc72ea3c2a",
+    level_id: "68ed254ce5c75afc72ea3c31",
+    correct_count: 2,
+    createdAt: "2025-11-04T15:10:38.517+00:00",
+    last_activity_at: "2025-11-04T15:58:23.555+00:00",
+    total_attempts: 2,
+    total_score: 16,
+  },
+  {
+    _id: "record_2",
+    topic_id: "topic_2",
+    skill_id: "skill_reading",
+    level_id: "68ed254ce5c75afc72ea3c31",
+    correct_count: 8,
+    createdAt: "2025-11-03T10:30:00.000+00:00",
+    last_activity_at: "2025-11-03T10:35:00.000+00:00",
+    total_attempts: 10,
+    total_score: 80,
+  },
+  {
+    _id: "record_3",
+    topic_id: "topic_3",
+    skill_id: "68ed254ce5c75afc72ea3c2a",
+    level_id: "level_intermediate",
+    correct_count: 5,
+    createdAt: "2025-11-03T18:00:00.000+00:00",
+    last_activity_at: "2025-11-03T18:15:00.000+00:00",
+    total_attempts: 5,
+    total_score: 50,
+  },
+  {
+    _id: "record_4",
+    topic_id: "topic_4",
+    skill_id: "skill_writing",
+    level_id: "level_intermediate",
+    correct_count: 7,
+    createdAt: "2025-11-02T11:00:00.000+00:00",
+    last_activity_at: "2025-11-02T11:20:00.000+00:00",
+    total_attempts: 10,
+    total_score: 70,
+  },
+];
+
+// --- HÀM XỬ LÝ DỮ LIỆU ---
+
+// 1. Tính toán dữ liệu cho Biểu đồ Radar (tổng điểm theo skill_id)
+const getRadarData = (data, skillMap) => {
+  const skillScores = {};
+
+  // Khởi tạo điểm cho tất cả kỹ năng
+  Object.keys(skillMap).forEach((id) => {
+    skillScores[id] = 0;
+  });
+
+  // Cộng dồn total_score
+  data.forEach((record: any) => {
+    if (skillScores[record.skill_id] !== undefined) {
+      skillScores[record.skill_id] += record.total_score;
+    }
+  });
+
+  // Chuyển đổi sang định dạng của Ant Charts
+  return Object.keys(skillScores).map((id) => ({
+    skill: skillMap[id].name,
+    score: skillScores[id],
+  }));
+};
+
+// 2. Nhóm dữ liệu theo Lộ trình (level_id -> skill_id -> topic_id)
+const getPathData = (data, levelMap, skillMap, topicMap) => {
+  const paths = {};
+
+  data.forEach((record) => {
+    const level = levelMap[record.level_id];
+    const skill = skillMap[record.skill_id];
+    const topic = topicMap[record.topic_id];
+
+    if (!level || !skill || !topic) return;
+
+    if (!paths[level.name]) {
+      paths[level.name] = { skills: {}, description: level.description };
+    }
+    if (!paths[level.name].skills[skill.name]) {
+      paths[level.name].skills[skill.name] = { icon: skill.icon, topics: [] };
+    }
+
+    // Thêm topic vào, tránh trùng lặp nếu làm nhiều lần
+    if (
+      !paths[level.name].skills[skill.name].topics.find(
+        (t) => t.id === topic.name
+      )
+    ) {
+      paths[level.name].skills[skill.name].topics.push({
+        id: topic.name,
+        // Lấy kết quả mới nhất cho topic này (giả sử data đã sắp xếp)
+        score: record.total_score,
+        accuracy: (record.correct_count / record.total_attempts) * 100,
+      });
+    }
+  });
+  return paths;
+};
+
+// 3. Render dữ liệu cho Lịch
+
+// --- COMPONENT GIAO DIỆN ---
+export const DetailedProgressDashboard = () => {
+  // --- Xử lý dữ liệu ---
+  const radarData = getRadarData(allActivityData, skillLookup);
+  const pathData = getPathData(
+    allActivityData,
+    levelLookup,
+    skillLookup,
+    topicLookup
+  );
+
+  // Tính toán thống kê tổng
+  const totalScore = allActivityData.reduce((sum, r) => sum + r.total_score, 0);
+  const totalCorrect = allActivityData.reduce(
+    (sum, r) => sum + r.correct_count,
+    0
+  );
+  const totalAttempts = allActivityData.reduce(
+    (sum, r) => sum + r.total_attempts,
+    0
+  );
+  const overallAccuracy =
+    totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+
+  const userInfor = useSelector((state: any) => authSelectors.getUser(state));
+
+  const { data } = useGetProgressQuery({});
+
+  console.log("data>>", data);
+
+  const items = [
     {
-      title: t("progress.table.word"),
-      dataIndex: "word",
-      width: 100,
-      key: "word",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.phonetic"),
-      dataIndex: "phonetic",
-      width: 100,
-      key: "phonetic",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.partOfSpeech"),
-      dataIndex: "part_of_speech",
-      width: 100,
-      key: "part_of_speech",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.meaningVi"),
-      dataIndex: "meaning_vi",
-      width: 100,
-      key: "meaning_vi",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.exampleEn"),
-      dataIndex: "example_en",
-      width: 100,
-      key: "example_en",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.exampleVi"),
-      dataIndex: "example_vi",
-      width: 100,
-      key: "example_vi",
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.audio"),
-      dataIndex: "audio_url",
-      width: 100,
-      key: "audio_url",
-      render: (url) =>
-        url ? (
-          <audio controls style={{ width: "150px" }}>
-            <source src={url} type="audio/mpeg" />
-            Trình duyệt không hỗ trợ audio
-          </audio>
-        ) : (
-          "-"
-        ),
-      ellipsis: true,
-    },
-    {
-      title: t("progress.table.image"),
-      dataIndex: "image_url",
-      key: "image_url",
-      width: 100,
-      render: (url) => (
-        <Image
-          src={url}
-          alt="word image"
-          width={70}
-          height={70}
-          style={{ objectFit: "cover", borderRadius: 8 }}
+      key: "1",
+      label: "Tổng quan",
+      children: (
+        <OverViewTab
+          totalScore={totalScore}
+          overallAccuracy={overallAccuracy}
+          allActivityData={allActivityData}
+          radarData={radarData}
         />
       ),
-      ellipsis: true,
     },
     {
-      title: t("progress.table.createdAt"),
-      dataIndex: "created_at",
-      width: 100,
-      key: "created_at",
-      render: (date) => new Date(date).toLocaleString("vi-VN"),
-      ellipsis: true,
+      key: "2",
+      label: "Lộ trình học",
+      children: <RoadmapTab pathData={pathData} />,
     },
     {
-      title: t("progress.table.action"),
-      key: "operation",
-      align: "center",
-      fixed: "right",
-      width: 100,
-      render: (_, record) => {
-        return (
-          <TableActions
-            record={record}
-            actions={[
-              {
-                key: "edit",
-                label: t("progress.actions.edit"),
-                icon: <EditOutlined />,
-                action: (record: any) => {},
-              },
-              {
-                key: "delete",
-                label: t("progress.actions.delete"),
-                icon: <DeleteFilled style={{ color: "red" }} />,
-                action: (record: any) => {},
-              },
-            ]}
-          />
-        );
-      },
+      key: "3",
+      label: "Lịch sử chi tiết",
+      children: (
+        <HistoryTab
+          allActivityData={allActivityData}
+          topicLookup={topicLookup}
+          skillLookup={skillLookup}
+        />
+      ),
     },
   ];
 
-  const {
-    dataSource,
-    refresh,
-    selectedRowKeys,
-    setSelectedRowKeys,
-    pagination,
-  } = useHookTable({
-    useHookApi: useGetFlashCardQuery,
-    paramsApi: null,
-    config: ["word", "phonetic", "part_of_speech", "meaning_vi", "example_en"],
-  });
-
   return (
-    <ACard
-      title={
-        <HeaderOperation
-          add={<Button type="primary">{t("progress.actions.add")}</Button>}
-          multiDeleteAdd={
-            <MultiDeleteAction
-              title={t("progress.multiDelete.title")}
-              selectedRowKeys={selectedRowKeys}
-              useHookMutation={() => {}}
-            />
-          }
-        />
-      }
-      variant="borderless">
-      <ATable
-        rowKey={"_id"}
-        dataSource={dataSource}
-        columns={columns}
-        pagination={pagination}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (keys) => {
-            setSelectedRowKeys(keys);
-          },
-        }}
-        size="middle"
-      />
-    </ACard>
-  );
-}
+    <Layout style={{ padding: "24px", backgroundColor: "#f0f2f5" }}>
+      <Content>
+        <Title level={2} style={{ marginBottom: "24px" }}>
+          Tiến Độ Học Tập
+        </Title>
 
-export default Progress;
+        <Tabs defaultActiveKey="1" type="card" items={items} />
+      </Content>
+    </Layout>
+  );
+};
+
+export default DetailedProgressDashboard;

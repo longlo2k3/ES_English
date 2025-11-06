@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"; // Thêm useEffect
-import { Typography, Form, Row, Col, Image, Flex, Spin } from "antd";
+import { Typography, Form, Row, Col, Image, Flex, Spin, Input } from "antd";
 import { createStyles } from "antd-style";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import SpinLoading from "@/ts-framework/ts-component/Spin";
@@ -78,10 +78,10 @@ export const QuizQuestion = ({
     };
   }, [isCorrect, isSkip]);
 
-  const handleSelect = (value: any) => {
-    setSelected(value);
-    form.setFieldsValue({ chosen_option_id: value });
-  };
+  useEffect(() => {
+    if (!itemData) return;
+    form.setFieldsValue({ content: itemData?.body_text });
+  }, [itemData]);
 
   if (isLoading) {
     return <SkeletonLoading isLoading={isLoading} />;
@@ -93,16 +93,24 @@ export const QuizQuestion = ({
 
   return (
     <>
+      <Form.Item
+        className={styles.section}
+        name={"content"}
+        initialValue={itemData?.body_text}
+        hidden
+      />
       <Form.Item className={styles.section}>
         <Flex align="center" vertical gap={16}>
           <Image
             src={itemData?.media_image_url}
             preview={false}
             alt="ảnh tượng trương"
-            width={"60%"}
+            width={"100%"}
             height={300}
             style={{
               borderRadius: 4,
+              objectFit: "cover",
+              objectPosition: "center",
             }}
           />
           <Flex align="center" gap={16}>
@@ -111,7 +119,11 @@ export const QuizQuestion = ({
         </Flex>
       </Form.Item>
       <Form.Item
-        label={<Text strong>{questionData?.question_text}</Text>}
+        label={
+          <Text style={{ fontSize: 16 }} strong>
+            {questionData?.question_text}
+          </Text>
+        }
         name={`chosen_option_id`}>
         <CKEditorWrapper isDisabled={false} height={100} />
       </Form.Item>

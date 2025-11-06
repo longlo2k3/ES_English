@@ -25,7 +25,7 @@ export const QuizCompletion = ({
   const { styles } = useStyles();
 
   const percentage = useMemo(
-    () => Math.round((score / total) * 100),
+    () => Math.round((score / (total * 10)) * 100),
     [score, total]
   );
   const isSuccess = useMemo(() => percentage >= 80, [percentage]);
@@ -85,7 +85,7 @@ export const QuizCompletion = ({
         <Paragraph className={styles.scoreText}>
           {t("quiz.completion.score")}{" "}
           <strong className={styles.scoreHighlight}>
-            {score}/{total}
+            {score}/{total * 10}
           </strong>
         </Paragraph>
         <Paragraph>

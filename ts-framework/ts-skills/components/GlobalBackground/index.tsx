@@ -61,6 +61,9 @@ const useStyles = createStyles(({ token, css }) => ({
     minHeight: "100vh",
     background: "#f0f8ffb3",
     borderRadius: "8px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
   maxWidth: {
     maxWidth: "768px",

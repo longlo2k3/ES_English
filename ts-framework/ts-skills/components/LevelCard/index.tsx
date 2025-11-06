@@ -23,7 +23,7 @@ function LevelCard(props: IProps) {
         width: xl ? 400 : lg ? 300 : 250,
         borderRadius: 12,
         boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-        backgroundColor: isActive ? "#6b11cb3e" : "#ffffff",
+        backgroundColor: isActive ? "#2574fc1d" : "#ffffff",
       }}
       styles={{
         body: {
@@ -36,12 +36,12 @@ function LevelCard(props: IProps) {
           style={{
             textAlign: "center",
             lineHeight: "25px",
-            color: "#6a11cb",
+            color: "#2575fc",
             fontWeight: 500,
-            border: `1px solid #6a11cb`,
+            border: `1px solid #2575fc`,
             width: 100,
           }}
-          color="#6b11cb53">
+          color="#2574fc1d">
           {code}
         </Tag>
         <Flex>

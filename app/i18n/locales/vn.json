@@ -181,7 +181,8 @@
         },
         "username": { "label": "Tên đăng nhập" },
         "email": { "label": "Email" },
-        "role": { "label": "Vai trò", "placeholder": "Chọn vai trò" }
+        "role": { "label": "Vai trò", "placeholder": "Chọn vai trò" },
+        "age": "Tuổi"
       },
       "gender": { "male": "Nam", "female": "Nữ", "other": "Khác" },
       "role": {
@@ -282,5 +283,8 @@
   },
   "chatBot": {
     "startMessage": "Chào bạn 🥳! Hãy hỏi tôi bất cứ điều gì?."
+  },
+  "button": {
+    "close": "Đóng"
   }
 }

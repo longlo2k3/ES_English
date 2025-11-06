@@ -98,10 +98,12 @@ export const QuizQuestion = ({
             src={itemData?.media_image_url}
             preview={false}
             alt="ảnh tượng trương"
-            width={"60%"}
+            width={"100%"}
             height={300}
             style={{
               borderRadius: 4,
+              objectFit: "cover",
+              objectPosition: "center",
             }}
           />
           <Flex align="center" gap={16}>

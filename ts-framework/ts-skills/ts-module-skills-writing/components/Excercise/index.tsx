@@ -2,11 +2,8 @@
 
 import { useParams } from "next/navigation";
 import React from "react";
-import {
-  useGetContentByTopicQuery,
-  useGetTopicByTypeQuery,
-} from "@/ts-framework/ts-skills/apis";
-import { Form, Spin } from "antd";
+import { useGetContentByTopicQuery } from "@/ts-framework/ts-skills/apis";
+import { Form } from "antd";
 
 import {
   QuizActions,
@@ -43,6 +40,7 @@ function Excercise() {
     isLoading,
     isLoadingButton,
     isLoadingQuestion,
+    isLoadingGemini,
     onFinish,
     onViewResult,
     onSkip,
@@ -56,7 +54,7 @@ function Excercise() {
     level_id,
     topic_id,
     form,
-    type: "choice",
+    type: "document",
   });
 
   return isLoading ? (
@@ -87,12 +85,12 @@ function Excercise() {
             correctAnswer={lastAnswer?.correctAnswer}
           />
 
-          {/* {showResult && lastAnswer && (
+          {showResult && lastAnswer && (
             <QuizResult
               isCorrect={lastAnswer.isCorrect}
               correctAnswer={lastAnswer.correctAnswer}
             />
-          )} */}
+          )}
 
           <QuizActions
             showResult={showResult}
@@ -104,7 +102,7 @@ function Excercise() {
             onSkip={onSkip}
             isSkip={isSkip}
             isLoading={isLoadingQuestion}
-            isLoadingButton={isLoadingButton}
+            isLoadingButton={isLoadingGemini}
           />
         </Form>
       ) : (

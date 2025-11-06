@@ -62,3 +62,23 @@ export const useFetchContentDetail = (questionId: string) => {
 
   return { data, loading, error };
 };
+
+export function htmlToText(htmlString: string) {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = htmlString;
+  return tempDiv.textContent || tempDiv.innerText || "";
+}
+
+export function extractAndParseJSON(str: string) {
+  try {
+    // Tìm phần trong dấu ngoặc nhọn ngoài cùng
+    const match = str.match(/\{[\s\S]*\}/);
+    if (!match) return null; // Không có JSON
+
+    const jsonString = match[0];
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error("Không thể parse JSON:", error);
+    return null;
+  }
+}

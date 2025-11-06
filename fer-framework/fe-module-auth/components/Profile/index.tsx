@@ -84,7 +84,7 @@ function ProfileModal(props: IProps) {
               form.resetFields();
               setIsEdit(true);
             }}>
-            {t("common.close")}
+            {t("button.close")}
           </Button>
           ,
           {isEdit ? (
@@ -93,7 +93,7 @@ function ProfileModal(props: IProps) {
             </Button>
           ) : (
             <>
-                <Button
+              <Button
                 key="btn-cancel"
                 type="dashed"
                 onClick={() => {
@@ -119,7 +119,9 @@ function ProfileModal(props: IProps) {
         form={form}
         onFinish={handleUpdateInfo}
         layout="vertical">
-  <Form.Item name={"avatar_url"} label={t("auth.profile.form.avatar.label")}>
+        <Form.Item
+          name={"avatar_url"}
+          label={t("auth.profile.form.avatar.label")}>
           {isEdit ? (
             <Avatar
               size={64}
@@ -146,8 +148,13 @@ function ProfileModal(props: IProps) {
 
         {/* full_name, gender, age, occupation, avatar_url */}
 
-        <Form.Item label={t("auth.profile.form.fullName.label")} name="full_name">
-          <Input placeholder={t("auth.profile.form.fullName.placeholder")} disabled={isEdit} />
+        <Form.Item
+          label={t("auth.profile.form.fullName.label")}
+          name="full_name">
+          <Input
+            placeholder={t("auth.profile.form.fullName.placeholder")}
+            disabled={isEdit}
+          />
         </Form.Item>
 
         <Form.Item label={t("auth.profile.form.gender.label")} name="gender">
@@ -158,15 +165,22 @@ function ProfileModal(props: IProps) {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item label="Tuổi" name="age">
+        <Form.Item label={t("auth.profile.form.age")} name="age">
           <InputNumber disabled={isEdit} />
         </Form.Item>
 
-        <Form.Item label={t("auth.profile.form.occupation.label")} name="occupation">
-          <Input placeholder={t("auth.profile.form.occupation.placeholder")} disabled={isEdit} />
+        <Form.Item
+          label={t("auth.profile.form.occupation.label")}
+          name="occupation">
+          <Input
+            placeholder={t("auth.profile.form.occupation.placeholder")}
+            disabled={isEdit}
+          />
         </Form.Item>
 
-        <Form.Item label={t("auth.profile.form.username.label")} name="username">
+        <Form.Item
+          label={t("auth.profile.form.username.label")}
+          name="username">
           <Input disabled />
         </Form.Item>
 
@@ -186,13 +200,13 @@ function ProfileModal(props: IProps) {
           />
         </Form.Item>
 
-        <Form.Item label="Trạng thái" name="status">
+        {/* <Form.Item label="Trạng thái" name="status">
           <Switch disabled />
         </Form.Item>
 
         <Form.Item label="Ngày tạo" name="created_at">
           <Input disabled />
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </AModal>
   );
