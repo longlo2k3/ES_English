@@ -7,7 +7,7 @@ import {
 import { getToken } from "../uils/getToken";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_URL_API_SERVER,
+  baseUrl: "http://localhost:4000/api",
   prepareHeaders: (headers, { getState, endpoint }) => {
     headers.set("Content-Type", "application/json");
     const state = getState();
