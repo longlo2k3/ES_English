@@ -46,7 +46,6 @@ export const QuizQuestion = ({
   const { styles } = useStyles();
 
   const itemData = detailData?.item;
-  const questionData = detailData?.questions?.[0];
 
   useEffect(() => {
     setSelected(null);
@@ -87,10 +86,6 @@ export const QuizQuestion = ({
     return <SkeletonLoading isLoading={isLoading} />;
   }
 
-  if (!questionData) {
-    return <Text type="danger">Lỗi: Không tải được dữ liệu câu hỏi.</Text>;
-  }
-
   return (
     <>
       <Form.Item
@@ -118,13 +113,7 @@ export const QuizQuestion = ({
           </Flex>
         </Flex>
       </Form.Item>
-      <Form.Item
-        label={
-          <Text style={{ fontSize: 16 }} strong>
-            {questionData?.question_text}
-          </Text>
-        }
-        name={`chosen_option_id`}>
+      <Form.Item name={`chosen_option_id`}>
         <CKEditorWrapper isDisabled={false} height={100} />
       </Form.Item>
     </>

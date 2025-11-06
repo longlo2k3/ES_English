@@ -107,6 +107,10 @@ export const QuizQuestion = ({
     form.setFieldsValue({ chosen_option_id: value });
   };
 
+  useEffect(() => {
+    form.setFieldValue("content", questionData?.question_text);
+  }, [questionData]);
+
   if (isLoading) {
     return <SkeletonLoading isLoading={isLoading} />;
   }
@@ -122,14 +126,11 @@ export const QuizQuestion = ({
     );
   }
 
+  console.log("detailData>>", detailData);
+
   return (
     <>
-      <Form.Item
-        name={"content"}
-        initialValue={questionData?.question_text}
-        hidden
-      />
-
+      <Form.Item name={"content"} hidden />
       <Form.Item>
         <Flex align="center" vertical gap={16}>
           <Image
@@ -144,12 +145,20 @@ export const QuizQuestion = ({
               objectPosition: "center",
             }}
           />
-          <Flex align="center" gap={16}>
+          <Flex vertical align="center" gap={16}>
+            {itemData?.media_audio_url && (
+              <audio
+                ref={audioRef}
+                src={itemData?.media_audio_url}
+                autoPlay
+                controls>
+                <source src={itemData?.media_audio_url} type="audio/mpeg" />
+              </audio>
+            )}
             <Text italic>{`"${itemData?.body_text}"`}</Text>
           </Flex>
         </Flex>
       </Form.Item>
-
       <Form.Item
         label={
           <Text style={{ fontSize: 16 }} strong>

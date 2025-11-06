@@ -57,6 +57,8 @@ function Excercise() {
     type: "document",
   });
 
+  console.log("data>>", data);
+
   return isLoading ? (
     <SpinLoading isLoading={isLoading} />
   ) : (
