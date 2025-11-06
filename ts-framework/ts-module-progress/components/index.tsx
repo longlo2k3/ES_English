@@ -129,53 +129,64 @@ const allActivityData = [
 // --- HÀM XỬ LÝ DỮ LIỆU ---
 
 // 1. Tính toán dữ liệu cho Biểu đồ Radar (tổng điểm theo skill_id)
-const getRadarData = (data, skillMap) => {
+const getRadarData = (data: any, skillMap: any) => {
   const skillScores = {};
 
   // Khởi tạo điểm cho tất cả kỹ năng
   Object.keys(skillMap).forEach((id) => {
-    skillScores[id] = 0;
+    (skillScores as any)[id] = 0;
   });
 
   // Cộng dồn total_score
   data.forEach((record: any) => {
-    if (skillScores[record.skill_id] !== undefined) {
-      skillScores[record.skill_id] += record.total_score;
+    if ((skillScores as any)[record.skill_id] !== undefined) {
+      (skillScores as any)[record.skill_id] += record.total_score;
     }
   });
 
   // Chuyển đổi sang định dạng của Ant Charts
   return Object.keys(skillScores).map((id) => ({
     skill: skillMap[id].name,
-    score: skillScores[id],
+    score: (skillScores as any)[id],
   }));
 };
 
 // 2. Nhóm dữ liệu theo Lộ trình (level_id -> skill_id -> topic_id)
-const getPathData = (data, levelMap, skillMap, topicMap) => {
+const getPathData = (
+  data: any,
+  levelMap: any,
+  skillMap: any,
+  topicMap: any
+) => {
   const paths = {};
 
-  data.forEach((record) => {
+  data.forEach((record: any) => {
     const level = levelMap[record.level_id];
     const skill = skillMap[record.skill_id];
     const topic = topicMap[record.topic_id];
 
     if (!level || !skill || !topic) return;
 
-    if (!paths[level.name]) {
-      paths[level.name] = { skills: {}, description: level.description };
+    if (!(paths as any)[level.name]) {
+      (paths as any)[level.name] = {
+        skills: {},
+        description: level.description,
+      };
     }
-    if (!paths[level.name].skills[skill.name]) {
-      paths[level.name].skills[skill.name] = { icon: skill.icon, topics: [] };
+    if (!(paths as any)[level.name].skills[skill.name]) {
+      (paths as any)[level.name].skills[skill.name] = {
+        icon: skill.icon,
+        topics: [],
+      };
     }
 
     // Thêm topic vào, tránh trùng lặp nếu làm nhiều lần
     if (
-      !paths[level.name].skills[skill.name].topics.find(
-        (t) => t.id === topic.name
+      !(paths as any)[level.name].skills[skill.name].topics.find(
+        (t: any) => t.id === topic.name
       )
     ) {
-      paths[level.name].skills[skill.name].topics.push({
+      (paths as any)[level.name].skills[skill.name].topics.push({
         id: topic.name,
         // Lấy kết quả mới nhất cho topic này (giả sử data đã sắp xếp)
         score: record.total_score,

@@ -47,7 +47,7 @@ export const selectedApis = baseApi.injectEndpoints({
     answerQuestion: postBaseApi<{
       attempt_id: string;
       question_id: string;
-      chosen_option_id: string;
+      chosen_option_id: string | null;
       answer_text: string | null;
     }>("/attempts/answer", builder),
 

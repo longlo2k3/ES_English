@@ -36,7 +36,7 @@ function RoadmapTab(props: IProps) {
                   {/* Dùng List để hiển thị các Topic (topic_id) */}
                   <List
                     dataSource={pathData[levelName].skills[skillName].topics}
-                    renderItem={(topic) => (
+                    renderItem={(topic: any) => (
                       <List.Item
                         extra={
                           <Tag

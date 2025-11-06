@@ -16,31 +16,32 @@ interface UseGeminiState {
 }
 
 export const useHookGemini = () => {
-  const [data, setData] = useState<GeminiData>(null);
+  const [data, setData] = useState<GeminiData>({
+    score: 0,
+    comment: "",
+    isCorrect: false,
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const callGeminiApi = useCallback(
-    async (promptText: string, audioFile?: string) => {
-      setIsLoading(true);
-      setError(null);
-      setData(null);
+  const callGeminiApi = useCallback(async (promptText: string) => {
+    setIsLoading(true);
+    setError(null);
+    setData({ score: 0, comment: "", isCorrect: false });
 
-      try {
-        const response = await callGemini(promptText, audioFile);
+    try {
+      const response = await callGemini(promptText);
 
-        setData(response);
-        return response;
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Đã xảy ra lỗi không xác định")
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+      setData(response);
+      return response;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Đã xảy ra lỗi không xác định")
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   return { callGeminiApi, data, isLoading, error };
 };

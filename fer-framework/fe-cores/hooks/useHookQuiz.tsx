@@ -375,7 +375,7 @@ export const useHookQuiz = (props: IProps) => {
         message.error(t("quiz.errors.submitFailed"));
       }
     } else if (type === "document") {
-      const questionText = detailData?.item?.body_text;
+      const questionText = (detailData as any)?.item?.body_text;
 
       try {
         const geminiResult = await callGeminiApi(promptEmpty(questionText));

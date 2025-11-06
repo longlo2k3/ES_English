@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowLeftOutlined, CloseCircleFilled } from "@ant-design/icons";
-import { QuizHeader } from "@/ts-framework/ts-skills/components/QuizCore";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import { createStyles } from "antd-style";
 import CancelModal from "../CancelModa.tsx";

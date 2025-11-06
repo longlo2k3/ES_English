@@ -21,6 +21,7 @@ import {
   CheckOutlined,
   FlagOutlined, // Icon để đánh dấu
 } from "@ant-design/icons";
+import { ButtonType } from "antd/es/button";
 
 const { Header, Content, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -89,14 +90,14 @@ const MockExamInterface = () => {
   };
 
   // Xử lý khi chọn đáp án
-  const handleAnswerChange = (e) => {
+  const handleAnswerChange = (e: any) => {
     const newAnswers = [...userAnswers];
     newAnswers[currentQuestion] = e.target.value;
     setUserAnswers(newAnswers);
   };
 
   // Chuyển câu hỏi
-  const goToQuestion = (index) => {
+  const goToQuestion = (index: any) => {
     if (index >= 0 && index < totalQuestions) {
       setCurrentQuestion(index);
     }
@@ -240,7 +241,7 @@ const MockExamInterface = () => {
               return (
                 <Button
                   key={i}
-                  type={type}
+                  type={type as ButtonType}
                   shape="circle"
                   onClick={() => goToQuestion(i)}
                   style={{
