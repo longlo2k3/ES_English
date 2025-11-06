@@ -315,14 +315,20 @@ export const useHookQuiz = (props: IProps) => {
   // }, [detailData, form, totalQuestions]);
 
   const onSkip = useCallback(async () => {
-    const currentQuestion = (detailData as any)?.questions?.[0];
-    if (!currentQuestion || !currentQuestion._id) {
-      message.error(t("quiz.errors.noQuestionData"));
-      return;
-    }
-    const question_id = currentQuestion._id;
+    // const currentQuestion = (detailData as any)?.questions?.[0];
+    // if (!currentQuestion || !currentQuestion._id) {
+    //   message.error(t("quiz.errors.noQuestionData"));
+    //   return;
+    // }
+    // const question_id = currentQuestion._id;
 
     if (type === "choice") {
+      const currentQuestion = (detailData as any)?.questions?.[0];
+      if (!currentQuestion || !currentQuestion._id) {
+        message.error(t("quiz.errors.noQuestionData"));
+        return;
+      }
+      const question_id = currentQuestion._id;
       try {
         setIsSkip(true);
         const startData = await postStartQuestion({
@@ -394,13 +400,42 @@ export const useHookQuiz = (props: IProps) => {
 
         setScore((p) => p + 0);
 
-        setAnsweredQuestionIds((prevSet) => {
-          const newSet = new Set(prevSet);
-          newSet.add(question_id);
-          return newSet;
-        });
+        // setAnsweredQuestionIds((prevSet) => {
+        //   const newSet = new Set(prevSet);
+        //   newSet.add(question_id);
+        //   return newSet;
+        // });
       } catch (error) {
         console.error("Lỗi khi gọi Gemini (skip):", error);
+        message.error(
+          t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
+        );
+      }
+    } else if (type === "audio") {
+      try {
+        const questionText = (detailData as any)?.item?.body_text;
+
+        const { score, comment, isCorrect } = await callGeminiApi(
+          promptSpeaking(questionText)
+        );
+
+        setComment(comment);
+
+        setShowResult(true);
+        setLastAnswer({
+          isCorrect: isCorrect,
+          correctAnswer: comment,
+        });
+
+        setScore((p) => p + score);
+
+        // setAnsweredQuestionIds((prevSet) => {
+        //   const newSet = new Set(prevSet);
+        //   newSet.add(question_id);
+        //   return newSet;
+        // });
+      } catch (error) {
+        console.error("Lỗi khi gọi Gemini:", error);
         message.error(
           t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
         );

@@ -112,6 +112,7 @@ Bạn cần:
    - true nếu câu trả lời đúng và phù hợp chủ đề.
    - false nếu sai, không liên quan hoặc chỉ đúng một phần.
 
+
 ⚠️ Quan trọng:
 - **Chỉ trả về JSON**, không thêm bất kỳ văn bản nào khác.
 - JSON phải đúng **định dạng sau**:
@@ -125,5 +126,7 @@ Bạn cần:
 Dữ liệu đầu vào:
 Chủ đề: ${values.content}
 Phần trả lời: "${values.chosen_option_id}"
+
+Lưu ý: Nếu không có phần trả lời là undefined thì hãy hiện ra phần thông báo chưa có câu trả lời.
 `;
 };

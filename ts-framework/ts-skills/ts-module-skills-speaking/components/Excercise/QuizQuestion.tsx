@@ -126,8 +126,6 @@ export const QuizQuestion = ({
     );
   }
 
-  console.log("detailData>>", detailData);
-
   return (
     <>
       <Form.Item name={"content"} hidden />
