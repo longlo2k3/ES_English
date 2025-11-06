@@ -70,15 +70,22 @@ export function htmlToText(htmlString: string) {
 }
 
 export function extractAndParseJSON(str: string) {
+  if (!str) {
+    console.warn("⚠️ Không có nội dung text từ Gemini để parse");
+    return null;
+  }
+
   try {
-    // Tìm phần trong dấu ngoặc nhọn ngoài cùng
-    const match = str?.match(/\{[\s\S]*\}/);
-    if (!match) return null; // Không có JSON
+    const match = str.match(/\{[\s\S]*\}/);
+    if (!match) {
+      console.warn("⚠️ Không tìm thấy JSON trong chuỗi:", str);
+      return null;
+    }
 
     const jsonString = match[0];
-    return JSON?.parse(jsonString);
+    return JSON.parse(jsonString);
   } catch (error) {
-    console.error("Không thể parse JSON:", error);
+    console.error("❌ Không thể parse JSON:", error, "\nNội dung:", str);
     return null;
   }
 }
