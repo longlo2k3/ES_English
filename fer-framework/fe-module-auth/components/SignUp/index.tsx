@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 function SignUp() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  const [open, setOpen] = useState(false);
   const [openVerify, setOpenVerify] = useState(false);
 
   // call apis
@@ -29,81 +28,70 @@ function SignUp() {
   };
 
   const onCancel = () => {
-    setOpen(false);
     form.resetFields();
   };
 
   return (
     <>
-      <Button color="cyan" variant="solid" onClick={() => setOpen(true)}>
-        {t("auth.signUp.createAccount")}
-      </Button>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Form
+        id={"form-create"}
+        form={form}
+        onFinish={handleSubmit}
+        layout="vertical"
+        style={{ width: "100%" }}>
+        <Form.Item
+          name="email"
+          label={t("auth.form.email.label")}
+          rules={[{ required: true, message: t("auth.form.email.required") }]}>
+          <Input
+            prefix={<UserOutlined />}
+            size="large"
+            placeholder={t("auth.form.email.placeholder")}
+            autoComplete="nope"
+          />
+        </Form.Item>
 
-      <AModal
-        title={t("auth.signUp.modalTitle")}
-        open={open}
-        onCancel={onCancel}
-        onOk={handleSubmit}
-        okText={t("auth.signUp.ok")}
-        destroyOnHidden
-        width={500}
-        footer={[
-          <Button key="btn-cancel" onClick={onCancel}>
-            {t("common.cancel")}
-          </Button>,
+        <Form.Item
+          name="username"
+          label={t("auth.form.emailOrUsername.label")}
+          rules={[
+            {
+              required: true,
+              message: t("auth.form.emailOrUsername.required"),
+            },
+          ]}>
+          <Input
+            prefix={<UserOutlined />}
+            size="large"
+            placeholder={t("auth.form.emailOrUsername.placeholder")}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          label={t("auth.form.password.label")}
+          rules={[
+            { required: true, message: t("auth.form.password.required") },
+          ]}>
+          <Input.Password
+            prefix={<LockOutlined />}
+            size="large"
+            placeholder={t("auth.form.password.placeholder")}
+            autoComplete="new-password"
+          />
+        </Form.Item>
+
+        <Form.Item>
           <Button
-            key="btn-create"
-            loading={isLoading}
             type="primary"
-            form={"form-create"}
-            htmlType="submit">
-            {t("auth.signUp.create")}
-          </Button>,
-        ]}
-        centered>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <Form
-          id={"form-create"}
-          form={form}
-          onFinish={handleSubmit}
-          layout="vertical"
-          style={{ width: "100%" }}>
-          <Form.Item
-            name="email"
-              label={t("auth.form.email.label")}
-              rules={[{ required: true, message: t("auth.form.email.required") }]}>
-              <Input
-                prefix={<UserOutlined />}
-                size="large"
-                placeholder={t("auth.form.email.placeholder")}
-                autoComplete="nope"
-              />
-          </Form.Item>
-
-          <Form.Item
-            name="username"
-              label={t("auth.form.username.label")}
-              rules={[{ required: true, message: t("auth.form.username.required") }]}> 
-              <Input
-                prefix={<UserOutlined />}
-                size="large"
-                placeholder={t("auth.form.username.placeholder")}
-              />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-              label={t("auth.form.password.label")}
-              rules={[{ required: true, message: t("auth.form.password.required") }]}> 
-              <Input.Password
-                prefix={<LockOutlined />}
-                size="large"
-                placeholder={t("auth.form.password.placeholder")}
-                autoComplete="new-password"
-              />
-          </Form.Item>
-        </Form>
-      </AModal>
+            htmlType="submit"
+            style={{ width: "100%" }}
+            loading={isLoading}>
+            {t("auth.signUp.createAccount")}
+          </Button>
+        </Form.Item>
+      </Form>
 
       <VerifyCode
         open={openVerify}

@@ -32,22 +32,6 @@
     "page": "Trang",
     "multiDelete": {
       "confirm": "Bạn có muốn xóa {{title}} đã chọn?"
-    },
-    "column": {
-      "topic": "Chủ đề",
-      "description": "Mô tả",
-      "level": "Loại cấp độ",
-      "exerciseCount": "Số lượng bài",
-      "action": "Hoạt động",
-      "doExercise": "Làm bài"
-    },
-    "level": {
-      "beginnerTitle": "Cấp độ cơ bản",
-      "intermediateTitle": "Cấp độ trung cấp",
-      "advancedTitle": "Cấp độ nâng cao",
-      "beginnerDesc": "Dành cho người mới bắt đầu",
-      "intermediateDesc": "Dành cho người đã có nền tảng",
-      "advancedDesc": "Dành cho người đã thành thạo"
     }
   },
   "account": {
@@ -57,9 +41,8 @@
   },
   "quiz": {
     "completion": {
-      "title": "Hoàn thành! 🎉",
-      "success": "Xuất sắc!",
-      "tryAgain": "Cần cố gắng!",
+      "success": "Hoàn thành! 🎉",
+      "tryAgain": "Bạn cần cố gắng hơn 😥",
       "score": "Điểm của bạn:",
       "accuracy": "Tỷ lệ chính xác:",
       "retry": "Làm lại"
@@ -83,15 +66,15 @@
     "info": {
       "completedAllQuestions": "Bạn đã hoàn thành tất cả câu hỏi!"
     },
-    "progress": {
-      "question": "Câu hỏi",
-      "score": "Điểm"
-    },
     "actions": {
       "skip": "Bỏ qua",
       "check": "Kiểm tra",
       "continue": "Tiếp tục",
       "result": "Xem kết quả"
+    },
+    "progress": {
+      "question": "Câu hỏi",
+      "score": "Điểm"
     }
   },
   "auth": {
@@ -109,7 +92,7 @@
         "placeholder": "Nhập email",
         "required": "Vui lòng nhập email!"
       },
-      "username": {
+      "emailOrUsername": {
         "label": "Tài khoản",
         "placeholder": "Nhập tài khoản",
         "required": "Vui lòng nhập tài khoản!"
@@ -118,11 +101,6 @@
         "label": "Mật khẩu",
         "placeholder": "Nhập mật khẩu",
         "required": "Vui lòng nhập mật khẩu!"
-      },
-      "emailOrUsername": {
-        "label": "Email hoặc tài khoản",
-        "placeholder": "Nhập email hoặc tài khoản",
-        "required": "Vui lòng nhập email hoặc tài khoản!"
       }
     },
     "verify": {
@@ -140,7 +118,8 @@
       }
     },
     "login": {
-      "title": "Đăng nhập",
+      "title": "Chào mừng đến với ES English",
+      "description": "Hãy đăng nhập hoặc tạo tài khoản",
       "success": "Đăng nhập thành công",
       "error": "Lỗi xác thực",
       "submit": "Đăng nhập"
@@ -162,14 +141,21 @@
           "label": "Mật khẩu mới",
           "placeholder": "Nhập mật khẩu mới",
           "required": "Vui lòng nhập mật khẩu mới!"
+        },
+        "confirmPassword": {
+          "label": "Xác thực mật khẩu mới",
+          "placeholder": "Nhập lại mật khẩu mới",
+          "required": "Vui lòng nhập lại mật khẩu mới!"
         }
-      }
+      },
+      "samePassword": "Mật khẩu mới và xác thực mật khẩu mới phải giống nhau!"
     },
     "profile": {
       "title": "Thông tin tài khoản",
       "update": "Cập nhật",
       "cancelUpdate": "Hủy cập nhật",
       "close": "Đóng",
+      "save": "Lưu",
       "upload": "Tải lên",
       "form": {
         "avatar": { "label": "Ảnh đại diện" },
@@ -181,8 +167,7 @@
         },
         "username": { "label": "Tên đăng nhập" },
         "email": { "label": "Email" },
-        "role": { "label": "Vai trò", "placeholder": "Chọn vai trò" },
-        "age": "Tuổi"
+        "role": { "label": "Vai trò", "placeholder": "Chọn vai trò" }
       },
       "gender": { "male": "Nam", "female": "Nữ", "other": "Khác" },
       "role": {
@@ -191,8 +176,20 @@
         "admin": "Quản trị"
       }
     },
+
     "forgetPassword": {
-      "link": "Quên mật khẩu?"
+      "link": "Quên mật khẩu",
+      "title": "Xác thực OTP",
+      "btnCancel": "Đóng",
+      "btnSubmit": "Xác nhận",
+      "password": {
+        "label": "Mật khẩu mới",
+        "required": "Vui lòng nhập mật khẩu mới!",
+        "placeholder": "Nhập mật khẩu mới",
+        "code": {
+          "required": "Vui lòng nhập Code xác thực!"
+        }
+      }
     }
   },
   "common": {
@@ -245,46 +242,231 @@
 
   "home": {
     "intro": {
-      "title": "Học tiếng anh cùng ES English",
-      "description": "Khóa học tiếng Anh trực tuyến của chúng tôi là sự lựa chọn hoàn hảo cho bất kỳ ai muốn cải thiện kỹ năng tiếng Anh của mình. Với sự hỗ trợ của ES English, bạn sẽ có thể giúp bản thân thăng tiến trong sự nghiệp, đi du lịch, vượt qua các kỳ thi và cuộc thi và nhiều hơn nữa! Học tiếng Anh trực tuyến sẽ giúp bạn tự tin hơn và thuận tiện hơn trong giao tiếp với người nói tiếng Anh.",
-      "button": "Tìm hiểu thêm"
+      "title": "Học tiếng Anh cùng ES English",
+      "description": "Khóa học tiếng Anh trực tuyến của chúng tôi là lựa chọn hoàn hảo cho bất kỳ ai muốn cải thiện kỹ năng tiếng Anh."
     },
-    "introCard": {
-      "title": "Các kỹ năng tiếng anh",
-      "description": "Chọn kỹ năng bạn muốn cải thiện để bắt đầu học ngay hôm nay"
-    },
-    "skills": {
-      "listening": {
-        "title": "Kỹ năng Nghe",
-        "desc": "Luyện nghe tiếng Anh với các bài hội thoại, tin tức và podcast đa dạng chủ đề."
-      },
-      "speaking": {
-        "title": "Kỹ năng Nói",
-        "desc": "Luyện nói tiếng Anh qua hội thoại và bài tập phát âm thực tế."
-      },
-      "reading": {
-        "title": "Kỹ năng Đọc",
-        "desc": "Rèn luyện khả năng đọc hiểu với bài báo, truyện và văn bản học thuật."
-      },
-      "writing": {
-        "title": "Kỹ năng Viết",
-        "desc": "Phát triển kỹ năng viết tiếng Anh chuẩn xác, tự nhiên và chuyên nghiệp."
+    "features": {
+      "title": "Tại sao chọn ES English?",
+      "personalized": {
+        "title": "Lộ trình cá nhân hóa",
+        "description": "Hệ thống AI phân tích trình độ và đề xuất bài học phù hợp chỉ dành cho bạn."
       },
       "vocabulary": {
-        "title": "Kỹ năng học từ vựng",
-        "desc": "Học từ vựng tiếng Anh theo chủ đề kèm flashcard sinh động."
+        "title": "Học từ vựng thông minh",
+        "description": "Học từ vựng qua Flashcards, trò chơi và lặp lại ngắt quãng (Spaced Repetition)."
       },
-      "exam": {
-        "title": "Thi thử",
-        "desc": "Luyện tập với các bài thi thử IELTS, TOEIC, TOEFL và hơn thế nữa."
+      "speaking": {
+        "title": "Luyện nói với AI",
+        "description": "Thực hành hội thoại và nhận phản hồi tức thì về phát âm, ngữ điệu từ AI."
       }
     },
-    "button": "Học ngay"
+    "howItWorks": {
+      "title": "Bắt đầu thật đơn giản",
+      "step1": "Đăng ký tài khoản",
+      "step1Desc": "Chỉ mất 30 giây.",
+      "step2": "Kiểm tra đầu vào",
+      "step2Desc": "Xác định trình độ hiện tại.",
+      "step3": "Nhận lộ trình",
+      "step3Desc": "AI sẽ thiết kế khóa học cho bạn.",
+      "step4": "Bắt đầu học",
+      "step4Desc": "Chinh phục mục tiêu của bạn."
+    },
+    "testimonials": {
+      "title": "Học viên nói gì về ES English",
+      "testimonial1": "Giao diện học rất thông minh. Tính năng luyện nói với AI đã giúp mình tự tin hơn rất nhiều khi giao tiếp.",
+      "name1": "Nguyễn Văn A",
+      "role1": "Học viên",
+      "testimonial2": "Hệ thống từ vựng flashcard và nhắc nhở thông minh thực sự hiệu quả. Mình đã tăng 500 từ vựng chỉ trong 1 tháng.",
+      "name2": "Trần Thị B",
+      "role2": "Nhân viên văn phòng",
+      "testimonial3": "Lộ trình học rất rõ ràng. Mình biết mình cần học gì mỗi ngày mà không bị mông lung.",
+      "name3": "Phạm Văn C",
+      "role3": "Sinh viên"
+    },
+    "features_list": {
+      "practice": "Luyện tập với các kỹ năng: Nghe, Nói, Đọc, Viết, Từ vựng",
+      "personalize": "Cá nhân hóa lộ trình học",
+      "international": "Các bài thi chuẩn bài thi quốc tế"
+    }
   },
+
+  "skills": {
+    "selectLevel": "Chọn cấp độ",
+    "selectPath": "Chọn con đường học tập cho bạn",
+    "mascotMessage": "Hãy chọn cấp độ phù hợp với bạn nhé!",
+    "levels": {
+      "beginner": "CẤP ĐỘ 1: KIẾN THỨC NỀN TẢNG",
+      "intermediate": "CẤP ĐỘ 2: KIẾN THỨC NÂNG CAO",
+      "advanced": "CẤP ĐỘ 3: THÀNH THẠO"
+    },
+    "errors": {
+      "loading": "Lỗi",
+      "noData": "Không tải được dữ liệu câu hỏi. Vui lòng thử lại."
+    },
+    "actions": {
+      "skip": "Bỏ qua",
+      "check": "Kiểm tra",
+      "continue": "Tiếp tục",
+      "viewResult": "Xem kết quả"
+    }
+  },
+
   "chatBot": {
-    "startMessage": "Chào bạn 🥳! Hãy hỏi tôi bất cứ điều gì?."
+    "startMessage": "Hãy hỏi tôi bất kỳ câu hỏi nào"
   },
-  "button": {
-    "close": "Đóng"
+
+  "_progress": {
+    "title": "Tiến độ học tập của bạn",
+    "tab": {
+      "overview": "Tổng quan",
+      "roadmap": "Lộ trình học",
+      "history": "Lịch sử chi tiết"
+    },
+    "overview": {
+      "total": "Tổng điểm",
+      "timeline": "Tổng hoạt động 7 ngày gần nhất",
+      "accuracy": "Độ chính xác",
+      "lastTime": "Hoạt động cuối",
+      "hour": "giờ",
+      "point": "điểm"
+    },
+    "paramterSkill": {
+      "listening": "Nghe",
+      "speaking": "Nói",
+      "reading": "Đọc",
+      "writing": "Viết",
+      "completion": "Tiến độ Hoàn thành",
+      "_completion": "Hoàn thành",
+      "point": "Điểm Thành thạo",
+      "question": "câu",
+      "_point": "điểm"
+    },
+
+    "parameterTest": {
+      "title": "Lịch sử Thi thử",
+      "latestResult": "Kết quả Gần nhất: {{score}} điểm",
+      "highestScoreLabel": "Điểm cao nhất đã đạt được",
+      "lowestScoreLabel": "Điểm thấp nhất đã đạt được",
+      "scoreUnit": "{{score}} điểm",
+      "areaChart": {
+        "xAxisTitle": "Thời gian thực hiện bài thi",
+        "yAxisTitle": "Điểm số (Điểm)",
+        "xFieldTitle": "Ngày tháng"
+      },
+      "columnChart": {
+        "activity_history_7_days": "Lịch sử hoạt động 7 ngày gần nhất",
+        "time": "Thời gian hoạt động",
+        "activity": "{{time}} giờ",
+        "title": "Thời gian (giờ)"
+      }
+    },
+    "paramaterRadar": {
+      "title": "Tổng quan Kỹ năng"
+    },
+    "suggestions": {
+      "title": "Gợi ý tiến độ học",
+      "buttonTitle": "Xem gợi ý"
+    },
+
+    "roadmap": {
+      "title": "Tiến độ theo Lộ trình",
+      "des": "Lộ trình cấp độ {{levelName}}",
+      "score": "{{topic.score}} điểm",
+      "correct": "Số câu đúng: {{correct_count}} / {{total_questions_topic}}"
+    },
+
+    "history": {
+      "topic": "Chủ đề (Topic)",
+      "skill": "Kỹ năng (Skill)",
+      "level": "Cấp độ (Level)",
+      "point": "Điểm",
+      "correct": "Số câu đúng",
+      "total": "Tổng số câu",
+      "accuracy": "Độ chính xác",
+      "date": "Ngày hoàn thành",
+      "all": "Tất cả hoạt động"
+    }
+  },
+
+  "infoTest": {
+    "header": {
+      "title": "Bài Thi Thử Tiếng Anh Tổng Quát",
+      "code": "Mã đề",
+      "lastUpdated": "Cập nhật lần cuối"
+    },
+    "steps": {
+      "guide": "Hướng dẫn",
+      "doing": "Làm bài",
+      "result": "Kết quả"
+    },
+    "alert": {
+      "message": "Lưu ý quan trọng",
+      "description": "Đây là bài thi mô phỏng theo thời gian thực. Bạn không thể tạm dừng (pause) sau khi bấm bắt đầu."
+    },
+    "overview": {
+      "title": "Tổng quan bài thi",
+      "totalTimeLabel": "Tổng thời gian",
+      "totalTimeValue": "30 phút",
+      "totalQuestionLabel": "Tổng số câu hỏi",
+      "totalQuestionValue": "30 câu",
+      "maxScoreLabel": "Điểm tối đa",
+      "maxScoreValue": "30 điểm"
+    },
+    "structure": {
+      "title": "Cấu trúc đề thi",
+      "note": "Đề thi có thể chứa các kiến thức sau:",
+      "phonetics": { "title": "Ngữ âm (Phonetics)", "desc": "1-5 câu" },
+      "vocab": {
+        "title": "Từ vựng & Ngữ pháp (Vocabulary - Grammar)",
+        "desc": "1-5 câu"
+      },
+      "error": {
+        "title": "Tìm lỗi sai (Error Identification)",
+        "desc": "1-5 câu"
+      },
+      "synonym": {
+        "title": "Đồng nghĩa – Trái nghĩa (Synonyms / Antonyms)",
+        "desc": "1-5 câu"
+      },
+      "completion": {
+        "title": "Hoàn thành câu (Sentence Completion)",
+        "desc": "1-5 câu"
+      },
+      "reading": {
+        "title": "Đọc hiểu (Reading Comprehension)",
+        "desc": "1-5 câu"
+      }
+    },
+    "rules": {
+      "title": "Quy định & Yêu cầu",
+      "items": [
+        "Đảm bảo kết nối internet ổn định trong suốt quá trình làm bài.",
+        "Không tải lại (refresh) trang web khi đang làm bài.",
+        "Hệ thống sẽ tự động yêu cầu nộp bài khi hết thời gian quy định.",
+        "Thời gian được tính ngay khi bạn nhấn “Bắt đầu thi”.",
+        "Mỗi câu hỏi chỉ có 1 đáp án đúng.",
+        "Bạn có thể chọn lại đáp án trước khi nộp bài.",
+        "Không được thoát trang hoặc tải lại trang trong lúc làm bài (có thể mất dữ liệu)."
+      ]
+    },
+    "actions": {
+      "agree": "Tôi đã đọc kỹ hướng dẫn và đồng ý với quy định thi.",
+      "start": "Bắt đầu làm bài"
+    }
+  },
+
+  "levels": {
+    "beginner": {
+      "title": "CẤP ĐỘ 1: KIẾN THỨC NỀN TẢNG",
+      "desc": "Học những kiến thức cơ bản để xây dựng nền tảng vững chắc."
+    },
+    "intermediate": {
+      "title": "CẤP ĐỘ 2: KIẾN THỨC MỞ RỘNG",
+      "desc": "Mở rộng và củng cố kiến thức, chuẩn bị cho những kỹ năng nâng cao."
+    },
+    "advanced": {
+      "title": "CẤP ĐỘ 3: KIẾN THỨC NÂNG CAO",
+      "desc": "Làm chủ kiến thức và kỹ năng để ứng dụng thành thạo trong thực tế."
+    }
   }
 }

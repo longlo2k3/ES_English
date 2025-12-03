@@ -31,7 +31,9 @@ export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
                 </Title>
               </Flex>
               <div className={styles.description}>
-                <strong>{correctAnswer}</strong>
+                <Typography.Paragraph>
+                  <span dangerouslySetInnerHTML={{ __html: correctAnswer }} />
+                </Typography.Paragraph>
               </div>
             </div>
           </>
@@ -49,7 +51,9 @@ export const QuizResult = ({ isCorrect, correctAnswer }: QuizResultProps) => {
               </Flex>
               <div className={styles.description} style={{ color: "#b91c1c" }}>
                 {/* {t("quiz.result.incorrect.description")}{" "} */}
-                <strong>{correctAnswer}</strong>
+                <Typography.Paragraph>
+                  <span dangerouslySetInnerHTML={{ __html: correctAnswer }} />
+                </Typography.Paragraph>
               </div>
             </div>
           </>

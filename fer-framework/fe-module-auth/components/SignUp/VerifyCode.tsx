@@ -77,16 +77,14 @@ export const VerifyCode = (props: IProps) => {
         form={form}
         onFinish={handleSubmit}
         layout="vertical"
-        style={{ width: "100%" }}>
+        style={{ width: "100%", textAlign: "center" }}>
         <Form.Item
           name="code"
           label={t("auth.verify.form.code.label")}
-          rules={[{ required: true, message: t("auth.verify.form.code.required") }]}>
-          <Input
-            prefix={<BarcodeOutlined />}
-            size="large"
-            placeholder={t("auth.verify.form.code.placeholder")}
-          />
+          rules={[
+            { required: true, message: t("auth.verify.form.code.required") },
+          ]}>
+          <Input.OTP size="large" />
         </Form.Item>
       </Form>
     </AModal>

@@ -89,11 +89,7 @@ function Excercise() {
     return <FlashcardDeck deck={deck} />;
   };
 
-  return (
-    <GlobalBackground rollbackUrl="/flashcard">
-      {renderContent()}
-    </GlobalBackground>
-  );
+  return <GlobalBackground>{renderContent()}</GlobalBackground>;
 }
 
 export default Excercise;

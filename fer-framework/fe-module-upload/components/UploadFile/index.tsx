@@ -19,6 +19,7 @@ interface Props extends UploadProps {
   returnObject: boolean;
   children?: any;
   pathUrl?: string;
+  onSetDataUrl?: (data: any) => void;
 }
 
 const UploadFileBase = (props: Props) => {
@@ -28,6 +29,7 @@ const UploadFileBase = (props: Props) => {
     returnObject,
     children,
     pathUrl,
+    onSetDataUrl,
     ...otherProps
   } = props;
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -104,7 +106,9 @@ const UploadFileBase = (props: Props) => {
     if (!onChangeProps) return;
     if (file && (file?.status === "done" || file?.status === "removed")) {
       if (returnObject) {
-        (onChangeProps as any)(file?.status === "removed" ? "" : file?.response);
+        (onChangeProps as any)(
+          file?.status === "removed" ? "" : file?.response
+        );
       } else {
         (onChangeProps as any)(
           newFileList

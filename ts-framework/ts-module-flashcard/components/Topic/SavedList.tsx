@@ -48,6 +48,7 @@ function SavedList({ open, onCancel }: IProps) {
       dataIndex: "word",
       key: "word",
       width: 150,
+      ellipsis: true,
       render: (text) => <strong>{text}</strong>,
     },
     {
@@ -55,18 +56,21 @@ function SavedList({ open, onCancel }: IProps) {
       dataIndex: "phonetic",
       key: "phonetic",
       width: 120,
+      ellipsis: true,
     },
     {
       title: t("savedList.partOfSpeech"),
       dataIndex: "part_of_speech",
       key: "part_of_speech",
       width: 100,
+      ellipsis: true,
     },
     {
       title: t("savedList.meaningVi"),
       dataIndex: "meaning_vi",
       key: "meaning_vi",
       width: 120,
+      ellipsis: true,
     },
     {
       title: t("savedList.exampleEn"),
@@ -85,6 +89,7 @@ function SavedList({ open, onCancel }: IProps) {
       key: "operation",
       align: "center",
       fixed: "right",
+      ellipsis: true,
       width: 120,
       render: (_, record) => (
         <Tooltip title={t("savedList.unsave")}>
@@ -114,6 +119,9 @@ function SavedList({ open, onCancel }: IProps) {
         title={
           <Input.Search
             value={value}
+            style={{
+              width: "50%",
+            }}
             onChange={(e) => setValue(e.target.value)}
             placeholder={t("savedList.searchPlaceholder")}
             allowClear

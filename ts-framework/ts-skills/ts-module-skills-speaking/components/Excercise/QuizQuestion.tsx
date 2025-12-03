@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 // Thêm Input, Tooltip, Flex, Button, Spin từ antd
 import {
   Typography,
@@ -10,7 +10,8 @@ import {
   Spin,
   Button,
   Input, // <-- Thêm
-  Tooltip, // <-- Thêm
+  Tooltip,
+  Alert, // <-- Thêm
 } from "antd";
 // Thêm icon
 import { AudioOutlined, ClearOutlined } from "@ant-design/icons"; // <-- Thêm
@@ -25,8 +26,14 @@ import {
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { evaluateSpeech } from "../../const/data";
+import {
+  SlideInFromLeft,
+  SlideInFromRight,
+  ZoomMotion,
+} from "@/fer-framework/fe-component/web/MotionWrapper";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 interface IProps {
   detailData: any;
@@ -42,26 +49,26 @@ export const QuizQuestion = ({
   isSkip,
 }: IProps) => {
   const form = Form.useFormInstance();
-  const [selected, setSelected] = useState(null);
+  const [result, setResult] = useState<any>(null);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const itemData = detailData?.item;
-  const questionData = detailData?.questions?.[0];
+  const itemData = useMemo(() => {
+    return detailData?.item;
+  }, [detailData]);
+
+  const questionData = useMemo(() => {
+    return detailData?.questions?.[0];
+  }, [detailData]);
+
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
-
-  useEffect(() => {
-    setSelected(null);
-  }, [detailData]);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [isSkip]);
 
   useEffect(() => {
     let soundUrl;
@@ -84,6 +91,7 @@ export const QuizQuestion = ({
       audio.currentTime = 0;
     };
   }, [isCorrect, isSkip]);
+
   useEffect(() => {
     form.setFieldsValue({ chosen_option_id: transcript });
   }, [transcript, form]);
@@ -91,21 +99,32 @@ export const QuizQuestion = ({
   const handleToggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
+      setEndTime(performance.now());
     } else {
       resetTranscript();
-      SpeechRecognition.startListening({ language: "en-US" });
+      setResult(null);
+      setStartTime(performance.now());
+      SpeechRecognition.startListening({
+        language: "en-US",
+        continuous: false,
+      });
     }
   };
 
-  const handleReset = () => {
-    resetTranscript();
-    form.setFieldsValue({ chosen_option_id: "" });
-  };
-
-  const handleSelect = (value: any) => {
-    setSelected(value);
-    form.setFieldsValue({ chosen_option_id: value });
-  };
+  useEffect(() => {
+    if (!listening && transcript && startTime && endTime) {
+      const duration = (endTime - startTime) / 1000; // giây
+      const score = evaluateSpeech(
+        questionData?.question_text || "",
+        transcript,
+        duration
+      );
+      setResult(score);
+      form.setFieldsValue({
+        result: score,
+      });
+    }
+  }, [listening]);
 
   useEffect(() => {
     form.setFieldValue("content", questionData?.question_text);
@@ -129,38 +148,63 @@ export const QuizQuestion = ({
   return (
     <>
       <Form.Item name={"content"} hidden />
-      <Form.Item>
-        <Flex align="center" vertical gap={16}>
-          <Image
-            src={itemData?.media_image_url}
-            preview={false}
-            alt="ảnh tượng trương"
-            width={"100%"}
-            height={300}
-            style={{
-              borderRadius: 4,
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-          <Flex vertical align="center" gap={16}>
-            {itemData?.media_audio_url && (
+      <Form.Item name={"result"} hidden />
+      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+        <Col xs={24} lg={12}>
+          <SlideInFromLeft type="animate" duration={0.8}>
+            <Image
+              src={itemData?.media_image_url}
+              preview={true}
+              alt="ảnh tượng trưng"
+              width={"100%"}
+              height={300}
+              style={{
+                borderRadius: 12,
+                objectFit: "cover", // Gợi ý: 'cover' thường đẹp hơn 'fill'
+                objectPosition: "center",
+              }}
+            />
+          </SlideInFromLeft>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Flex vertical justify="center" gap={8} style={{ height: "100%" }}>
+            <SlideInFromRight type="animate" duration={0.8}>
+              <Title level={5}>Âm thanh gợi ý:</Title>
+            </SlideInFromRight>
+            <SlideInFromRight type="animate" duration={1}>
               <audio
                 ref={audioRef}
                 src={itemData?.media_audio_url}
-                autoPlay
-                controls>
+                // autoPlay // Cân nhắc bỏ autoPlay nếu nó xung đột với âm thanh hiệu ứng
+                controls
+                style={{ width: "100%" }}>
                 <source src={itemData?.media_audio_url} type="audio/mpeg" />
               </audio>
-            )}
-            <Text italic>{`"${itemData?.body_text}"`}</Text>
-            <Text strong style={{ fontSize: 20 }}>
-              {questionData?.question_text}
-            </Text>
+            </SlideInFromRight>
           </Flex>
-        </Flex>
-      </Form.Item>
-      <Form.Item name={`chosen_option_id`} style={{ textAlign: "center" }}>
+        </Col>
+      </Row>
+
+      {itemData.body_text && (
+        <ZoomMotion type="animate" duration={0.8}>
+          <Alert
+            message={itemData.body_text}
+            type="info"
+            showIcon
+            style={{ marginBottom: 24, fontSize: 16 }}
+            closable
+          />
+        </ZoomMotion>
+      )}
+
+      <Form.Item
+        label={
+          <ZoomMotion type="animate" duration={0.8}>
+            <Title level={4}>{questionData?.question_text}</Title>
+          </ZoomMotion>
+        }
+        name={`chosen_option_id`}
+        style={{ textAlign: "center" }}>
         <Tooltip title={listening ? "Dừng ghi âm" : "Nhấn để nói"}>
           <Button
             type="primary"

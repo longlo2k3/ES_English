@@ -47,7 +47,14 @@ function VocabularyCard(props: VocabularyCardProps) {
   };
 
   const ActionButtons = () => (
-    <Space style={{ width: "100%", justifyContent: "flex-end" }}>
+    <Space
+      style={{
+        width: "100%",
+        justifyContent: "flex-end",
+        position: "absolute",
+        top: 10,
+        right: 5,
+      }}>
       <Button
         type="text"
         shape="circle"

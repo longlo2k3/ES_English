@@ -9,6 +9,7 @@ import GlobalLogo from "../GlobalSider/GlobalLogo";
 import MenuBase from "../GlobalSider/MenuBase";
 import GlobalHeader from "../GlobalHeader";
 import { useResponsivePadding } from "../../hooks/useResponsivePadding";
+import GlobalFooter from "../GlobalFooter";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -45,6 +46,7 @@ function LayoutCore({ children }: { children: React.ReactNode }) {
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
               padding: responsivePadding,
+              height: "100%",
             }}>
             {children}
           </div>

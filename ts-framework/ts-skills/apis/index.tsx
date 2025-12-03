@@ -58,7 +58,7 @@ export const selectedApis = baseApi.injectEndpoints({
     resultsQuestion: postBaseApi<{
       topic_id: string;
       score: number;
-      band_score: number;
+      content_item_id: string;
       feedback: string;
     }>("/results", builder),
   }),

@@ -1,125 +1,104 @@
-import { Button, Card, Divider, Flex, Form, Input, Typography } from "antd";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { memo } from "react";
+"use client";
 
-// Components
-import SignUp from "../SignUp";
-import ForgetPassword from "../ForgetPassword";
+import GlobalLogo from "@/fer-framework/fe-cores/layouts/GlobalSider/GlobalLogo";
+import { Card, Flex, Layout, Segmented, theme, Typography } from "antd";
 
-// Apis
-import { useLazyGetUserQuery, usePostLoginMutation } from "../../apis";
-import { toast, ToastContainer } from "react-toastify";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const { Title } = Typography;
+// Components
+
+// Apis
+import { ToastContainer } from "react-toastify";
+import LoginForm from "./LoginForm";
+import { LanguageSwitcher } from "@/fer-framework/fe-cores/components/LanguageSwitch";
+import { SlideInFromLeft } from "@/fer-framework/fe-component/web/MotionWrapper";
+import SignUp from "../SignUp";
+import FramerMotionWrapper from "@/ts-framework/ts-component/FramerMotionWrapper";
+
+const { Title, Text } = Typography;
 
 function FormLogin() {
   const { t } = useTranslation();
-  const [postLogin, { isLoading }] = usePostLoginMutation();
-  const [
-    triggerGetUser,
-    { data: userData, error: userError, isLoading: isUserLoading },
-  ] = useLazyGetUserQuery();
-  const router = useRouter();
-  const [form] = Form.useForm();
-
-  const onFinish = async (values: any) => {
-    try {
-      const data = await postLogin({
-        usernameOrEmail: values.email,
-        password: values.password,
-      }).unwrap();
-
-      setCookie("token", data.token);
-      const user = await triggerGetUser(data.user.id).unwrap();
-
-      localStorage.setItem("userId", JSON.stringify(data.user.id));
-      toast.success(t("auth.login.success"));
-      router.push("/home");
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.message || t("auth.login.error"));
-    }
-  };
+  const [type, setType] = useState<string>("login");
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundImage: 'url("/tienganh6.jpg")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}>
-      <Card style={{ width: 400, borderRadius: 12 }}>
-        <Title level={3} style={{ textAlign: "center" }}>
-          {t("auth.login.title")}
-        </Title>
-        <ToastContainer position="top-right" autoClose={3000} />
-
-        <Form
-          form={form}
-          name="login-form"
-          layout="vertical"
-          onFinish={onFinish}>
-          <Form.Item
-            name="email"
-            label={t("auth.form.emailOrUsername.label")}
-            rules={[
-              {
-                required: true,
-                message: t("auth.form.emailOrUsername.required"),
-              },
-            ]}>
-            <Input
-              prefix={<UserOutlined />}
-              size="large"
-              placeholder={t("auth.form.emailOrUsername.placeholder")}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label={t("auth.form.password.label")}
-            rules={[
-              { required: true, message: t("auth.form.password.required") },
-            ]}>
-            <Input.Password
-              prefix={<LockOutlined />}
-              size="large"
-              placeholder={t("auth.form.password.placeholder")}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              loading={isLoading}
-              htmlType="submit"
-              block
-              size="large">
-              {t("auth.login.submit")}
-            </Button>
-          </Form.Item>
-
-          <Form.Item style={{ margin: 0 }}>
-            <Flex justify="center" align="center">
-              <ForgetPassword />
-            </Flex>
-          </Form.Item>
-
-          <Divider size="middle" style={{ borderWidth: 2 }} />
-
-          <Flex justify="center" align="center">
-            <SignUp />
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Flex vertical gap={24} justify="space-between">
+        <FramerMotionWrapper
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          duration={0.8}
+          viewport={{ once: true, amount: 0.8 }}>
+          <Flex justify="space-between" align="center">
+            <GlobalLogo />
+            <LanguageSwitcher type="select" />
           </Flex>
-        </Form>
-      </Card>
-    </div>
+        </FramerMotionWrapper>
+
+        <Card
+          style={{
+            border: "none",
+            padding: 40,
+            height: 570,
+          }}>
+          <Flex vertical justify="center" align="center">
+            <SlideInFromLeft viewport={{ once: true, amount: 0.8 }}>
+              <Title level={2} style={{ textAlign: "start" }}>
+                {t("auth.login.title")}
+              </Title>
+            </SlideInFromLeft>
+            <SlideInFromLeft
+              duration={1}
+              viewport={{ once: true, amount: 0.8 }}>
+              <Text type="secondary">{t("auth.login.description")}</Text>
+            </SlideInFromLeft>
+          </Flex>
+
+          <SlideInFromLeft
+            duration={1.2}
+            viewport={{ once: true, amount: 0.8 }}
+            style={{
+              marginTop: 20,
+            }}>
+            <Flex justify="center">
+              <Segmented<string>
+                value={type}
+                defaultValue="login"
+                options={[
+                  {
+                    label: t("auth.login.submit"),
+                    value: "login",
+                  },
+                  {
+                    label: t("auth.signUp.createAccount"),
+                    value: "register",
+                  },
+                ]}
+                onChange={(value) => {
+                  setType(value);
+                }}
+                size="large"
+              />
+            </Flex>
+            {type === "login" ? <LoginForm /> : <SignUp />}
+          </SlideInFromLeft>
+        </Card>
+
+        <FramerMotionWrapper
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          duration={0.8}
+          viewport={{ once: true, amount: 0.8 }}>
+          <Flex justify="center">
+            <Text type="secondary" style={{ textAlign: "center" }}>
+              ES English ©{new Date().getFullYear()} Created by Long Ch1
+            </Text>
+          </Flex>
+        </FramerMotionWrapper>
+      </Flex>
+    </>
   );
 }
 

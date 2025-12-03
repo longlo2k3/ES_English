@@ -2,7 +2,7 @@
 
 import AModal from "@/fer-framework/fe-component/web/AModal";
 
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 
 import React from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -28,13 +28,20 @@ function ChangePassword(props: IProps) {
     try {
       await form.validateFields();
 
+      if (values.new_password !== values.confirm_password) {
+        message.error(t("auth.changePassword.samePassword"));
+        return;
+      }
+
       const data = await changPWApi({
         old_password: values.old_password,
         new_password: values.new_password,
       });
 
       if (data?.error) {
-        toast.error((data?.error as any)?.message || t("auth.changePassword.failed"));
+        toast.error(
+          (data?.error as any)?.message || t("auth.changePassword.failed")
+        );
       } else {
         toast.success(data?.data?.message || t("auth.changePassword.success"));
         onCancel();
@@ -52,11 +59,19 @@ function ChangePassword(props: IProps) {
     <AModal
       title={t("auth.changePassword.title")}
       open={open}
-      onCancel={onCancel}
+      onCancel={() => {
+        onCancel();
+        form.resetFields();
+      }}
       destroyOnHidden
       footer={() => (
         <>
-          <Button key={"btn-cancel"} onClick={onCancel}>
+          <Button
+            key={"btn-cancel"}
+            onClick={() => {
+              onCancel();
+              form.resetFields();
+            }}>
             {t("common.cancel")}
           </Button>
           <Button
@@ -87,7 +102,9 @@ function ChangePassword(props: IProps) {
               message: t("auth.changePassword.form.oldPassword.required"),
             },
           ]}>
-          <Input.Password placeholder={t("auth.changePassword.form.oldPassword.placeholder")} />
+          <Input.Password
+            placeholder={t("auth.changePassword.form.oldPassword.placeholder")}
+          />
         </Form.Item>
 
         <Form.Item
@@ -99,7 +116,25 @@ function ChangePassword(props: IProps) {
               message: t("auth.changePassword.form.newPassword.required"),
             },
           ]}>
-          <Input.Password placeholder={t("auth.changePassword.form.newPassword.placeholder")} />
+          <Input.Password
+            placeholder={t("auth.changePassword.form.newPassword.placeholder")}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name={"confirm_password"}
+          label={t("auth.changePassword.form.confirmPassword.label")}
+          rules={[
+            {
+              required: true,
+              message: t("auth.changePassword.form.confirmPassword.required"),
+            },
+          ]}>
+          <Input.Password
+            placeholder={t(
+              "auth.changePassword.form.confirmPassword.placeholder"
+            )}
+          />
         </Form.Item>
       </Form>
     </AModal>

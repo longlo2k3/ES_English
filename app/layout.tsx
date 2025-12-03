@@ -10,6 +10,7 @@ import "@ant-design/v5-patch-for-react-19";
 import { ProviderRedux } from "./stores/providers";
 import themeConfig from "./themeConfig";
 import { I18nProvider } from "@/fer-framework/fe-cores/components/I18nProvider";
+import TimeTrackerWrapper from "@/fer-framework/fe-cores/components/TimeTrackerWrapper";
 
 export default async function RootLayout({
   children,
@@ -23,7 +24,9 @@ export default async function RootLayout({
           <AntdRegistry>
             <ThemeProvider theme={themeConfig} locale={viVN}>
               <MessageProvider>
-                <ProviderRedux>{children}</ProviderRedux>
+                <ProviderRedux>
+                  <TimeTrackerWrapper>{children}</TimeTrackerWrapper>
+                </ProviderRedux>
               </MessageProvider>
             </ThemeProvider>
           </AntdRegistry>

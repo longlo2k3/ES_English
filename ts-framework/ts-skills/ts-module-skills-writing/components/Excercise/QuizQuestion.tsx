@@ -1,5 +1,15 @@
-import { useState, useEffect } from "react"; // Thêm useEffect
-import { Typography, Form, Row, Col, Image, Flex, Spin, Input } from "antd";
+import { useState, useEffect, useRef } from "react"; // Thêm useEffect
+import {
+  Typography,
+  Form,
+  Row,
+  Col,
+  Image,
+  Flex,
+  Spin,
+  Input,
+  Alert,
+} from "antd";
 import { createStyles } from "antd-style";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import SpinLoading from "@/ts-framework/ts-component/Spin";
@@ -9,8 +19,13 @@ import {
   tryAgainSoundUrl,
 } from "@/ts-framework/ts-skills/components/SoundEffect";
 import CKEditorWrapper from "@/ts-framework/ts-component/CKEditorWrapper";
+import {
+  SlideInFromLeft,
+  SlideInFromRight,
+  ZoomMotion,
+} from "@/fer-framework/fe-component/web/MotionWrapper";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 interface IProps {
   detailData: any;
@@ -20,21 +35,6 @@ interface IProps {
   isSkip?: boolean;
 }
 
-const colors = {
-  backgroundCorrect: "#d7ffb8",
-  backgroundIncorrect: "#ffdfe0",
-  backgroundDefault: "#f9fafb",
-  backgroundSelected: "#DDF4FF",
-  textDefault: "#000000",
-  textCorrect: "#58CC02",
-  textIncorrect: "#FF4B4B",
-  textSelected: "#1899D6",
-  borderDefault: "1px solid #e5e5e5",
-  borderCorrect: "1px solid #58CC02",
-  borderIncorrect: "1px solid #FF4B4B",
-  borderSelected: "1px solid #1899D6",
-};
-
 export const QuizQuestion = ({
   detailData,
   isLoading,
@@ -42,18 +42,12 @@ export const QuizQuestion = ({
   isSkip,
 }: IProps) => {
   const form = Form.useFormInstance();
-  const [selected, setSelected] = useState(null);
-  const { styles } = useStyles();
+
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const questionData = detailData?.questions?.[0];
 
   const itemData = detailData?.item;
-
-  useEffect(() => {
-    setSelected(null);
-  }, [detailData]);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [isSkip]);
 
   useEffect(() => {
     let soundUrl;
@@ -88,61 +82,70 @@ export const QuizQuestion = ({
 
   return (
     <>
-      <Form.Item
-        className={styles.section}
-        name={"content"}
-        initialValue={itemData?.body_text}
-        hidden
-      />
-      <Form.Item className={styles.section}>
-        <Flex align="center" vertical gap={16}>
-          <Image
-            src={itemData?.media_image_url}
-            preview={false}
-            alt="ảnh tượng trương"
-            width={"100%"}
-            height={300}
-            style={{
-              borderRadius: 4,
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
+      <Form.Item name={"content"} initialValue={itemData?.body_text} hidden />
+
+      <Row
+        gutter={[24, 24]}
+        justify={!itemData?.media_audio_url ? "center" : "start"}
+        style={{ marginBottom: 24 }}>
+        <Col xs={24} lg={12}>
+          <SlideInFromLeft type="animate" duration={0.8}>
+            <Image
+              src={itemData?.media_image_url}
+              preview={true}
+              alt="ảnh tượng trưng"
+              width={"100%"}
+              height={300}
+              style={{
+                borderRadius: 12,
+                objectFit: "cover", // Gợi ý: 'cover' thường đẹp hơn 'fill'
+                objectPosition: "center",
+              }}
+            />
+          </SlideInFromLeft>
+        </Col>
+
+        {itemData?.media_audio_url && (
+          <Col xs={24} lg={12}>
+            <Flex vertical justify="center" gap={8} style={{ height: "100%" }}>
+              <SlideInFromRight type="animate" duration={0.8}>
+                <Title level={5}>Âm thanh gợi ý:</Title>
+              </SlideInFromRight>
+              <SlideInFromRight type="animate" duration={1}>
+                <audio
+                  ref={audioRef}
+                  src={itemData?.media_audio_url}
+                  // autoPlay // Cân nhắc bỏ autoPlay nếu nó xung đột với âm thanh hiệu ứng
+                  controls
+                  style={{ width: "100%" }}>
+                  <source src={itemData?.media_audio_url} type="audio/mpeg" />
+                </audio>
+              </SlideInFromRight>
+            </Flex>
+          </Col>
+        )}
+      </Row>
+
+      {itemData?.body_text && (
+        <ZoomMotion type="animate" duration={0.8}>
+          <Alert
+            message={itemData.body_text}
+            type="info"
+            showIcon
+            style={{ marginBottom: 24, fontSize: 16 }}
           />
-          <Flex align="center" gap={16}>
-            <Text italic>{`"${itemData?.body_text}"`}</Text>
-          </Flex>
-        </Flex>
-      </Form.Item>
-      <Form.Item name={`chosen_option_id`}>
+        </ZoomMotion>
+      )}
+
+      <Form.Item
+        label={
+          <ZoomMotion type="animate" duration={0.8}>
+            <Title level={4}>{questionData?.question_text}</Title>
+          </ZoomMotion>
+        }
+        name={`chosen_option_id`}>
         <CKEditorWrapper isDisabled={false} height={100} />
       </Form.Item>
     </>
   );
 };
-
-const useStyles = createStyles(({ token, css }) => ({
-  section: {
-    // marginBottom: "24px",
-  },
-  questionCard: {
-    background: "#f9fafb",
-    border: "2px dashed #d1d5db",
-  },
-  questionText: {
-    fontSize: "18px",
-    textAlign: "center",
-    marginBottom: 0,
-    fontWeight: 500,
-  },
-  hintTag: {
-    fontSize: "15px",
-    borderRadius: "8px",
-    padding: "8px 16px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-  },
-  answerInput: {
-    fontSize: "18px",
-    borderRadius: "8px",
-  },
-}));

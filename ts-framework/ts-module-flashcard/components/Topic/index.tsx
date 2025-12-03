@@ -1,86 +1,98 @@
-import ATable from "@/fer-framework/fe-component/web/ATable";
-import { ColumnProps } from "antd/es/table";
 import React, { useState } from "react";
 import { useGetTopicFlashCardQuery } from "../../apis";
-import { Button, Flex, Tooltip, Typography } from "antd";
+import { Button, Flex, List, theme } from "antd";
 import { SnippetsOutlined } from "@ant-design/icons";
 import { useHookTable } from "@/fer-framework/fe-cores/common/table";
 import SavedList from "./SavedList";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
-
-const { Title, Text } = Typography;
+import ACard from "@/fer-framework/fe-component/web/ACard";
+import { useRouter } from "next/navigation";
+import {
+  SlideInFromBottom,
+  ZoomMotion,
+} from "@/fer-framework/fe-component/web/MotionWrapper";
+import Mascot from "@/ts-framework/ts-component/Mascot";
+import HeaderOperation from "@/fer-framework/fe-component/web/ATable/HeaderOperation";
+import { useTheme } from "@/fer-framework/fe-global/themes";
 
 function TopicTable() {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
 
-  const { dataSource, pagination, isLoading } = useHookTable({
+  const { mode } = useTheme();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  const router = useRouter();
+
+  const { dataSource, isLoading } = useHookTable({
     useHookApi: useGetTopicFlashCardQuery,
     paramsApi: {
       type: "FLASHCARD",
     },
+    config: ["title", "description"],
   });
 
-  const columns: ColumnProps<any>[] = [
-    {
-      title: t("flashCard.titleTable"),
-      dataIndex: "title",
-      key: "title",
-      ellipsis: true,
-    },
-    {
-      title: t("flashCard.description"),
-      dataIndex: "description",
-      key: "description",
-      ellipsis: true,
-    },
-    {
-      title: t("flashCard.exercises"),
-      dataIndex: "exercises",
-      key: "exercises",
-      width: 150,
-      align: "center",
-      ellipsis: true,
-    },
-    {
-      title: t("flashCard.action"),
-      key: "operation",
-      align: "center",
-      render: (_, record) => {
-        return (
-          <Link rel="prefetch" key={_} href={`/flashcard/${record?._id}`}>
-            {t("flashCard.doExercise")}
-          </Link>
-        );
-      },
-    },
-  ];
   return (
-    <>
-      <Flex vertical gap={18} style={{ padding: 18 }}>
-        <Flex justify="space-between">
-          <Text strong>{t("flashCard.titleTable")}</Text>
-          <Tooltip title="Xem danh sách từ vựng đã lưu">
-            <Button
-              onClick={() => setIsOpen(true)}
-              type="primary"
-              icon={<SnippetsOutlined />}>
-              {t("flashCard.savedList")}
-            </Button>
-          </Tooltip>
-        </Flex>
-        <ATable
-          dataSource={dataSource}
-          pagination={pagination}
-          columns={columns}
-          size="small"
-          loading={isLoading}
-        />
+    <div
+      style={{
+        width: "100%",
+        background:
+          mode === "dark"
+            ? "#0f172a"
+            : "linear-gradient(135deg, #d4f1ff 0%, #e8e5ff 100%)",
+        padding: 20,
+        borderRadius: "16px",
+        height: "100%",
+      }}>
+      <div style={{ position: "absolute", right: "5%", top: "50%" }}>
+        <ZoomMotion duration={0.8}>
+          <Mascot message={"Chọn một chủ đề!"} />
+        </ZoomMotion>
+      </div>
+
+      <Flex justify="space-between" align="center" style={{ marginBottom: 18 }}>
+        <HeaderOperation />
+        <Button
+          onClick={() => setIsOpen(true)}
+          type="primary"
+          icon={<SnippetsOutlined />}>
+          {t("flashCard.savedList")}
+        </Button>
       </Flex>
 
+      <List
+        dataSource={dataSource}
+        grid={{ gutter: 16, sm: 1, md: 2, xl: 4 }}
+        loading={isLoading}
+        renderItem={(item: any, index: number) => {
+          const duration = 0.2 + index * 0.2;
+          return (
+            <SlideInFromBottom type="animate" duration={duration}>
+              <List.Item>
+                <ACard
+                  title={item.title}
+                  hoverable
+                  style={{ minWidth: 200, width: 300 }}
+                  styles={{
+                    body: {
+                      minHeight: 90,
+                    },
+                  }}
+                  onClick={() => {
+                    router.push(`/flashcard/${item?._id}`);
+                  }}>
+                  <p>{item.description}</p>
+                </ACard>
+              </List.Item>
+            </SlideInFromBottom>
+          );
+        }}
+      />
+
       <SavedList open={isOpen} onCancel={() => setIsOpen(false)} />
-    </>
+    </div>
   );
 }
 

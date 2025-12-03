@@ -22,4 +22,8 @@ export interface QuizCompletionProps {
   score: number;
   total: number;
   onReset: () => void;
+  answered: number;
+  url: string;
+  correctAnswers: number;
+  incorrectAnswers: number;
 }

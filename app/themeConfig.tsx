@@ -4,7 +4,7 @@ import { saira } from "@/fer-framework/fe-global/assets";
 
 const themeConfig = {
   token: {
-    fontFamily: `${saira.style.fontFamily}`,
+    fontFamily: saira.style.fontFamily,
     colorPrimary: `#2575fc`, //linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)
     secondaryColor: "#6a11cb",
   },

@@ -1,21 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { ArrowLeftOutlined, CloseCircleFilled } from "@ant-design/icons";
+import { CloseCircleFilled } from "@ant-design/icons";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import { createStyles } from "antd-style";
 import CancelModal from "../CancelModa.tsx";
-import { Flex } from "antd";
+import { Col, Divider, Flex, Row, Typography } from "antd";
 
 interface IProps {
   children?: React.ReactNode;
-  rollbackUrl: string;
   isBodyCard?: boolean;
+  title?: string | React.ReactNode;
+  action?: React.ReactNode[];
+  resultScreen?: React.ReactNode;
+  rollbackUrl?: string;
 }
 
+const { Text, Title } = Typography;
+
 function GlobalBackground(props: IProps) {
-  const { children, rollbackUrl, isBodyCard } = props;
+  const { children, isBodyCard, title, action, resultScreen, rollbackUrl } =
+    props;
   const { styles } = useStyles();
 
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
@@ -31,23 +36,35 @@ function GlobalBackground(props: IProps) {
         onClick={() => setIsOpenCancelModal(true)}
       />
       {isBodyCard ? (
-        <ACard
-          style={{
-            height: "100%",
-          }}
-          className={styles.card}>
-          {children}
-        </ACard>
+        <Flex align="center" justify="center" style={{ height: "100%" }}>
+          <Row>
+            <Col
+              style={{
+                borderRadius: 10,
+                background: "#fff",
+                padding: 20,
+              }}>
+              {title}
+              <Divider style={{ borderColor: "#d3d3d3c7", marginTop: 0 }} />
+              {children}
+            </Col>
+            <Col
+              style={{
+                padding: 20,
+                borderRadius: 10,
+                background: "#fff",
+                marginLeft: 20,
+              }}>
+              {resultScreen}
+            </Col>
+          </Row>
+        </Flex>
       ) : (
         children
       )}
 
       {isOpenCancelModal && (
-        <CancelModal
-          open={isOpenCancelModal}
-          onCancel={handleCancel}
-          rollbackUrl={rollbackUrl}
-        />
+        <CancelModal open={isOpenCancelModal} onCancel={handleCancel} />
       )}
     </div>
   );
@@ -63,6 +80,7 @@ const useStyles = createStyles(({ token, css }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    padding: "28px 16px",
   },
   maxWidth: {
     maxWidth: "768px",
@@ -70,7 +88,7 @@ const useStyles = createStyles(({ token, css }) => ({
   },
   card: {
     boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-    margin: "0 calc(50% - 384px)",
+    width: "calc(100% - 600px)",
     height: "100vh",
   },
   rollback: css`
@@ -79,7 +97,7 @@ const useStyles = createStyles(({ token, css }) => ({
     font-size: 40px;
     position: absolute;
     top: 16px;
-    right: 16px;
+    left: 16px;
     cursor: pointer;
   `,
 }));

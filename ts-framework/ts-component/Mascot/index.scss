@@ -1,0 +1,148 @@
+/* NỘI DUNG TỆP: Mascot.css */
+/* (Sao chép toàn bộ CSS từ ví dụ HTML/CSS trước) */
+:root {
+  --primary-color: #4a90e2; /* Màu chủ đạo của ES English */
+  --body-bg: #f4f7f6;
+  --bubble-bg: #ffffff;
+}
+
+/* ... (tất cả các style khác như .mascot-container, .speech-bubble, @keyframes, v.v...) ... */
+.mascot-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.speech-bubble {
+  position: absolute;
+  bottom: 110px; /* Phía trên linh vật */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bubble-bg);
+  color: #333;
+  padding: 12px 18px;
+  border: 1px solid #3333336c;
+  border-radius: 20px;
+  border-bottom-left-radius: 4px;
+  width: max-content;
+  max-width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  transform-origin: bottom center;
+  z-index: 10;
+}
+
+/* Trạng thái 'speaking' */
+.mascot-container.speaking .speech-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0%) translateY(8px); /* Nảy lên 1 chút */
+}
+
+/* --- SVG Linh vật (Cú Eon) --- */
+.mascot {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+/* Các thành phần SVG để tạo hiệu ứng */
+#eye-left,
+#eye-right {
+  transform-origin: center;
+}
+#wing-left,
+#wing-right {
+  transform-origin: top center;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Trạng thái IDLE (chờ) */
+.mascot-container.idle .mascot {
+  animation: float 3s ease-in-out infinite;
+}
+.mascot-container.idle #eye-left,
+.mascot-container.idle #eye-right {
+  animation: blink 4s infinite step-end;
+}
+
+/* Trạng thái CORRECT (đúng) */
+.mascot-container.correct .mascot {
+  animation: jump 0.5s ease;
+}
+.mascot-container.correct #wing-left {
+  transform: rotate(-30deg) scale(1.1);
+}
+.mascot-container.correct #wing-right {
+  transform: rotate(30deg) scale(1.1);
+}
+.mascot-container.correct #eye-normal {
+  display: none;
+}
+.mascot-container.correct #eye-happy {
+  display: block;
+}
+
+/* Trạng thái INCORRECT (sai) */
+.mascot-container.incorrect .mascot {
+  animation: shake 0.5s ease;
+}
+.mascot-container.incorrect #eye-normal {
+  display: none;
+}
+.mascot-container.incorrect #eye-confused {
+  display: block;
+}
+
+/* Ẩn các biểu cảm mắt khác */
+#eye-happy,
+#eye-confused {
+  display: none;
+}
+
+/* ----- Keyframes (Hoạt ảnh) ----- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes blink {
+  0%,
+  95% {
+    transform: scaleY(1);
+  }
+  97%,
+  100% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  75% {
+    transform: translateX(5px) rotate(5deg);
+  }
+}

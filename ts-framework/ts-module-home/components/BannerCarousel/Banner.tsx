@@ -17,7 +17,7 @@ function Banner() {
           src="/tienganh6.jpg"
           alt="Banner tiếng anh"
           width={"100%"}
-          height={500}
+          height={400}
           preview={false}
           style={{
             borderRadius: 12,
@@ -32,7 +32,7 @@ function Banner() {
           src="/tienganh5.jpg"
           alt="Banner tiếng anh"
           width={"100%"}
-          height={500}
+          height={400}
           preview={false}
           style={{
             borderRadius: 12,
@@ -47,7 +47,7 @@ function Banner() {
           src="/tienganh4.jpg"
           alt="Banner tiếng anh"
           width={"100%"}
-          height={500}
+          height={400}
           preview={false}
           style={{
             borderRadius: 12,

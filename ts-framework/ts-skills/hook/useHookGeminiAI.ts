@@ -1,6 +1,6 @@
 // hooks/useGemini.ts
 import { useState, useCallback } from "react";
-import { callGemini } from "./callGeminiAI";
+import { callGemini, callGeminiToText } from "./callGeminiAI";
 // Đảm bảo đường dẫn import chính xác tới file chứa hàm callGemini
 
 interface GeminiData {
@@ -44,4 +44,31 @@ export const useHookGemini = () => {
   }, []);
 
   return { callGeminiApi, data, isLoading, error };
+};
+
+export const useHookGeminiToText = () => {
+  const [data, setData] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const callGeminiToTextApi = useCallback(async (promptText: string) => {
+    setIsLoading(true);
+    setError(null);
+    setData("");
+
+    try {
+      const response = await callGeminiToText(promptText);
+
+      setData(response);
+      return response;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Đã xảy ra lỗi không xác định")
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return { callGeminiToTextApi, data, isLoading, error };
 };

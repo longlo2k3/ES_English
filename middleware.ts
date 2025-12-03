@@ -5,6 +5,9 @@ export default async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === "" && token) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
+  if (req.nextUrl.pathname.startsWith("/dashboard") && token) {
+    return NextResponse.redirect(new URL("/home", req.url));
+  }
   if (req.nextUrl.pathname.startsWith("/login") && token) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
@@ -22,6 +25,9 @@ export const config = {
     "/skills",
     "/skills/:path*",
     "/test",
+    "/test/:path",
     "/flashcard",
+    "/",
+    "/dashboard",
   ],
 };

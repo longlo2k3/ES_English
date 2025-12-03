@@ -47,6 +47,18 @@ export const authApis = baseApi.injectEndpoints({
       "/auth/change-password",
       builder
     ),
+
+    forgetPW: postBaseApi<{ email: string }>("/auth/forgot-password", builder),
+
+    verifyOTP: postBaseApi<{ email: string; code: string }>(
+      "/auth/verify-reset",
+      builder
+    ),
+
+    resetPW: postBaseApi<{ email: string; new_password: string }>(
+      "/auth/reset-password",
+      builder
+    ),
   }),
 });
 
@@ -59,4 +71,8 @@ export const {
   useGetUserQuery,
   useEditUserMutation,
   useChangePWUserMutation,
+
+  useForgetPWMutation,
+  useVerifyOTPMutation,
+  useResetPWMutation,
 } = authApis;

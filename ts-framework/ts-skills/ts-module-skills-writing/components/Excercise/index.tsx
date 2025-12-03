@@ -11,10 +11,12 @@ import {
   QuizProgress,
   QuizResult,
 } from "@/ts-framework/ts-skills/components/QuizCore";
-import { useHookQuiz } from "@/fer-framework/fe-cores/hooks/useHookQuiz";
+import { useHookQuiz } from "@/ts-framework/ts-skills/hook/useHookQuiz";
 import { QuizQuestion } from "./QuizQuestion";
 import GlobalBackground from "@/ts-framework/ts-skills/components/GlobalBackground";
 import SpinLoading from "@/ts-framework/ts-component/Spin";
+import QuizResultScreen from "@/ts-framework/ts-skills/components/QuizCore/QuizResultScreen";
+import { SlideInFromRight } from "@/fer-framework/fe-component/web/MotionWrapper";
 
 function Excercise() {
   const params = useParams();
@@ -31,6 +33,8 @@ function Excercise() {
     progress,
     isLastQuestion,
     isQuizCompleted,
+    correctAnswerCount,
+    incorrectAnswerCount,
     isViewResult,
     isSkip,
     answeredQuestionIds,
@@ -50,69 +54,93 @@ function Excercise() {
       topic_id: topic_id,
       type: "WRITING_PROMPT",
     },
-    skill_id,
-    level_id,
-    topic_id,
+    skill_id: skill_id as any,
+    level_id: level_id as any,
+    topic_id: topic_id as any,
     form,
     type: "document",
   });
 
-  return isLoading ? (
-    <SpinLoading isLoading={isLoading} />
-  ) : (
-    <GlobalBackground rollbackUrl="/skills/writing" isBodyCard>
+  if (isLoading) {
+    return <SpinLoading isLoading={isLoading} />;
+  }
+
+  return (
+    <>
       {!isViewResult ? (
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          style={{
-            height: "100%",
-          }}>
-          <QuizProgress
-            current={currentQuestionIndex + 1}
-            total={totalQuestions}
-            score={score}
-            answered={answeredQuestionIds.size}
-            progress={progress}
-          />
-
-          <QuizQuestion
-            detailData={data}
-            isLoading={isLoadingQuestion}
-            isCorrect={lastAnswer?.isCorrect}
-            isSkip={isSkip}
-            correctAnswer={lastAnswer?.correctAnswer}
-          />
-
-          {showResult && lastAnswer && (
-            <QuizResult
-              isCorrect={lastAnswer.isCorrect}
-              correctAnswer={lastAnswer.correctAnswer}
+        <GlobalBackground
+          title={
+            <QuizProgress
+              current={currentQuestionIndex + 1}
+              total={totalQuestions}
+              score={score}
+              answered={answeredQuestionIds.size}
+              progress={progress}
             />
-          )}
+          }
+          resultScreen={
+            <SlideInFromRight type="animate">
+              <QuizResultScreen
+                isCorrect={lastAnswer?.isCorrect as boolean}
+                correctAnswerCount={correctAnswerCount}
+                incorrectAnswerCount={incorrectAnswerCount}
+                score={score}
+                progress={progress}
+                totalQuestions={totalQuestions}
+                current={currentQuestionIndex + 1}
+                answered={answeredQuestionIds.size}
+              />
+            </SlideInFromRight>
+          }
+          rollbackUrl="/skills/writing"
+          isBodyCard>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            style={{ width: "900px" }}>
+            <QuizQuestion
+              key={currentQuestionIndex}
+              detailData={data}
+              isLoading={isLoadingQuestion}
+              isCorrect={lastAnswer?.isCorrect}
+              isSkip={isSkip}
+              correctAnswer={lastAnswer?.correctAnswer}
+            />
 
-          <QuizActions
-            showResult={showResult}
-            isLastQuestion={isLastQuestion}
-            onNext={nextQuestion}
-            onReset={resetQuiz}
-            onViewResult={onViewResult}
-            isCorrect={lastAnswer?.isCorrect}
-            onSkip={onSkip}
-            isSkip={isSkip}
-            isLoading={isLoadingQuestion}
-            isLoadingButton={isLoadingGemini}
-          />
-        </Form>
+            {showResult && lastAnswer && (
+              <QuizResult
+                isCorrect={lastAnswer.isCorrect}
+                correctAnswer={lastAnswer.correctAnswer}
+              />
+            )}
+
+            <QuizActions
+              showResult={showResult}
+              isLastQuestion={isLastQuestion}
+              onNext={nextQuestion}
+              onReset={resetQuiz}
+              onViewResult={onViewResult}
+              isCorrect={lastAnswer?.isCorrect}
+              onSkip={onSkip}
+              isSkip={isSkip}
+              isLoading={isLoadingQuestion}
+              isLoadingButton={isLoadingGemini}
+            />
+          </Form>
+        </GlobalBackground>
       ) : (
         <QuizCompletion
           score={score}
           total={totalQuestions}
+          correctAnswers={correctAnswerCount}
+          incorrectAnswers={incorrectAnswerCount}
           onReset={resetQuiz}
+          answered={answeredQuestionIds.size}
+          url="/skills/writing"
         />
       )}
-    </GlobalBackground>
+    </>
   );
 }
 

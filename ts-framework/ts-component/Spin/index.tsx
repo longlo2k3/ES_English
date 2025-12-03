@@ -3,10 +3,11 @@ import React from "react";
 
 interface IProps {
   isLoading: boolean;
+  tip?: string;
 }
 
 function SpinLoading(props: IProps) {
-  const { isLoading } = props;
+  const { isLoading, tip } = props;
   return (
     <div
       style={{
@@ -15,7 +16,7 @@ function SpinLoading(props: IProps) {
         alignItems: "center",
         height: "100vh",
       }}>
-      <Spin spinning={isLoading} />
+      <Spin spinning={isLoading} tip={tip} />
     </div>
   );
 }

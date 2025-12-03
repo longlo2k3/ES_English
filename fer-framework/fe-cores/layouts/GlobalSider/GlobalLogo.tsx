@@ -1,6 +1,7 @@
 import { Flex, Image, Typography } from "antd";
 import React from "react";
 import { useCollapsed } from "../GlobalLayoutBase/CollapsedProvider";
+import LogoIcon from "@/ts-framework/ts-component/Icons/Logo";
 
 function GlobalLogo() {
   const { collapsed, toggleCollapsed } = useCollapsed();
@@ -8,7 +9,8 @@ function GlobalLogo() {
   return (
     <div className="demo-logo">
       <Flex justify="center" align="center" style={{ margin: "10px 0" }}>
-        <Image width={60} height={60} src="/logo.png" preview={false} />
+        {/* <Image width={60} height={60} src="/logo.png" preview={false} /> */}
+        <LogoIcon width={60} height={60} />
         <Typography.Title
           level={4}
           style={{

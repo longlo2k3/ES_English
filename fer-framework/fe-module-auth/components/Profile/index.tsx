@@ -38,14 +38,16 @@ function ProfileModal(props: IProps) {
   const userInfor = useSelector((state: any) => authSelectors.getUser(state));
 
   const { data, refetch } = useGetUserQuery({
-    id: userInfor?.user?.id as string,
+    id: userInfor?.user?._id as string,
   });
 
   const [editUser, { isLoading }] = useEditUserMutation();
 
   useEffect(() => {
-    form.setFieldsValue(data?.user);
-  }, [data, form]);
+    if (open) {
+      form.setFieldsValue(data?.user);
+    }
+  }, [open, form]);
 
   const handleUpdateInfo = async (values: any) => {
     try {
@@ -57,7 +59,7 @@ function ProfileModal(props: IProps) {
           occupation: values.occupation,
           avatar_url: values.avatar_url,
         },
-        params: { id: userInfor?.user?.id as string },
+        params: { id: userInfor?.user?._id as string },
       }).unwrap();
 
       refetch();
@@ -81,10 +83,9 @@ function ProfileModal(props: IProps) {
             key="btn-cancel"
             onClick={() => {
               onCancel();
-              form.resetFields();
               setIsEdit(true);
             }}>
-            {t("button.close")}
+            {t("auth.profile.close")}
           </Button>
           ,
           {isEdit ? (
@@ -107,7 +108,7 @@ function ProfileModal(props: IProps) {
                 type="primary"
                 form={"form-update-info"}
                 htmlType="submit">
-                {t("auth.profile.update")}
+                {t("auth.profile.save")}
               </Button>
             </>
           )}
@@ -133,11 +134,11 @@ function ProfileModal(props: IProps) {
             <UploadFile
               listType="picture-card"
               initValues={userInfor?.user?.avatar_url}
+              returnObject={true}
               maxCount={1}
               multiple={false}
               maxSize={50}
-              accept="image/*"
-              returnObject={true}>
+              accept="image/*">
               <button style={{ border: 0, background: "none" }} type="button">
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>{t("auth.profile.upload")}</div>
@@ -165,7 +166,7 @@ function ProfileModal(props: IProps) {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item label={t("auth.profile.form.age")} name="age">
+        <Form.Item label="Tuổi" name="age">
           <InputNumber disabled={isEdit} />
         </Form.Item>
 
@@ -200,13 +201,13 @@ function ProfileModal(props: IProps) {
           />
         </Form.Item>
 
-        {/* <Form.Item label="Trạng thái" name="status">
+        <Form.Item label="Trạng thái" name="status">
           <Switch disabled />
         </Form.Item>
 
         <Form.Item label="Ngày tạo" name="created_at">
           <Input disabled />
-        </Form.Item> */}
+        </Form.Item>
       </Form>
     </AModal>
   );
