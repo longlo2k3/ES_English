@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   },
   env: {
     NEXT_PUBLIC_URL_API_SERVER: "https://apiesenglish-y99l.onrender.com/api",
-    NEXT_PUBLIC_GEMINI_API_KEY: "AIzaSyAFgNAKx0CLZ0MAai0iAfrEqPinPbNyz90",
+    NEXT_PUBLIC_GEMINI_API_KEY: "AIzaSyBrzjD61AGiY3esZTmTTpcgdoQ0Thvh-3Q",
   },
 };
 
