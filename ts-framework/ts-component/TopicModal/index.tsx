@@ -2,7 +2,7 @@ import ACard from "@/fer-framework/fe-component/web/ACard";
 import AModal from "@/fer-framework/fe-component/web/AModal";
 import { useHookTable } from "@/fer-framework/fe-cores/common/table";
 import { useGetTopicBySkillAndLevelQuery } from "@/ts-framework/ts-skills/apis";
-import { Col, List, Row, Tag } from "antd";
+import { Col, List, Row, Tag, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 import React, { useMemo } from "react";
 import Mascot from "../Mascot";
@@ -18,6 +18,8 @@ interface IProps {
   level_id: number;
   type: string;
 }
+
+const { Text, Paragraph } = Typography;
 
 function TopicModal(props: IProps) {
   const { open, onCancel, skill_id, level_id, type } = props;
@@ -79,7 +81,11 @@ function TopicModal(props: IProps) {
                         `/skills/${type}/${item.skill_id._id}/${item.level_id._id}/${item._id}`
                       );
                     }}>
-                    <p>{item.description}</p>
+                    <Tooltip title={item.description}>
+                      <Paragraph ellipsis={{ rows: 1, expandable: false }}>
+                        {item.description}
+                      </Paragraph>
+                    </Tooltip>
                     <Tag color="blue">{item.skill_id.name}</Tag>
                     <Tag color="green">{item.level_id.name}</Tag>
                   </ACard>

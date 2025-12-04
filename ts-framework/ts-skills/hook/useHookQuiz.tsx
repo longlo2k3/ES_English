@@ -107,13 +107,16 @@ export const useHookQuiz = (props: IProps) => {
   );
 
   // ============ FUNCSTION COUNT CORRECT INCORRECT
-  const handleSetCorrectAnswerCount = useCallback((isCorrect: boolean) => {
-    if (isCorrect === true) {
-      setCorrectAnswerCount((prevCount) => prevCount + 1);
-    } else {
-      setIncorrectAnswerCount((prevCount) => prevCount + 1);
-    }
-  }, []);
+  const handleSetCorrectAnswerCount = useCallback(
+    (isCorrect: boolean, score: number) => {
+      if (isCorrect === true && score >= 5) {
+        setCorrectAnswerCount((prevCount) => prevCount + 1);
+      } else {
+        setIncorrectAnswerCount((prevCount) => prevCount + 1);
+      }
+    },
+    []
+  );
 
   // ============ EFFECTS ============
   // Update progress
@@ -223,7 +226,7 @@ export const useHookQuiz = (props: IProps) => {
       }
       setShowResult(true);
 
-      handleSetCorrectAnswerCount(isCorrect);
+      handleSetCorrectAnswerCount(isCorrect, addedScore);
     },
     []
   );

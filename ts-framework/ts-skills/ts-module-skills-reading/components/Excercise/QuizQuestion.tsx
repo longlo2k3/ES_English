@@ -230,7 +230,6 @@ export const QuizQuestion = ({
             type="info"
             showIcon
             style={{ marginBottom: 24, fontSize: 16 }}
-            closable
           />
         </ZoomMotion>
       )}
