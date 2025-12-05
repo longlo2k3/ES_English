@@ -10,9 +10,8 @@ interface Props {
 
 const FullScreen: FC<Props> = ({ full, toggleFullscreen }) => {
   const { t } = useTranslation();
-
   return (
-    <Tooltip title={full ? "Thoát toàn màn hình" : "Toàn màn hình"}>
+    <Tooltip title={full ? t("header.closeFull") : t("header.fullScreen")}>
       <Button
         type="text"
         onClick={toggleFullscreen}

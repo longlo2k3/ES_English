@@ -1,0 +1,135 @@
+{
+  "total_user_attempts": 7,
+  "total_user_score": 30,
+  "progress": [
+    {
+      "skill_code": "LISTENING",
+      "skill_name": "Listening",
+      "level": "Beginner",
+      "topic_title": "Listening Topic 2 (Beginner)",
+      "topic_description": "Listening practice for Beginner level - Topic 2",
+      "correct_count": 20,
+      "total_lessons": 2,
+      "total_questions": 2,
+      "progress_percent": 100,
+      "last_activity_at": "2025-11-20T14:47:53.259Z",
+      "topic_details": {
+        "_id": "690235f43650e5358349aa38",
+        "skill_id": "68ed254ce5c75afc72ea3c28",
+        "level_id": "68ed254ce5c75afc72ea3c2f",
+        "title": "Listening Topic 2 (Beginner)",
+        "description": "Listening practice for Beginner level - Topic 2",
+        "type": "CONTENT",
+        "created_at": "2025-10-29T15:42:44.948Z",
+        "updated_at": "2025-10-29T15:42:44.948Z",
+        "__v": 0
+      }
+    },
+    {
+      "skill_code": "READING",
+      "skill_name": "Reading",
+      "level": "Beginner",
+      "topic_title": "School Life",
+      "topic_description": "Basic reading about school",
+      "correct_count": 10,
+      "total_lessons": 5,
+      "total_questions": 5,
+      "progress_percent": 20,
+      "last_activity_at": "2025-11-20T14:49:29.703Z",
+      "topic_details": {
+        "_id": "68ffa53f71964ffb1de6eb0d",
+        "skill_id": "68ed254ce5c75afc72ea3c29",
+        "level_id": "68ed254ce5c75afc72ea3c2f",
+        "title": "School Life",
+        "description": "Basic reading about school",
+        "type": "CONTENT",
+        "created_at": "2025-10-27T17:00:47.780Z",
+        "updated_at": "2025-10-27T17:00:47.780Z",
+        "__v": 0
+      }
+    }
+  ],
+  "skills_summary": [
+    {
+      "skill": "LISTENING",
+      "total_score": 20,
+      "total_attempts": 2,
+      "progress_percent": 100
+    },
+    {
+      "skill": "READING",
+      "total_score": 10,
+      "total_attempts": 5,
+      "progress_percent": 20
+    }
+  ],
+  "study_time": {
+    "total_7days": 6120,
+    "daily": [
+      {
+        "date": "2025-11-17",
+        "duration": 3400
+      },
+      {
+        "date": "2025-11-18",
+        "duration": 0
+      },
+      {
+        "date": "2025-11-19",
+        "duration": 1320
+      },
+      {
+        "date": "2025-11-20",
+        "duration": 1400
+      },
+      {
+        "date": "2025-11-21",
+        "duration": 0
+      },
+      {
+        "date": "2025-11-22",
+        "duration": 0
+      },
+      {
+        "date": "2025-11-23",
+        "duration": 0
+      }
+    ]
+  },
+  "mock_tests": [
+    {
+      "mock_test_id": "69209137d506b405a70a6bd8",
+      "test_title": "Mock Test 02 — 10 Questions",
+      "total_questions_test": 1,
+      "test_correct": 0,
+      "test_incorrect": 1,
+      "test_score": 0,
+      "submitted_at": "2025-11-21T16:20:34.419Z"
+    },
+    {
+      "mock_test_id": "692088e11525ef7abbcac256",
+      "test_title": "Mock Test 02 — 10 Questions",
+      "total_questions_test": 2,
+      "test_correct": 1,
+      "test_incorrect": 1,
+      "test_score": 1,
+      "submitted_at": "2025-11-21T16:06:23.431Z"
+    },
+    {
+      "mock_test_id": "69209169d506b405a70a6be0",
+      "test_title": "Mock Test 02 — 10 Questions",
+      "total_questions_test": 1,
+      "test_correct": 0,
+      "test_incorrect": 0,
+      "test_score": 0
+    },
+    {
+      "mock_test_id": "692091b9ddcdc5a38f542650",
+      "test_title": "Mock Test 02 — 10 Questions",
+      "total_questions_test": 1,
+      "test_correct": 0,
+      "test_incorrect": 0,
+      "test_score": 0
+    }
+  ]
+}

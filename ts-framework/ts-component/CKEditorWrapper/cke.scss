@@ -1,0 +1,22 @@
+.main-container {
+  font-family: var(--ck-content-font-family);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+  min-width: 795px;
+  max-width: 795px;
+}
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  min-height: var(--editor-height, 300px);
+  max-height: var(--editor-height, 300px);
+  background: var(--editor-background, #ffffff);
+  color: var(--editor-color, #000000);
+}
+.ck-powered-by {
+  display: none !important;
+}

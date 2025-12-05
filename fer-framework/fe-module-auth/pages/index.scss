@@ -1,0 +1,32 @@
+.background-container {
+  background-image: url("/tienganh5.jpg");
+  background-size: cover;
+  background-position: center;
+  background-size: "cover";
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.frosted-card {
+  width: 500px;
+  background: rgba(22, 21, 21, 0.314) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px !important;
+  border: 1px solid rgba(22, 21, 21, 0.314);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.frosted-card .ant-card-body {
+  background: transparent !important;
+}
+
+.frosted-card .ant-typography,
+.frosted-card .ant-form-item-label > label {
+  color: #ffffff !important;
+}

@@ -1,0 +1,123 @@
+// Component cho Tab chi tiết kỹ năng (Giữ nguyên, nhưng sẽ đẹp hơn nhờ Theme)
+const SkillTabPane = ({ skillData }) => (
+  <Space direction="vertical" style={{ width: "100%" }}>
+    <Row gutter={24}>
+      <Col span={12}>
+        <Statistic
+          title="Tiến độ Hoàn thành"
+          value={skillData.completionPercent}
+          suffix="%"
+        />
+        <Progress
+          percent={skillData.completionPercent}
+          showInfo={false}
+          status="active"
+        />
+        <Text type="secondary">{`${skillData.completedLessons} / ${skillData.totalLessons} bài học`}</Text>
+      </Col>
+      <Col span={12}>
+        <Statistic
+          title="Điểm Thành thạo"
+          value={skillData.masteryScore}
+          suffix="/ 100"
+        />
+      </Col>
+    </Row>
+    {skillData.subScores && (
+      <>
+        <Title level={5} style={{ marginTop: "16px" }}>
+          Chi tiết
+        </Title>
+        <Row gutter={16}>
+          {Object.entries(skillData.subScores).map(([key, value]) => (
+            <Col span={12} key={key}>
+              <Text style={{ textTransform: "capitalize" }}>{key}</Text>
+              <Progress percent={value} />
+            </Col>
+          ))}
+        </Row>
+      </>
+    )}
+  </Space>
+);
+
+// Component Lịch Heatmap được Style lại đẹp hơn
+const ActivityHeatmap = ({ heatmapData }) => {
+  const dateCellRender = (value) => {
+    const dateString = value.format("YYYY-MM-DD");
+    const activityLevel = heatmapData[dateString] || 0;
+
+    // Tùy chỉnh màu sắc (Mô phỏng Heatmap)
+    let backgroundColor = "#ebedf0"; // Mặc định (không học)
+    if (activityLevel > 3) backgroundColor = "#239a3b"; // Học nhiều
+    else if (activityLevel > 1) backgroundColor = "#7bc96f"; // Học vừa
+    else if (activityLevel > 0) backgroundColor = "#c6e48b"; // Học ít
+
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor,
+          borderRadius: "3px",
+          opacity: activityLevel > 0 ? 1 : 0.6,
+        }}
+        title={`Hoạt động: ${activityLevel}`}
+      />
+    );
+  };
+
+  return (
+    <Calendar
+      fullscreen={false}
+      // Dùng 'fullCellRender' để thay thế hoàn toàn ô
+      fullCellRender={(date) => (
+        <div style={{ padding: "4px" }}>{dateCellRender(date)}</div>
+      )}
+    />
+  );
+};
+
+
+
+ // Cấu hình cho Biểu đồ Đường (Lịch sử thi thử)
+  const lineChartConfig = {
+    data: mockTests.scoreHistory,
+    xField: "date",
+    yField: "overallScore",
+    height: 250,
+    point: {
+      size: 5,
+      shape: "diamond",
+    },
+    tooltip: {
+      title: "Ngày thi",
+      formatter: (datum) => ({ name: "Điểm", value: datum.overallScore }),
+    },
+    smooth: true,
+  };
+
+  // Cấu hình cho Biểu đồ Nhện (Tổng quan kỹ năng)
+  const radarChartConfig = {
+    data: overallDashboard.spiderChartData,
+    xField: "skill",
+    yField: "score",
+    height: 280,
+    meta: {
+      score: {
+        min: 0,
+        max: 100,
+        nice: true,
+      },
+    },
+    area: {
+      style: {
+        fillOpacity: 0.2,
+      },
+    },
+    point: {},
+    line: {
+      style: {
+        lineWidth: 2,
+      },
+    },  };
