@@ -7,7 +7,7 @@ import {
   useGetSavedFlashCardQuery,
   usePostSaveFlashCardMutation,
 } from "../../apis";
-import { useTheme } from "antd-style";
+import { useTheme } from "@/fer-framework/fe-global/themes";
 
 interface VocabularyCardProps {
   data: any;
