@@ -5,7 +5,8 @@ import { CloseCircleFilled } from "@ant-design/icons";
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import { createStyles } from "antd-style";
 import CancelModal from "../CancelModa.tsx";
-import { Col, Divider, Flex, Row, Typography } from "antd";
+import { Col, Divider, Flex, Row, theme, Typography } from "antd";
+import { useTheme } from "@/fer-framework/fe-global/themes";
 
 interface IProps {
   children?: React.ReactNode;
@@ -23,6 +24,12 @@ function GlobalBackground(props: IProps) {
     props;
   const { styles } = useStyles();
 
+  const { mode } = useTheme();
+
+  const {
+    token: { colorBgContainer, colorBorderSecondary },
+  } = theme.useToken();
+
   const [isOpenCancelModal, setIsOpenCancelModal] = useState(false);
 
   const handleCancel = () => {
@@ -30,7 +37,11 @@ function GlobalBackground(props: IProps) {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        background: mode === "dark" ? colorBgContainer : "#f0f8ffb3",
+      }}>
       <CloseCircleFilled
         className={styles.rollback}
         onClick={() => setIsOpenCancelModal(true)}
@@ -41,18 +52,23 @@ function GlobalBackground(props: IProps) {
             <Col
               style={{
                 borderRadius: 10,
-                background: "#fff",
+                background: mode === "dark" ? colorBorderSecondary : "#fff",
                 padding: 20,
               }}>
               {title}
-              <Divider style={{ borderColor: "#d3d3d3c7", marginTop: 0 }} />
+              <Divider
+                style={{
+                  borderColor: mode === "dark" ? colorBorderSecondary : "#fff",
+                  marginTop: 0,
+                }}
+              />
               {children}
             </Col>
             <Col
               style={{
                 padding: 20,
                 borderRadius: 10,
-                background: "#fff",
+                background: mode === "dark" ? colorBorderSecondary : "#fff",
                 marginLeft: 20,
               }}>
               {resultScreen}
@@ -75,7 +91,6 @@ export default GlobalBackground;
 const useStyles = createStyles(({ token, css }) => ({
   container: {
     minHeight: "100vh",
-    background: "#f0f8ffb3",
     borderRadius: "8px",
     display: "flex",
     flexDirection: "column",

@@ -1,12 +1,13 @@
 import ACard from "@/fer-framework/fe-component/web/ACard";
 import { usePostMutation } from "@/fer-framework/fe-cores/hooks/useApiMutaton";
 import { SoundOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
-import { Button, Flex, Image, Space, Typography } from "antd";
+import { Button, Flex, Image, Space, theme, Typography } from "antd";
 import React, { useMemo } from "react";
 import {
   useGetSavedFlashCardQuery,
   usePostSaveFlashCardMutation,
 } from "../../apis";
+import { useTheme } from "antd-style";
 
 interface VocabularyCardProps {
   data: any;
@@ -19,6 +20,11 @@ function VocabularyCard(props: VocabularyCardProps) {
   const { data, type } = props;
 
   const { data: SavedData, refetch } = useGetSavedFlashCardQuery(null);
+
+  const { mode } = useTheme();
+  const {
+    token: { colorBgContainer, colorBorderSecondary },
+  } = theme.useToken();
 
   const isSaved = useMemo(() => {
     return !!SavedData?.items.find((item: any) => item?._id === data?._id);
@@ -114,6 +120,8 @@ function VocabularyCard(props: VocabularyCardProps) {
               justifyContent: "center",
               alignItems: "center",
               textAlign: "center",
+              background:
+                mode === "dark" ? colorBgContainer : colorBorderSecondary,
             }}>
             <Flex vertical gap={8} align="center">
               <Title level={1} style={{ margin: 0, color: "#0052cc" }}>
@@ -132,6 +140,8 @@ function VocabularyCard(props: VocabularyCardProps) {
               justifyContent: "center",
               alignItems: "center",
               textAlign: "center",
+              background:
+                mode === "dark" ? colorBgContainer : colorBorderSecondary,
             }}>
             <Flex vertical gap={8} align="center">
               <Image

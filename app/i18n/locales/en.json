@@ -307,7 +307,7 @@
     }
   },
   "chatBot": {
-    "startMessage": "Ask me anything"
+    "startMessage": "Ask me anything?"
   },
 
   "_progress": {

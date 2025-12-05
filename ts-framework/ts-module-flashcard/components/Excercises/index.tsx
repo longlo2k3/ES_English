@@ -5,32 +5,48 @@ import "react-quizlet-flashcard/dist/index.css";
 import { useGetFlasCardByTopicQuery } from "../../apis";
 import { useParams } from "next/navigation";
 import VocabularyCard from "./VocabularyCard";
-import { Spin } from "antd";
+import { Button, Col, Flex, Row, Spin } from "antd";
+import {
+  LeftCircleFilled,
+  LeftOutlined,
+  RightCircleFilled,
+} from "@ant-design/icons";
+import { useTheme } from "@/fer-framework/fe-global/themes";
 
 function FlashcardDeck({ deck }: any) {
   const flipArrayHook = useFlashcardArray({
     deckLength: deck.length,
     showProgressBar: true,
-    showCount: true,
+    showCount: false,
+    showControls: false,
     cycle: true,
   });
 
+  const { mode } = useTheme();
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}>
+    <Flex vertical align="center" justify="center" gap={18}>
       <FlashcardArray
         deck={deck}
         flipArrayHook={flipArrayHook}
         style={{
           textAlign: "center",
-          height: "100vh",
         }}
       />
-    </div>
+      <Flex gap={10}>
+        <LeftCircleFilled
+          style={{ fontSize: 24, color: mode === "dark" ? "white" : "black" }}
+          onClick={() => flipArrayHook.prevCard()}
+        />
+        <span style={{ color: mode === "dark" ? "white" : "black" }}>
+          {flipArrayHook.currentCard + 1} / {deck.length}
+        </span>
+        <RightCircleFilled
+          style={{ fontSize: 24, color: mode === "dark" ? "white" : "black" }}
+          onClick={() => flipArrayHook.nextCard()}
+        />
+      </Flex>
+    </Flex>
   );
 }
 

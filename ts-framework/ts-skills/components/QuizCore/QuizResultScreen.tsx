@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Flex, Progress, Space, Statistic, Typography } from "antd";
 import Mascot from "@/ts-framework/ts-component/Mascot";
 import { QuizResult } from "./QuizResult";
+import { useResponsive } from "antd-style";
 
 const { Text, Title } = Typography;
 
@@ -28,8 +29,13 @@ const QuizResultScreen = (props: IProps) => {
     incorrectAnswerCount,
   } = props;
 
+  const { xs, sm, md, lg, xl } = useResponsive();
+
   return (
-    <Space direction="vertical" align="center" size="middle">
+    <Space
+      direction={xl ? "vertical" : "horizontal"}
+      align="center"
+      size="middle">
       <Mascot
         triggerState={
           isCorrect === true
