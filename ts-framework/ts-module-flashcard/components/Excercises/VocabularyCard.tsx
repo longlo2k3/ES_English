@@ -103,11 +103,13 @@ function VocabularyCard(props: VocabularyCardProps) {
       style={{
         border: "none",
         height: "100%",
+        background: mode === "dark" ? colorBgContainer : "#fff",
       }}
       styles={{
         body: {
           height: "100%",
           padding: 0,
+          background: mode === "dark" ? colorBgContainer : "#fff",
         },
       }}>
       <Flex vertical style={{ height: "100%" }}>
