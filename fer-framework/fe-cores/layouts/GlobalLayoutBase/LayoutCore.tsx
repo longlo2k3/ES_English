@@ -8,6 +8,8 @@ import { useTheme } from "@/fer-framework/fe-global/themes";
 import GlobalLogo from "../GlobalSider/GlobalLogo";
 import MenuBase from "../GlobalSider/MenuBase";
 import GlobalHeader from "../GlobalHeader";
+import { useResponsivePadding } from "../../hooks/useResponsivePadding";
+import GlobalFooter from "../GlobalFooter";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -20,12 +22,15 @@ function LayoutCore({ children }: { children: React.ReactNode }) {
 
   const { mode } = useTheme();
 
+  const responsivePadding = useResponsivePadding();
+
   return (
     <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         theme={mode === "dark" ? "dark" : "light"}
+        breakpoint="lg"
         onCollapse={toggleCollapsed}>
         <GlobalLogo />
         <MenuBase />
@@ -34,13 +39,14 @@ function LayoutCore({ children }: { children: React.ReactNode }) {
         {/* Header */}
         <GlobalHeader />
         {/* Content */}
-        <Content style={{ margin: "16px" }}>
+        <Content style={{ margin: responsivePadding }}>
           <div
             style={{
               minHeight: 360,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
-              padding: "16px",
+              padding: responsivePadding,
+              height: "100%",
             }}>
             {children}
           </div>
@@ -48,7 +54,8 @@ function LayoutCore({ children }: { children: React.ReactNode }) {
         <Footer style={{ textAlign: "center" }}>
           ES English ©{new Date().getFullYear()} Created by Long Ch1
         </Footer>
-        <div style={{ position: "fixed", right: 40, bottom: 40 }}>
+        <div
+          style={{ position: "fixed", zIndex: 9999999, right: 40, bottom: 40 }}>
           <ChatbotWrapper />
         </div>
       </Layout>

@@ -1,0 +1,860 @@
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { FormInstance, message } from "antd";
+import { useTranslation } from "react-i18next";
+import {
+htmlToText,
+useFetchContentDetail,
+} from "@/fer-framework/fe-cores/utils";
+import {
+useAnswerQuestionMutation,
+useResultsQuestionMutation,
+useStartQuestionMutation,
+useSubmitQuestionMutation,
+} from "@/ts-framework/ts-skills/apis";
+import { useHookGemini } from "@/ts-framework/ts-skills/hook/useHookGeminiAI";
+import { promptNoEmpty, promptEmpty, promptSpeaking } from "../constants";
+
+interface IProps {
+useHookApi: any;
+paramsApi?: any;
+skill_id?: any;
+level_id?: any;
+topic_id?: any;
+form: FormInstance;
+type: "choice" | "document" | "audio";
+}
+
+export const useHookQuiz = (props: IProps) => {
+const { t } = useTranslation();
+const { useHookApi, paramsApi, form, type, skill_id, level_id, topic_id } =
+props;
+
+const [isViewResult, setIsViewResult] = useState(false);
+
+const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+const [showResult, setShowResult] = useState(false);
+const [score, setScore] = useState(0);
+const [progress, setProgress] = useState(0);
+const [answeredQuestionIds, setAnsweredQuestionIds] = useState(
+new Set<string>()
+);
+const [comment, setComment] = useState("");
+
+const [isSkip, setIsSkip] = useState(false);
+const [lastAnswer, setLastAnswer] = useState<{
+isCorrect: boolean;
+correctAnswer: string;
+} | null>(null);
+
+const {
+data: passagesData,
+isLoading: passagesLoading,
+refetch,
+} = useHookApi(paramsApi, {
+skip: !paramsApi,
+});
+
+const passages = useMemo(() => passagesData?.items || [], [passagesData]);
+const totalQuestions = useMemo(() => passages.length, [passages]);
+const currentPassage = useMemo(
+() => passages[currentQuestionIndex],
+[passages, currentQuestionIndex]
+);
+
+// call API
+const { data: detailData, loading: detailLoading } = useFetchContentDetail(
+currentPassage?.\_id
+);
+
+const [postStartQuestion, { isLoading: startLoading }] =
+useStartQuestionMutation();
+const [postAnswerQuestion, { isLoading: answerLoading }] =
+useAnswerQuestionMutation();
+const [postSubmitQuestion, { isLoading: submitLoading }] =
+useSubmitQuestionMutation();
+const [resultsQuestion, { isLoading: resultsLoading }] =
+useResultsQuestionMutation();
+
+const {
+callGeminiApi,
+data: geminiData,
+isLoading: isLoadingGemini,
+} = useHookGemini();
+
+const isLastQuestion = useMemo(
+() => currentQuestionIndex === totalQuestions - 1,
+[currentQuestionIndex, totalQuestions]
+);
+
+useEffect(() => {
+if (totalQuestions > 0) {
+setProgress((answeredQuestionIds.size / totalQuestions) \* 100);
+} else {
+setProgress(0);
+}
+}, [answeredQuestionIds, totalQuestions]);
+
+const isQuizCompleted = useMemo(
+() => totalQuestions > 0 && answeredQuestionIds.size === totalQuestions,
+[answeredQuestionIds, totalQuestions]
+);
+
+const onFinish = useCallback(
+async (values: {
+chosen_option_id: string;
+content: string;
+result?: string;
+}) => {
+const currentQuestion = (detailData as any)?.questions?.[0];
+
+      if (type === "choice") {
+        if (!currentQuestion || !currentQuestion._id) {
+          message.error(t("quiz.errors.noQuestionData"));
+          return;
+        }
+        const question_id = currentQuestion._id;
+        const { chosen_option_id } = values;
+        if (!chosen_option_id) {
+          message.error(t("quiz.errors.noChoice"));
+          return;
+        }
+
+        try {
+          const startData = await postStartQuestion({
+            skill_id: skill_id,
+            level_id: level_id,
+            topic_id: topic_id,
+            content_item_id: (detailData as any)?.item?._id,
+            attempt_scope: "CONTENT",
+          }).unwrap();
+
+          const attempt_id = startData?._id;
+          if (!attempt_id) {
+            message.error(t("quiz.errors.cannotStartAttempt"));
+            return;
+          }
+          const answerRes = await postAnswerQuestion({
+            attempt_id: attempt_id,
+            question_id: question_id,
+            chosen_option_id: chosen_option_id,
+            answer_text: null,
+          }).unwrap();
+
+          const submitRes = await postSubmitQuestion({
+            attempt_id: attempt_id,
+          }).unwrap();
+
+          const correctAnswerOption = currentQuestion?.options?.find(
+            (option: any) => option.is_correct === true
+          );
+          const correctAnswerText =
+            correctAnswerOption?.text || t("quiz.errors.noCorrectAnswerFound");
+
+          setLastAnswer({
+            isCorrect: answerRes.is_correct,
+            correctAnswer: correctAnswerText,
+          });
+
+          setScore((p) => p + submitRes.totalScore);
+
+          setAnsweredQuestionIds((prevSet) => {
+            const newSet = new Set(prevSet);
+            newSet.add(question_id);
+            return newSet;
+          });
+
+          setShowResult(true);
+        } catch (error) {
+          console.error("Lỗi khi nộp bài:", error);
+          message.error(t("quiz.errors.submitFailed"));
+        }
+      } else if (type === "document") {
+        try {
+          const { score, comment, isCorrect } = await callGeminiApi(
+            promptNoEmpty(values)
+          );
+
+          setComment(comment);
+
+          setShowResult(true);
+          setLastAnswer({
+            isCorrect: isCorrect,
+            correctAnswer: comment,
+          });
+
+          setScore((p) => p + score);
+        } catch (error) {
+          console.error("Lỗi khi gọi Gemini:", error);
+          message.error(
+            t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
+          );
+        }
+      } else if (type === "audio") {
+        try {
+          const { score, comment, isCorrect } = await callGeminiApi(
+            promptSpeaking(values)
+          );
+
+          setComment(comment);
+
+          setShowResult(true);
+          setLastAnswer({
+            isCorrect: isCorrect,
+            correctAnswer: comment,
+          });
+
+          setScore((p) => p + score);
+        } catch (error) {
+          console.error("Lỗi khi gọi Gemini:", error);
+          message.error(
+            t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
+          );
+        }
+      }
+    },
+    [
+      detailData,
+      skill_id,
+      level_id,
+      topic_id,
+      postStartQuestion,
+      postAnswerQuestion,
+      postSubmitQuestion,
+      setLastAnswer,
+      setScore,
+      setAnsweredQuestionIds,
+      setShowResult,
+      geminiData,
+      t,
+      type,
+      callGeminiApi,
+      geminiData,
+    ]
+
+);
+
+// Lưu kết quả cuối cùng
+useEffect(() => {
+if (
+(isQuizCompleted && type === "document" && totalQuestions > 0) ||
+(isQuizCompleted && type === "audio" && totalQuestions > 0)
+) {
+const finalScore = (score / (totalQuestions _ 10)) _ 10;
+
+      resultsQuestion({
+        topic_id: topic_id,
+        score: finalScore,
+        band_score: 0,
+        feedback: comment,
+      })
+        .unwrap()
+        .then(() => {
+          console.log("Lưu kết quả cuối cùng thành công!");
+        })
+        .catch((err) => console.error("Lỗi khi lưu kết quả cuối cùng:", err));
+    }
+
+}, [
+isQuizCompleted,
+type,
+totalQuestions,
+score,
+comment,
+topic_id,
+resultsQuestion,
+]);
+
+const nextQuestion = useCallback(() => {
+if (!isLastQuestion) {
+setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+setIsSkip(false);
+} else {
+message.info(t("quiz.info.completedAllQuestions"));
+}
+}, [isLastQuestion, t]);
+
+const resetQuiz = useCallback(() => {
+setCurrentQuestionIndex(0);
+setShowResult(false);
+setScore(0);
+setAnsweredQuestionIds(new Set());
+setLastAnswer(null);
+form.resetFields();
+setIsSkip(false);
+setIsViewResult(false);
+}, [form]);
+
+useEffect(() => {
+setShowResult(false);
+setLastAnswer(null);
+form.resetFields();
+}, [currentQuestionIndex, form]);
+
+const onViewResult = () => {
+setIsViewResult(true);
+};
+
+// const onSkip = useCallback(() => {
+// setIsSkip(true);
+// if (totalQuestions > 0) {
+// setProgress((prevProgress) => prevProgress + 100 / totalQuestions);
+// }
+// setAnsweredQuestionIds((prevSet) => {
+// const newSet = new Set(prevSet);
+// const qId = (detailData as any)?.questions?.[0]?.\_id;
+// if (qId) newSet.add(qId);
+// return newSet;
+// });
+// form.resetFields();
+// }, [detailData, form, totalQuestions]);
+
+const onSkip = useCallback(async () => {
+// const currentQuestion = (detailData as any)?.questions?.[0];
+// if (!currentQuestion || !currentQuestion.\_id) {
+// message.error(t("quiz.errors.noQuestionData"));
+// return;
+// }
+// const question_id = currentQuestion.\_id;
+
+    if (type === "choice") {
+      const currentQuestion = (detailData as any)?.questions?.[0];
+      if (!currentQuestion || !currentQuestion._id) {
+        message.error(t("quiz.errors.noQuestionData"));
+        return;
+      }
+      const question_id = currentQuestion._id;
+      try {
+        setIsSkip(true);
+        const startData = await postStartQuestion({
+          skill_id: skill_id,
+          level_id: level_id,
+          topic_id: topic_id,
+          content_item_id: (detailData as any)?.item?._id,
+          attempt_scope: "CONTENT",
+        }).unwrap();
+
+        const attempt_id = startData?._id;
+        if (!attempt_id) {
+          message.error(t("quiz.errors.cannotStartAttempt"));
+          return;
+        }
+
+        const answerRes = await postAnswerQuestion({
+          attempt_id: attempt_id,
+          question_id: question_id,
+          chosen_option_id: null,
+          answer_text: null,
+        }).unwrap();
+
+        const submitRes = await postSubmitQuestion({
+          attempt_id: attempt_id,
+        }).unwrap();
+
+        const correctAnswerOption = currentQuestion?.options?.find(
+          (option: any) => option.is_correct === true
+        );
+        const correctAnswerText =
+          correctAnswerOption?.text || t("quiz.errors.noCorrectAnswerFound");
+
+        setLastAnswer({
+          isCorrect: answerRes.is_correct,
+          correctAnswer: correctAnswerText,
+        });
+
+        setScore((p) => p + submitRes.totalScore);
+
+        setAnsweredQuestionIds((prevSet) => {
+          const newSet = new Set(prevSet);
+          newSet.add(question_id);
+          return newSet;
+        });
+
+        setShowResult(true);
+      } catch (error) {
+        console.error("Lỗi khi skip (choice):", error);
+        message.error(t("quiz.errors.submitFailed"));
+      }
+    } else if (type === "document") {
+      const questionText = (detailData as any)?.item?.body_text;
+
+      try {
+        const geminiResult = await callGeminiApi(promptEmpty(questionText));
+
+        if (!geminiResult) {
+          throw new Error("Phản hồi từ AI không hợp lệ");
+        }
+
+        setIsSkip(true);
+
+        setShowResult(true);
+        setLastAnswer({
+          isCorrect: false,
+          correctAnswer: `Answer Correct: ${geminiResult?.answer}`,
+        });
+
+        setScore((p) => p + 0);
+
+        // setAnsweredQuestionIds((prevSet) => {
+        //   const newSet = new Set(prevSet);
+        //   newSet.add(question_id);
+        //   return newSet;
+        // });
+      } catch (error) {
+        console.error("Lỗi khi gọi Gemini (skip):", error);
+        message.error(
+          t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
+        );
+      }
+    } else if (type === "audio") {
+      try {
+        const questionText = (detailData as any)?.item?.body_text;
+
+        const { score, comment, isCorrect } = await callGeminiApi(
+          promptSpeaking(questionText)
+        );
+
+        setComment(comment);
+
+        setShowResult(true);
+        setLastAnswer({
+          isCorrect: isCorrect,
+          correctAnswer: comment,
+        });
+
+        setScore((p) => p + score);
+
+        // setAnsweredQuestionIds((prevSet) => {
+        //   const newSet = new Set(prevSet);
+        //   newSet.add(question_id);
+        //   return newSet;
+        // });
+      } catch (error) {
+        console.error("Lỗi khi gọi Gemini:", error);
+        message.error(
+          t("quiz.errors.geminiFailed", "Không thể gọi AI để chấm điểm")
+        );
+      }
+    }
+
+}, [
+detailData,
+skill_id,
+level_id,
+topic_id,
+postStartQuestion,
+postAnswerQuestion,
+postSubmitQuestion,
+setLastAnswer,
+setScore,
+setAnsweredQuestionIds,
+setShowResult,
+t,
+type,
+callGeminiApi,
+]);
+
+return {
+data: detailData,
+currentPassage,
+currentQuestionIndex,
+totalQuestions,
+showResult,
+score,
+progress,
+isLastQuestion,
+isQuizCompleted,
+answeredQuestionIds,
+lastAnswer,
+isSkip,
+geminiData,
+isLoading: passagesLoading,
+isLoadingQuestion: detailLoading,
+isLoadingButton: startLoading || answerLoading || submitLoading,
+isLoadingGemini,
+isViewResult,
+onSkip,
+onViewResult,
+onFinish,
+nextQuestion,
+resetQuiz,
+};
+};
+
+//-----------------------------
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { FormInstance, message } from "antd";
+import { useTranslation } from "react-i18next";
+import {
+htmlToText,
+useFetchContentDetail,
+} from "@/fer-framework/fe-cores/utils";
+import {
+useAnswerQuestionMutation,
+useResultsQuestionMutation,
+useStartQuestionMutation,
+useSubmitQuestionMutation,
+} from "@/ts-framework/ts-skills/apis";
+import { useHookGemini } from "@/ts-framework/ts-skills/hook/useHookGeminiAI";
+import {
+promptNoEmpty,
+promptEmpty,
+promptSpeaking,
+} from "../../../fer-framework/fe-cores/constants";
+
+// ... (Interface IProps giữ nguyên)
+
+export const useHookQuiz = (props: IProps) => {
+const { t } = useTranslation();
+const { useHookApi, paramsApi, form, type, skill_id, level_id, topic_id } =
+props;
+
+// --- 1. STATE MANAGEMENT ---
+const [isViewResult, setIsViewResult] = useState(false);
+const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+const [showResult, setShowResult] = useState(false);
+const [score, setScore] = useState(0);
+const [progress, setProgress] = useState(0);
+const [answeredQuestionIds, setAnsweredQuestionIds] = useState(
+new Set<string>()
+);
+const [comment, setComment] = useState("");
+const [isSkip, setIsSkip] = useState(false);
+const [lastAnswer, setLastAnswer] = useState<{
+isCorrect: boolean;
+correctAnswer: string;
+} | null>(null);
+
+// --- 2. DATA FETCHING & API MUTATIONS ---
+const {
+data: passagesData,
+isLoading: passagesLoading,
+refetch,
+} = useHookApi(paramsApi, { skip: !paramsApi });
+
+const passages = useMemo(() => passagesData?.items || [], [passagesData]);
+const totalQuestions = useMemo(() => passages.length, [passages]);
+const currentPassage = useMemo(
+() => passages[currentQuestionIndex],
+[passages, currentQuestionIndex]
+);
+
+const { data: detailData, loading: detailLoading } = useFetchContentDetail(
+currentPassage?.\_id
+);
+
+const [postStartQuestion, { isLoading: startLoading }] =
+useStartQuestionMutation();
+const [postAnswerQuestion, { isLoading: answerLoading }] =
+useAnswerQuestionMutation();
+const [postSubmitQuestion, { isLoading: submitLoading }] =
+useSubmitQuestionMutation();
+const [resultsQuestion, { isLoading: resultsLoading }] =
+useResultsQuestionMutation();
+
+const {
+callGeminiApi,
+data: geminiData,
+isLoading: isLoadingGemini,
+} = useHookGemini();
+
+// --- 3. DERIVED STATE (MEMOS) ---
+const isLastQuestion = useMemo(
+() => currentQuestionIndex === totalQuestions - 1,
+[currentQuestionIndex, totalQuestions]
+);
+
+const isQuizCompleted = useMemo(
+() => totalQuestions > 0 && answeredQuestionIds.size === totalQuestions,
+[answeredQuestionIds, totalQuestions]
+);
+
+// Lấy questionId an toàn
+const currentQuestion = useMemo(
+() => (detailData as any)?.questions?.[0],
+[detailData]
+);
+const currentQuestionId = useMemo(
+() => currentQuestion?.\_id,
+[currentQuestion]
+);
+
+// --- 4. SIDE EFFECTS (EFFECTS) ---
+
+// Cập nhật thanh progress
+useEffect(() => {
+if (totalQuestions > 0) {
+setProgress((answeredQuestionIds.size / totalQuestions) \* 100);
+} else {
+setProgress(0);
+}
+}, [answeredQuestionIds, totalQuestions]);
+
+// Reset state khi chuyển câu hỏi
+useEffect(() => {
+setShowResult(false);
+setLastAnswer(null);
+form.resetFields();
+setIsSkip(false); // Thêm reset isSkip
+}, [currentQuestionIndex, form]);
+
+// Lưu kết quả cuối cùng (SỬA LỖI Ở ĐÂY)
+useEffect(() => {
+// Logic này sẽ không chạy nếu isQuizCompleted không bao giờ đúng
+if (
+isQuizCompleted &&
+totalQuestions > 0 &&
+(type === "document" || type === "audio")
+) {
+const finalScore = (score / (totalQuestions _ 10)) _ 10;
+resultsQuestion({
+topic_id: topic_id,
+score: finalScore,
+band_score: 0,
+feedback: comment,
+})
+.unwrap()
+.then(() => {
+console.log("Lưu kết quả cuối cùng thành công!");
+})
+.catch((err) => console.error("Lỗi khi lưu kết quả cuối cùng:", err));
+}
+}, [
+isQuizCompleted,
+type,
+totalQuestions,
+score,
+comment,
+topic_id,
+resultsQuestion,
+]);
+
+// --- 5. CORE LOGIC HELPERS (REFACTORED) ---
+
+/\*\*
+
+- REFACTOR 1: Gộp logic xử lý cho 'choice' (submit và skip)
+- Hàm này xử lý việc nộp câu trả lời trắc nghiệm.
+- Nếu `chosen_option_id` là `null`, nó được coi là "skip".
+  \*/
+  const handleSubmitChoiceAnswer = useCallback(
+  async (chosen_option_id: string | null) => {
+  if (!currentQuestionId) {
+  message.error(t("quiz.errors.noQuestionData"));
+  return;
+  }
+
+      try {
+        const startData = await postStartQuestion({
+          skill_id: skill_id,
+          level_id: level_id,
+          topic_id: topic_id,
+          content_item_id: (detailData as any)?.item?._id,
+          attempt_scope: "CONTENT",
+        }).unwrap();
+
+        const attempt_id = startData?._id;
+        if (!attempt_id) {
+          message.error(t("quiz.errors.cannotStartAttempt"));
+          return;
+        }
+
+        const answerRes = await postAnswerQuestion({
+          attempt_id: attempt_id,
+          question_id: currentQuestionId,
+          chosen_option_id: chosen_option_id, // Truyền `null` nếu skip
+          answer_text: null,
+        }).unwrap();
+
+        const submitRes = await postSubmitQuestion({
+          attempt_id: attempt_id,
+        }).unwrap();
+
+        const correctAnswerOption = currentQuestion?.options?.find(
+          (option: any) => option.is_correct === true
+        );
+        const correctAnswerText =
+          correctAnswerOption?.text || t("quiz.errors.noCorrectAnswerFound");
+
+        setLastAnswer({
+          isCorrect: answerRes.is_correct,
+          correctAnswer: correctAnswerText,
+        });
+        setScore((p) => p + submitRes.totalScore);
+
+        // SỬA LỖI: Luôn cập nhật ID câu hỏi đã trả lời
+        setAnsweredQuestionIds((prevSet) =>
+          new Set(prevSet).add(currentQuestionId)
+        );
+        setShowResult(true);
+        setIsSkip(chosen_option_id === null); // Đặt trạng thái skip
+      } catch (error) {
+        console.error("Lỗi khi nộp bài (choice):", error);
+        message.error(t("quiz.errors.submitFailed"));
+      }
+
+  },
+  [
+  currentQuestionId,
+  currentQuestion,
+  postStartQuestion,
+  postAnswerQuestion,
+  postSubmitQuestion,
+  skill_id,
+  level_id,
+  topic_id,
+  detailData,
+  t,
+  ]
+  );
+
+/\*\*
+
+- REFACTOR 2: Logic chấm điểm bằng Gemini (cho 'document' và 'audio')
+  \*/
+  const handleGeminiGrading = useCallback(
+  async (prompt: string) => {
+  // if (!currentQuestionId) {
+  // message.error(t("quiz.errors.noQuestionData"));
+  // return;
+  // }
+  try {
+  const { score, comment, isCorrect } = await callGeminiApi(prompt);
+
+        setComment(comment);
+        setShowResult(true);
+        setLastAnswer({ isCorrect: isCorrect, correctAnswer: comment });
+        setScore((p) => p + score);
+        setIsSkip(false);
+
+        // SỬA LỖI QUAN TRỌNG: Cập nhật ID câu hỏi đã trả lời
+        setAnsweredQuestionIds((prevSet) =>
+          new Set(prevSet).add(currentQuestionId)
+        );
+      } catch (error) {
+        console.error("Lỗi khi gọi Gemini (grading):", error);
+        message.error(t("quiz.errors.geminiFailed"));
+      }
+
+  },
+  [callGeminiApi, currentQuestionId, t]
+  );
+
+/\*\*
+
+- REFACTOR 3: Logic SKIP cho Gemini (cho 'document' và 'audio')
+  \*/
+  const handleGeminiSkip = useCallback(async () => {
+  // if (!currentQuestionId) {
+  // message.error(t("quiz.errors.noQuestionData"));
+  // return;
+  // }
+  const questionText = (detailData as any)?.item?.body_text;
+
+
+    try {
+      const geminiResult = await callGeminiApi(promptEmpty(questionText));
+      if (!geminiResult) throw new Error("Phản hồi từ AI không hợp lệ");
+
+      setIsSkip(true);
+      setShowResult(true);
+      setLastAnswer({
+        isCorrect: false,
+        correctAnswer: `Answer Correct: ${geminiResult?.answer}`,
+      });
+      setScore((p) => p + 0); // Skip không được điểm
+
+      // SỬA LỖI QUAN TRỌNG: Cập nhật ID câu hỏi đã trả lời
+      setAnsweredQuestionIds((prevSet) =>
+        new Set(prevSet).add(currentQuestionId)
+      );
+    } catch (error) {
+      console.error("Lỗi khi gọi Gemini (skip):", error);
+      message.error(t("quiz.errors.geminiFailed"));
+    }
+
+}, [callGeminiApi, currentQuestionId, detailData, t]);
+
+// --- 6. EVENT HANDLERS (Sử dụng các helper đã refactor) ---
+
+const onFinish = useCallback(
+async (values: {
+chosen_option_id: string;
+content: string;
+result?: string;
+}) => {
+if (type === "choice") {
+await handleSubmitChoiceAnswer(values.chosen_option_id);
+} else if (type === "document") {
+await handleGeminiGrading(promptNoEmpty(values));
+} else if (type === "audio") {
+await handleGeminiGrading(promptSpeaking(values));
+}
+},
+[type, handleSubmitChoiceAnswer, handleGeminiGrading] // Dependencies gọn gàng
+);
+
+const onSkip = useCallback(async () => {
+if (type === "choice") {
+await handleSubmitChoiceAnswer(null); // Gọi helper với `null`
+} else if (type === "document" || type === "audio") {
+// SỬA LỖI: 'audio' skip nên giống 'document' skip
+await handleGeminiSkip();
+}
+}, [type, handleSubmitChoiceAnswer, handleGeminiSkip]); // Dependencies gọn gàng
+
+// --- 7. OTHER ACTIONS ---
+
+const nextQuestion = useCallback(() => {
+if (!isLastQuestion) {
+setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+// State khác đã được reset trong useEffect [currentQuestionIndex]
+} else {
+// Khi ở câu cuối và nhấn "Continue", nên hiển thị kết quả
+setIsViewResult(true);
+message.info(t("quiz.info.completedAllQuestions"));
+}
+}, [isLastQuestion, t]);
+
+const resetQuiz = useCallback(() => {
+setCurrentQuestionIndex(0);
+setShowResult(false);
+setScore(0);
+setAnsweredQuestionIds(new Set());
+setLastAnswer(null);
+form.resetFields();
+setIsSkip(false);
+setIsViewResult(false);
+}, [form]);
+
+const onViewResult = () => {
+setIsViewResult(true);
+};
+
+// --- 8. RETURN VALUES ---
+return {
+data: detailData,
+currentPassage,
+currentQuestionIndex,
+totalQuestions,
+showResult,
+score,
+progress,
+isLastQuestion,
+isQuizCompleted,
+answeredQuestionIds, // Trả về để debug hoặc hiển thị
+lastAnswer,
+isSkip,
+geminiData, // Có thể không cần trả về nếu chỉ dùng nội bộ
+isLoading: passagesLoading,
+isLoadingQuestion: detailLoading,
+isLoadingButton:
+startLoading || answerLoading || submitLoading || isLoadingGemini, // Thêm isLoadingGemini
+isLoadingGemini,
+isViewResult,
+onSkip,
+onViewResult,
+onFinish,
+nextQuestion,
+resetQuiz,
+};
+};

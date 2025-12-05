@@ -1,0 +1,36 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 20px;
+}
+
+/* Bubble chung */
+.chat-bubble {
+  padding: 10px 16px;
+  max-width: 70%;
+  border-radius: 20px;
+  word-wrap: break-word;
+  right: 0;
+
+  &.user {
+    background: #4a90e2;
+    color: #fff;
+    align-self: flex-start;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 4px;
+  }
+
+  &.bot {
+    background: #fff;
+    color: #000;
+    align-self: flex-start;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 4px;
+  }
+}

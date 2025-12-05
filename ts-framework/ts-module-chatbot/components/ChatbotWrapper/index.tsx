@@ -1,8 +1,11 @@
 import React from "react";
 import ChatBot, { Button, Flow } from "react-chatbotify";
 import { callGeminiAPI } from "../../hooks/gemini";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 function ChatbotWrapper() {
+  const { t } = useTranslation();
   const settings = {
     general: {
       primaryColor: "#2575fc",
@@ -20,15 +23,6 @@ function ChatbotWrapper() {
     header: {
       title: "ESbot",
       buttons: [Button.CLOSE_CHAT_BUTTON],
-    },
-
-    launcher: {
-      // ⚡ tùy chỉnh nút mở chat
-      icon: "💬",
-      label: "Hỏi tôi nhé!",
-      position: "right", // hoặc 'left'
-      showBadge: true, // có hiện số thông báo không
-      badgeColor: "#ff0000",
     },
   };
 
@@ -58,11 +52,11 @@ function ChatbotWrapper() {
 
   const flow = {
     start: {
-      message: "Chào bạn 🥳! Hãy hỏi tôi bất cứ điều gì.",
+      message: t("chatBot.startMessage"),
       path: "ai_response",
     },
     ai_response: {
-      message: async (params) => {
+      message: async (params: any) => {
         const userQuestion = params.userInput;
         const response = await callGeminiAPI(userQuestion);
         return response;
@@ -71,7 +65,14 @@ function ChatbotWrapper() {
     },
   };
 
-  return <ChatBot styles={styles} settings={settings} flow={flow} />;
+  return (
+    <ChatBot
+      key={i18next.language} // ép re-mount lại khi thay đổi ngôn ngữ
+      styles={styles}
+      settings={settings as any}
+      flow={flow}
+    />
+  );
 }
 
 export default ChatbotWrapper;

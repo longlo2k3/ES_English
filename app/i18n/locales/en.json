@@ -1,0 +1,464 @@
+{
+  "header": {
+    "language": "Select language",
+    "fullScreen": "Full screen",
+    "closeFull": "Exit full screen",
+    "themeDark": "Dark",
+    "themeLight": "Light"
+  },
+  "flashCard": {
+    "titleTable": "Topic",
+    "description": "Description",
+    "exercises": "Exercises",
+    "action": "Action",
+    "doExercise": "Start",
+    "savedList": "View list"
+  },
+  "savedList": {
+    "title": "Saved Vocabulary List",
+    "searchPlaceholder": "Search content",
+    "word": "Word",
+    "phonetic": "Phonetic",
+    "partOfSpeech": "Part of Speech",
+    "meaningVi": "Meaning (VI)",
+    "exampleEn": "Example (EN)",
+    "exampleVi": "Example (VI)",
+    "action": "Action",
+    "unsave": "Unsave",
+    "close": "Close"
+  },
+  "table": {
+    "showTotal": "{{start}}-{{end}} of {{total}} items",
+    "page": "Pages",
+    "multiDelete": {
+      "confirm": "Do you want to delete selected {{title}}?"
+    }
+  },
+  "account": {
+    "profile": "Profile",
+    "changePassword": "Change password",
+    "logout": "Logout"
+  },
+  "quiz": {
+    "completion": {
+      "title": "Completed! 🎉",
+      "score": "Your score:",
+      "accuracy": "Accuracy:",
+      "retry": "Try Again"
+    },
+    "result": {
+      "correct": {
+        "title": "Correct!",
+        "description": "Your answer is correct."
+      },
+      "incorrect": {
+        "title": "Incorrect",
+        "description": "Correct answer:"
+      }
+    },
+    "errors": {
+      "noQuestionData": "Question data not found.",
+      "cannotStartAttempt": "Cannot start attempt.",
+      "noCorrectAnswerFound": "Correct answer not found",
+      "submitFailed": "An error occurred while submitting. Please try again."
+    },
+    "info": {
+      "completedAllQuestions": "You have completed all questions!"
+    },
+    "actions": {
+      "skip": "Skip",
+      "check": "Check",
+      "continue": "Continue",
+      "result": "View Result"
+    },
+    "progress": {
+      "question": "Question",
+      "score": "Score"
+    }
+  },
+  "auth": {
+    "signUp": {
+      "createAccount": "Create account",
+      "modalTitle": "Create account",
+      "ok": "Create",
+      "create": "Create new",
+      "toastSent": "Verification code sent to your email",
+      "toastError": "Verification error"
+    },
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email",
+        "required": "Please enter email!"
+      },
+      "emailOrUsername": {
+        "label": "Username",
+        "placeholder": "Enter username",
+        "required": "Please enter username!"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password",
+        "required": "Please enter password!"
+      }
+    },
+    "verify": {
+      "title": "Verify email",
+      "ok": "Create",
+      "create": "Create new",
+      "toastSuccess": "Account created successfully",
+      "toastError": "Verification error",
+      "form": {
+        "code": {
+          "label": "Verification code",
+          "placeholder": "Enter verification code",
+          "required": "Please enter verification code!"
+        }
+      }
+    },
+    "login": {
+      "title": "Welcome to ES English",
+      "description": "Login to your account",
+      "success": "Login successful",
+      "error": "Authentication error",
+      "submit": "Sign in"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "success": "Password changed successfully. Please sign in again.",
+      "failed": "Change password failed",
+      "error": "An error occurred, please try again.",
+      "submit": "Change password",
+      "finishFailed": "An error occurred, please check and try again.",
+      "form": {
+        "oldPassword": {
+          "label": "Old password",
+          "placeholder": "Enter old password",
+          "required": "Please enter old password!"
+        },
+        "newPassword": {
+          "label": "New password",
+          "placeholder": "Enter new password",
+          "required": "Please enter new password!"
+        },
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Enter confirm password",
+          "required": "Please enter confirm password!"
+        }
+      },
+      "samePassword": "New password and confirm password must be the same!"
+    },
+    "profile": {
+      "title": "Account information",
+      "update": "Update",
+      "cancelUpdate": "Cancel update",
+      "close": "Close",
+      "upload": "Upload",
+      "save": "Save",
+      "form": {
+        "avatar": { "label": "Avatar" },
+        "fullName": { "label": "Full name", "placeholder": "Enter full name" },
+        "gender": { "label": "Gender" },
+        "occupation": {
+          "label": "Occupation",
+          "placeholder": "Enter occupation"
+        },
+        "username": { "label": "Username" },
+        "email": { "label": "Email" },
+        "role": { "label": "Role", "placeholder": "Select role" }
+      },
+      "gender": { "male": "Male", "female": "Female", "other": "Other" },
+      "role": { "learner": "Learner", "teacher": "Teacher", "admin": "Admin" }
+    },
+
+    "forgetPassword": {
+      "link": "Forgot password",
+      "title": "OTP Verification",
+      "btnCancel": "Close",
+      "btnSubmit": "Confirm",
+      "password": {
+        "label": "New password",
+        "required": "Please enter a new password!",
+        "placeholder": "Enter new password",
+        "code": {
+          "required": "Please enter the verification code!"
+        }
+      }
+    }
+  },
+  "common": {
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "progress": {
+    "table": {
+      "word": "Word",
+      "phonetic": "Phonetic",
+      "partOfSpeech": "Part of Speech",
+      "meaningVi": "Meaning (VI)",
+      "exampleEn": "Example (EN)",
+      "exampleVi": "Example (VI)",
+      "audio": "Audio",
+      "image": "Image",
+      "createdAt": "Created At",
+      "action": "Action"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add"
+    },
+    "multiDelete": {
+      "title": "Delete vocabulary"
+    }
+  },
+  "topics": {
+    "title": "Topic",
+    "description": "Description",
+    "levelType": "Level",
+    "exercises": "Exercises",
+    "action": "Action",
+    "doExercise": "Start",
+    "active": "Active",
+    "hidden": "Hidden"
+  },
+
+  "menu": {
+    "home": "Home",
+    "progress": "Progress",
+    "skills": "Skills",
+    "listening": "Listening",
+    "speaking": "Speaking",
+    "reading": "Reading",
+    "writing": "Writing",
+    "flashcard": "Flashcard",
+    "test": "Test"
+  },
+
+  "home": {
+    "intro": {
+      "title": "Learn English with ES English",
+      "description": "Our online English course is the perfect choice for anyone who wants to improve their English skills."
+    },
+    "features": {
+      "title": "Why choose ES English?",
+      "personalized": {
+        "title": "Personalized Learning Path",
+        "description": "AI system analyzes your level and suggests lessons suitable only for you."
+      },
+      "vocabulary": {
+        "title": "Smart Vocabulary Learning",
+        "description": "Learn vocabulary through Flashcards, games and Spaced Repetition."
+      },
+      "speaking": {
+        "title": "Practice Speaking with AI",
+        "description": "Practice conversations and receive instant feedback on pronunciation and intonation from AI."
+      }
+    },
+    "howItWorks": {
+      "title": "Getting started is simple",
+      "step1": "Create account",
+      "step1Desc": "Only takes 30 seconds.",
+      "step2": "Entrance Test",
+      "step2Desc": "Determine your current level.",
+      "step3": "Receive Learning Path",
+      "step3Desc": "AI will design a course for you.",
+      "step4": "Start Learning",
+      "step4Desc": "Conquer your goals."
+    },
+    "testimonials": {
+      "title": "What Students Say About ES English",
+      "testimonial1": "The interface is very intelligent. The speaking practice with AI feature has helped me feel much more confident when communicating.",
+      "name1": "Nguyen Van A",
+      "role1": "Student",
+      "testimonial2": "The vocabulary flashcard system and smart reminders are really effective. I've increased 500 words in just 1 month.",
+      "name2": "Tran Thi B",
+      "role2": "Office Worker",
+      "testimonial3": "The learning path is very clear. I know what I need to learn each day without feeling confused.",
+      "name3": "Pham Van C",
+      "role3": "University Student"
+    },
+    "features_list": {
+      "practice": "Practice with skills: Listening, Speaking, Reading, Writing, Vocabulary",
+      "personalize": "Personalized learning path",
+      "international": "International standard exam tests"
+    }
+  },
+
+  "skills": {
+    "selectLevel": "Choose level",
+    "selectPath": "Choose your learning path",
+    "mascotMessage": "Choose a level that suits you!",
+    "levels": {
+      "beginner": "LEVEL 1: FOUNDATION KNOWLEDGE",
+      "intermediate": "LEVEL 2: INTERMEDIATE",
+      "advanced": "LEVEL 3: ADVANCED"
+    },
+    "errors": {
+      "loading": "Error",
+      "noData": "Failed to load question data. Please try again."
+    },
+    "actions": {
+      "skip": "Skip",
+      "check": "Check",
+      "continue": "Continue",
+      "viewResult": "View Result"
+    }
+  },
+  "chatBot": {
+    "startMessage": "Ask me anything?"
+  },
+
+  "_progress": {
+    "title": "Your learning progress",
+    "tab": {
+      "overview": "Overview",
+      "roadmap": "Learning roadmap",
+      "history": "Detailed history"
+    },
+    "overview": {
+      "total": "Total score",
+      "timeline": "Last 7 days",
+      "accuracy": "Accuracy",
+      "lastTime": "Last activity",
+      "hour": "hour",
+      "point": "points"
+    },
+    "paramterSkill": {
+      "listening": "Listening",
+      "speaking": "Speaking",
+      "reading": "Reading",
+      "writing": "Writing",
+      "completion": "Completion Progress",
+      "_completion": "Completed",
+      "point": "Proficiency Points",
+      "question": "question",
+      "_point": "points"
+    },
+    "parameterTest": {
+      "title": "Mock Test History",
+      "latestResult": "Latest Result: {{score}} points",
+      "highestScoreLabel": "Highest score achieved",
+      "lowestScoreLabel": "Lowest score achieved",
+      "scoreUnit": "{{score}} points",
+      "areaChart": {
+        "xAxisTitle": "Test Completion Time",
+        "yAxisTitle": "Score (Points)",
+        "xFieldTitle": "Date"
+      },
+      "columnChart": {
+        "activity_history_7_days": "Activity history for the last 7 days",
+        "time": "Active Time",
+        "activity": "{{time}} hours",
+        "title": "Time (hours)"
+      }
+    },
+    "paramaterRadar": {
+      "title": "Skills Overview"
+    },
+    "suggestions": {
+      "title": "AI Suggestions",
+      "buttonTitle": "View"
+    },
+    "roadmap": {
+      "title": "Learning Roadmap",
+      "des": "Level {{levelName}} Roadmap",
+      "score": "{{score}} points",
+      "correct": "Correct: {{correct_count}} / {{total_questions_topic}}"
+    },
+    "history": {
+      "topic": "Topic",
+      "skill": "Skill",
+      "level": "Level",
+      "point": "Score",
+      "correct": "Correct answers",
+      "total": "Total questions",
+      "accuracy": "Accuracy",
+      "date": "Completion date",
+      "all": "All activities"
+    }
+  },
+
+  "infoTest": {
+    "header": {
+      "title": "General English Mock Test",
+      "code": "Code",
+      "lastUpdated": "Last updated"
+    },
+    "steps": {
+      "guide": "Instructions",
+      "doing": "Testing",
+      "result": "Results"
+    },
+    "alert": {
+      "message": "Important Note",
+      "description": "This is a real-time simulation test. You cannot pause the test once you start."
+    },
+    "overview": {
+      "title": "Test Overview",
+      "totalTimeLabel": "Total Time",
+      "totalTimeValue": "30 minutes",
+      "totalQuestionLabel": "Total Questions",
+      "totalQuestionValue": "30 questions",
+      "maxScoreLabel": "Max Score",
+      "maxScoreValue": "30 points"
+    },
+    "structure": {
+      "title": "Test Structure",
+      "note": "The test may cover the following topics:",
+      "phonetics": { "title": "Phonetics", "desc": "1-5 questions" },
+      "vocab": {
+        "title": "Vocabulary & Grammar",
+        "desc": "1-5 questions"
+      },
+      "error": {
+        "title": "Error Identification",
+        "desc": "1-5 questions"
+      },
+      "synonym": {
+        "title": "Synonyms / Antonyms",
+        "desc": "1-5 questions"
+      },
+      "completion": {
+        "title": "Sentence Completion",
+        "desc": "1-5 questions"
+      },
+      "reading": {
+        "title": "Reading Comprehension",
+        "desc": "1-5 questions"
+      }
+    },
+    "rules": {
+      "title": "Rules & Requirements",
+      "items": [
+        "Ensure a stable internet connection throughout the test.",
+        "Do not refresh the page while taking the test.",
+        "The system will automatically submit when time is up.",
+        "Time starts counting as soon as you click 'Start Test'.",
+        "Each question has only one correct answer.",
+        "You can change your answer before submitting.",
+        "Do not leave or reload the page during the test (data may be lost)."
+      ]
+    },
+    "actions": {
+      "agree": "I have read the instructions carefully and agree to the test rules.",
+      "start": "Start Test"
+    }
+  },
+
+  "levels": {
+    "beginner": {
+      "title": "LEVEL 1: FOUNDATIONAL KNOWLEDGE",
+      "desc": "Learn basic concepts to build a solid foundation."
+    },
+    "intermediate": {
+      "title": "LEVEL 2: EXPANDED KNOWLEDGE",
+      "desc": "Expand and reinforce knowledge, preparing for advanced skills."
+    },
+    "advanced": {
+      "title": "LEVEL 3: ADVANCED KNOWLEDGE",
+      "desc": "Master knowledge and skills to apply proficiently in real-world contexts."
+    }
+  }
+}

@@ -1,12 +1,8 @@
 import React from "react";
-import Levels from "../components/Levels";
+import LevelsTabs from "../components/Levels";
 
-function index() {
-  return (
-    <div>
-      <Levels />
-    </div>
-  );
+function ListeningPage() {
+  return <LevelsTabs />;
 }
 
-export default index;
+export default ListeningPage;
