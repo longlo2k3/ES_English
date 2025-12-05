@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useGetTopicFlashCardQuery } from "../../apis";
-import { Button, Flex, List, theme } from "antd";
+import { Button, Flex, List, theme, Tooltip, Typography } from "antd";
 import { SnippetsOutlined } from "@ant-design/icons";
 import { useHookTable } from "@/fer-framework/fe-cores/common/table";
 import SavedList from "./SavedList";
@@ -83,7 +83,11 @@ function TopicTable() {
                   onClick={() => {
                     router.push(`/flashcard/${item?._id}`);
                   }}>
-                  <p>{item.description}</p>
+                  <Tooltip title={item.description}>
+                    <Typography.Paragraph ellipsis={{ rows: 2 }}>
+                      {item.description}
+                    </Typography.Paragraph>
+                  </Tooltip>
                 </ACard>
               </List.Item>
             </SlideInFromBottom>
